@@ -3,7 +3,25 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    component: () => import('@/views/Home.vue')
+    component: () => import('@/views/Tabbar.vue'),
+    children: [
+      {
+        path: '/home',
+        component: () => import('@/views/home/Home.vue')
+      },
+      {
+        path: '/main',
+        component: () => import('@/views/main/Main.vue')
+      },
+      {
+        path: '/history',
+        component: () => import('@/views/history/History.vue')
+      },
+      {
+        path: '/mine',
+        component: () => import('@/views/mine/Mine.vue')
+      }
+    ]
   }
 ]
 const router = createRouter({
