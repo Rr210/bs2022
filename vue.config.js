@@ -4,7 +4,7 @@
  * @Date: 2021-11-11 10:13:01
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-26 21:11:05
+ * @LastEditTime: 2021-12-26 21:58:58
  * @LastEditors: Harry
  */
 // vue.config.js
@@ -34,6 +34,7 @@ module.exports = {
     proxy: {
       '/v1': {
         target: 'http://127.0.0.1:5051/', // 对应自己的接口，代理地址修改后必须重启项目
+        // target: 'http://2e3e-60-223-236-230.ngrok.io', // 对应自己的接口，代理地址修改后必须重启项目
         // target: 'https://detect.mr90.top/', //对应自己的接口，代理地址修改后必须重启项目
         changeOrigin: true, // 是否允许跨域
         pathRewrite: {
