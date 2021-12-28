@@ -4,11 +4,13 @@
  * @Date: 2021-11-11 10:13:01
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-27 12:28:55
+ * @LastEditTime: 2021-12-28 13:55:19
  * @LastEditors: Harry
  */
 // vue.config.js
 const path = require('path')
+// 定制主题
+const themePath = path.join(__dirname, './src/assets/css/themevars.less')
 module.exports = {
   publicPath: './', // 文件加载设置为相对路径
   outputDir: './medicine/static/',
@@ -41,6 +43,20 @@ module.exports = {
           // 重写路径，当我们在浏览器中看到请求的地址为：http://localhost:8080/api/user/userInfo 时
           // 实际上访问的地址是：http://192.168.1.249:9527/user/userInfo,因为重写了 /api
           '^/v1': ''
+        }
+      }
+    }
+  },
+  css: {
+    loaderOptions: {
+      less: {
+        // 若 less-loader 版本小于 6.0，请移除 lessOptions 这一级，直接配置选项。
+        modifyVars: {
+          // 直接覆盖变量
+          // 'text-color': '#111',
+          // 'border-color': '#eee',
+          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+          hack: `true; @import "${themePath}";`
         }
       }
     }
