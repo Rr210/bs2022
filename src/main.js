@@ -5,6 +5,7 @@ import store from './store'
 import wx from 'weixin-js-sdk'
 import axios from '@/utils/http.js'
 import vant from '@/utils/vantui.js'
+import '@/assets/css/icon/iconfont.css'
 import 'amfe-flexible'
 import cookierule from './utils/serct/cookierule'
 const app = createApp(App)
