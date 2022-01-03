@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-28 12:47:57
+ * @LastEditTime: 2022-01-03 23:04:46
  * @LastEditors: Harry
 -->
 <template>
@@ -68,7 +68,7 @@ export default {
       })
     }
     onMounted(() => {
-      // getSignature()
+      getSignature()
     })
     return {
       getSignature,
