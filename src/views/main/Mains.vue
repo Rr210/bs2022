@@ -4,17 +4,35 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-03 23:04:46
+ * @LastEditTime: 2022-01-04 17:40:09
  * @LastEditors: Harry
 -->
 <template>
   <!-- <van-uploader :after-read="afterRead" /> -->
-  <button @click="uploadPic">上传图片</button>
+  <div class="svg_wrap" @click="uploadPic">
+    <div class="upload_pic">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-152cbb9b>
+        <path
+          fill="currentColor"
+          d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"
+        />
+      </svg>
+    </div>
+    <div class="upload__text">
+      登录后使用
+      <em>点击上传</em>
+    </div>
+  </div>
+  <div class="empty_">
+    <van-image class="empty_img" src="css/svg/empty.svg" fit="cover"></van-image>
+    <span class="span_s">您还未上传图片，暂无记录</span>
+  </div>
 </template>
 
 <script>
 import { onMounted, getCurrentInstance } from '@vue/runtime-core'
 import { INIT_CONFIG_URL, CONGIG_DETAILS } from '../../utils/api/urlapi'
+import debounceMerge from '../../utils/tool/debounce'
 export default {
   setup() {
     const { proxy } = getCurrentInstance()
@@ -56,7 +74,7 @@ export default {
         // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
       })
     }
-    const uploadPic = function () {
+    const uploadPic = debounceMerge(function () {
       proxy.$wx.chooseImage({
         count: 1, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -66,7 +84,7 @@ export default {
           // var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
         }
       })
-    }
+    }, 500, true)
     onMounted(() => {
       getSignature()
     })
@@ -78,5 +96,39 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.svg_wrap {
+  border: 1px dashed #d9d9d9;
+  margin: 20px;
+  text-align: center;
+  border-radius: 10px;
+  .upload_pic {
+    display: inline-block;
+    color: #c0c4cc;
+    width: 120px;
+  }
+}
+.upload__text {
+  color: #606266;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+  em {
+    color: var(--LightThemeColor);
+    font-style: normal;
+  }
+}
+
+.empty_ {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .empty_img{
+    padding: 50px 0;
+  }
+  .span_s {
+    color: var(--LightThemeColor);
+    font-size: 10px;
+  }
+}
 </style>
