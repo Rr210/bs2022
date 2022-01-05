@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-05 18:36:29
+ * @LastEditTime: 2022-01-05 22:01:33
  * @LastEditors: Harry
 -->
 <template>
@@ -12,7 +12,19 @@
     <template #right>
       <span class="iconfont icon-biaoqian-yueliang-28" @click="clickTheme"></span>
     </template>
+    <template #left>
+      <van-image
+        v-if="isloginstate"
+        class="pic_artar"
+        width="1rem"
+        height="1rem"
+        fit="contain"
+        :src="userPic.headimgurl"
+        @click="authorshow = !authorshow"
+      />
+    </template>
   </van-nav-bar>
+  <van-popup v-model:show="authorshow" round position="top" :style="{ height: '20%' }" />
   <router-view />
   <van-tabbar v-model="active" @change="onChange" route>
     <van-tabbar-item icon="home-o" replace :to="{ name: 'home' }">首页</van-tabbar-item>
@@ -23,7 +35,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, ref } from '@vue/runtime-core'
+import { computed, getCurrentInstance, onMounted, ref } from '@vue/runtime-core'
 import debounceMerge from '@/utils/tool/debounce'
 export default {
   setup() {
@@ -34,14 +46,36 @@ export default {
     const onChange = function () {
       // console.log(active.value)
     }
+    // 头像图片下拉框
+    const authorshow = ref(false)
     const clickTheme = debounceMerge(function () {
       themeC.value = themeC.value === 'dark' ? 'light' : 'dark'
       document.head.querySelector('#skin').setAttribute('href', `css/skin/theme_${themeC.value}.css`)
     }, 500, true)
+    const isLogined = function (userinfo) {
+      console.log(proxy.$store.state)
+      proxy.$store.dispatch('saveLoginState', { userinfo })
+    }
+    const isloginstate = computed(() => {
+      return proxy.$store.state.isLogin
+    })
+    const userPic = computed(() => {
+      return proxy.$store.state.userinfo
+    })
+    onMounted(() => {
+      const userinfo = localStorage.getItem('userinfo')
+      if (userinfo) {
+        isLogined(JSON.parse(userinfo))
+        // userPic.value = proxy.$store.state.userinfo
+      }
+    })
     return {
       active,
       onChange,
-      clickTheme
+      clickTheme,
+      userPic,
+      isloginstate,
+      authorshow
     }
   }
 }
@@ -50,5 +84,9 @@ export default {
 <style lang="less" scoped>
 .icon-biaoqian-yueliang-28 {
   color: var(--LightThemeColor);
+}
+.van-nav-bar {
+  font-family: "header-font";
+  font-weight: 550;
 }
 </style>

@@ -8,4 +8,7 @@
   --van-background-color: #23272a !important;
   --van-text-color: var(--van-white) !important;
   --van-border-color: #424242 !important;
+  --van-tabs-bottom-bar-color: #ffbb00 !important;
+  --van-tab-text-color: #ccc !important;
+  --van-overlay-background-color: rgba(122, 122, 122, 0.48) !important;
 }

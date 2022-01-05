@@ -4,11 +4,11 @@
  * @Date: 2021-12-27 12:51:06
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-27 17:29:43
+ * @LastEditTime: 2022-01-05 22:30:58
  * @LastEditors: Harry
 -->
 <template>
-<div></div>
+<div class="loding_w"></div>
 </template>
 
 <script>

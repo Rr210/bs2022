@@ -2,4 +2,5 @@
   --LightThemeColor: #00758f;
   --van-blue: #00758f !important;
   --pageBg: var(--van-white);
+  --van-tabs-bottom-bar-color: #00758f !important;
 }
