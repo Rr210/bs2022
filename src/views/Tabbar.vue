@@ -4,11 +4,11 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-03 20:41:23
+ * @LastEditTime: 2022-01-05 18:36:29
  * @LastEditors: Harry
 -->
 <template>
-  <van-nav-bar title="中草药害虫识别">
+  <van-nav-bar title="Pest identification">
     <template #right>
       <span class="iconfont icon-biaoqian-yueliang-28" @click="clickTheme"></span>
     </template>

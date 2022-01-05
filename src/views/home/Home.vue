@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-03 22:08:12
+ * @LastEditTime: 2022-01-05 20:54:45
  * @LastEditors: Harry
 -->
 <template>
@@ -15,17 +15,9 @@
       <img :src="'banner/' + image.pic" class="banner_img" />
     </van-swipe-item>
   </van-swipe>
-  <van-tree-select
-    v-model:main-active-index="activeIndex"
-    height="55vw"
-    :items="items"
-    @click-nav="leftChangeNav"
-  >
-    <template #content>
-      <!-- <van-image v-if="activeIndex === 0" src="https://img.yzcdn.cn/vant/apple-1.jpg" />
-      <van-image v-if="activeIndex === 1" src="https://img.yzcdn.cn/vant/apple-2.jpg" />-->
-    </template>
-  </van-tree-select>
+  <van-tabs v-model:active="activeIndex" @click-tab="leftChangeNav">
+    <van-tab v-for="item in items" :key="item.pid" :title="item.text">{{item}}</van-tab>
+  </van-tabs>
 </template>
 
 <script>
@@ -42,15 +34,16 @@ export default {
       getInsectsList(e)
     }
     // 数据的请求
-    const getInsectsList = async function (index) {
+    const getInsectsList = async function () {
       const params = {
-        key: PEST_LIST_CATE[index].path,
+        key: PEST_LIST_CATE[activeIndex.value].path,
         pagenum: 1,
         pagesize: 10
       }
       const { data: res } = await proxy.$http.get(PEST_LIST_URL, { params })
       console.log(res)
     }
+    const onClickTab = function () { }
     // 获取banner图
     const getBanner = async function () {
       const { data: res } = await proxy.$http.post(BANNER_URL)
@@ -66,22 +59,23 @@ export default {
       activeIndex,
       leftChangeNav,
       items: PEST_LIST_CATE,
-      imagesBanner
+      imagesBanner,
+      onClickTab
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.banner_img{
+.banner_img {
   width: 100%;
 }
-.van-swipe-item{
+.van-swipe-item {
   border: 20px solid var(--pageBg);
   border-left-width: 25px;
   border-right-width: 25px;
   box-sizing: border-box;
-  .banner_img{
+  .banner_img {
     border-radius: 10px;
   }
 }
