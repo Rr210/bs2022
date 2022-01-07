@@ -4,7 +4,7 @@
  * @Date: 2022-01-06 14:55:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 10:57:11
+ * @LastEditTime: 2022-01-07 15:08:29
  * @LastEditors: Harry
 -->
 <template>
@@ -14,6 +14,7 @@
         <img :src="picUrl" :alt="itemText" :title="itemText" srcset />
       </div>
       <div class="item_text">{{ itemText }}</div>
+      <van-tag class="tag-mask" mark type="primary">{{ catePest }}</van-tag>
     </div>
   </transition>
 </template>
@@ -31,6 +32,11 @@ export default {
       type: String,
       required: true,
       default: ''
+    },
+    catePest: {
+      type: String,
+      required: true,
+      default: ''
     }
   },
   setup(props, context) {
@@ -42,6 +48,7 @@ export default {
 
 <style lang="less" scoped>
 .item_wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +67,7 @@ export default {
     }
   }
   .item_text {
-    font-size: 16px;
+    font-size: 14px;
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -69,5 +76,11 @@ export default {
     line-clamp: 1;
     -webkit-box-orient: vertical;
   }
+}
+
+.tag-mask {
+  position: absolute;
+  top: 6px;
+  right: -6px;
 }
 </style>

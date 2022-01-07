@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 11:11:08
+ * @LastEditTime: 2022-01-07 15:57:43
  * @LastEditors: Harry
 -->
 <template>
@@ -17,7 +17,12 @@
       </van-swipe-item>
     </van-swipe>
   </transition>
-  <van-notice-bar left-icon="volume-o" color="var(--LightThemeColor)" background="var(--van-nav-bar-o)" :scrollable="false">
+  <van-notice-bar
+    left-icon="volume-o"
+    color="var(--LightThemeColor)"
+    background="var(--van-nav-bar-o)"
+    :scrollable="false"
+  >
     <van-swipe vertical class="notice-swipe" :autoplay="3000" :show-indicators="false">
       <van-swipe-item>明月直入，无心可猜。</van-swipe-item>
       <van-swipe-item>仙人抚我顶，结发受长生。</van-swipe-item>
@@ -25,19 +30,57 @@
     </van-swipe>
   </van-notice-bar>
   <van-tabs v-model:active="activeIndex" @click-tab="leftChangeNav">
-    <van-tab v-for="item in items" :key="item.pid" :title="item.text" class="item-wrap-pest">
-      <item-pest
-        v-for="i in itemLists"
-        :key="i.pid"
-        :pic-url="'images/' + i.pest_name + '.jpg'"
-        :item-text="i.pest_name"
-      ></item-pest>
+    <van-tab v-for="item in items" :key="item.pid" :title="item.text">
+      <van-pull-refresh v-model="isLoading" :head-height="80" @refresh="onRefresh">
+        <!-- 下拉提示，通过 scale 实现一个缩放效果 -->
+        <template #pulling="props">
+          <img
+            class="doge"
+            src="https://img.yzcdn.cn/vant/doge.png"
+            :style="{ transform: `scale(${props.distance / 80})` }"
+          />
+        </template>
+
+        <!-- 释放提示 -->
+        <template #loosing>
+          <img class="doge" src="https://img.yzcdn.cn/vant/doge.png" />
+        </template>
+
+        <!-- 加载提示 -->
+        <template #loading>
+          <img class="doge" src="https://img.yzcdn.cn/vant/doge-fire.jpg" />
+        </template>
+        <div class="item-wrap-pest">
+          <item-pest
+            v-for="i in itemLists"
+            :key="i.pid"
+            :pic-url="'images/' + i.pest_name + '.jpg'"
+            :item-text="i.pest_name"
+            :cate-pest="i.base_cate"
+          ></item-pest>
+        </div>
+        <van-pagination
+          v-model="pagenum"
+          :total-items="total"
+          @change="changePage"
+          :show-page-size="5"
+          force-ellipses
+        >
+          <template #prev-text>
+            <van-icon name="arrow-left" />
+          </template>
+          <template #next-text>
+            <van-icon name="arrow" />
+          </template>
+          <template #page="{ text }">{{ text }}</template>
+        </van-pagination>
+      </van-pull-refresh>
     </van-tab>
   </van-tabs>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
+import { reactive, ref, toRefs } from '@vue/reactivity'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { getCurrentInstance, onMounted } from '@vue/runtime-core'
 import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
@@ -50,18 +93,34 @@ export default {
     const activeIndex = ref(0)
     const imagesBanner = ref([])
     const itemLists = ref([])
+    const isLoading = ref(false)
+    const itemListParams = reactive({
+      pagenum: 1,
+      pagesize: 9,
+      total: 0
+    })
     // 防抖点击
-    const leftChangeNav = debounceMerge(function () { getInsectsList() }, 500, true)
+    const leftChangeNav = debounceMerge(function () {
+      itemListParams.pagenum = 1
+      getInsectsList()
+    }, 500, true)
     // 数据的请求
     const getInsectsList = async function () {
       const params = {
         key: PEST_LIST_CATE[activeIndex.value].path,
-        pagenum: 1,
-        pagesize: 9
+        pagenum: itemListParams.pagenum,
+        pagesize: itemListParams.pagesize
       }
       const { data: res } = await proxy.$http.get(PEST_LIST_URL, { params })
       console.log(res)
-      itemLists.value = res.data
+      if (res.status_code === 1) {
+        itemLists.value = res.data
+        isLoading.value = false
+        itemListParams.total = res.total
+      }
+    }
+    const changePage = function () {
+      getInsectsList()
     }
     const onClickTab = function () { }
     // 获取banner图
@@ -72,6 +131,10 @@ export default {
         imagesBanner.value = res.banner_list.data
       }
     }
+    // 当tag刷新的时候调用的事件
+    const onRefresh = debounceMerge(function () {
+      getInsectsList()
+    }, 500, true)
     onMounted(() => {
       getBanner()
       getInsectsList()
@@ -82,13 +145,29 @@ export default {
       items: PEST_LIST_CATE,
       imagesBanner,
       onClickTab,
-      itemLists
+      itemLists,
+      isLoading,
+      onRefresh,
+      changePage,
+      itemListParams,
+      ...toRefs(itemListParams)
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.doge {
+  width: 140px;
+  height: 72px;
+  margin-top: 8px;
+  border-radius: 4px;
+}
+
+.van-pagination {
+  margin: 5px 0;
+}
+
 .banner_img {
   width: 100%;
 }

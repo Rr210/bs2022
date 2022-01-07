@@ -7,7 +7,7 @@ import { LOGIN_STATE_URL } from '@/utils/api/urlapi'
  * @Date: 2022-01-05 10:50:41
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-05 14:03:16
+ * @LastEditTime: 2022-01-07 15:15:54
  * @LastEditors: Harry
  */
 export const saveLoginState = function (context, data) {
@@ -20,6 +20,7 @@ export const saveLoginState = function (context, data) {
           data.isLogin = true
         } else {
           data.isLogin = false
+          localStorage.clear()
         }
         context.commit('moLoginState', data)
         console.log(data)

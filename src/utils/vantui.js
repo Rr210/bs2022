@@ -4,10 +4,10 @@
  * @Date: 2021-12-26 18:14:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 10:52:33
+ * @LastEditTime: 2022-01-07 15:38:21
  * @LastEditors: Harry
  */
-import { Sidebar, Button, NoticeBar, Swipe, Popover, Tabs, Tab, SwipeItem, Image, Skeleton, Uploader, SidebarItem, Tabbar, TabbarItem, NavBar } from 'vant'
+import { Sidebar, PullRefresh, Icon, Pagination, Button, Tag, NoticeBar, Swipe, Popover, Tabs, Tab, SwipeItem, Image, Skeleton, Uploader, SidebarItem, Tabbar, TabbarItem, NavBar } from 'vant'
 const vant = function (app) {
   app.use(Sidebar)
   app.use(SidebarItem)
@@ -18,9 +18,13 @@ const vant = function (app) {
   app.use(Skeleton)
   app.use(Image)
   app.use(Swipe)
+  app.use(Icon)
+  app.use(Tag)
   app.use(Tabs)
+  app.use(Pagination)
   app.use(Tab)
   app.use(NoticeBar)
+  app.use(PullRefresh)
   app.use(Button)
   app.use(Popover)
   app.use(SwipeItem)
