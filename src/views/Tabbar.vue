@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-05 22:01:33
+ * @LastEditTime: 2022-01-07 11:04:39
  * @LastEditors: Harry
 -->
 <template>
@@ -13,18 +13,21 @@
       <span class="iconfont icon-biaoqian-yueliang-28" @click="clickTheme"></span>
     </template>
     <template #left>
-      <van-image
-        v-if="isloginstate"
-        class="pic_artar"
-        width="1rem"
-        height="1rem"
-        fit="contain"
-        :src="userPic.headimgurl"
-        @click="authorshow = !authorshow"
-      />
+      <!-- 展示登录的状态框 -->
+      <van-popover v-model:show="showPopover" placement="right-start" :actions="actions">
+        <template #reference>
+          <van-image
+            v-if="isloginstate"
+            class="pic_artar"
+            width="1rem"
+            height="1rem"
+            fit="contain"
+            :src="userPic.headimgurl"
+          />
+        </template>
+      </van-popover>
     </template>
   </van-nav-bar>
-  <van-popup v-model:show="authorshow" round position="top" :style="{ height: '20%' }" />
   <router-view />
   <van-tabbar v-model="active" @change="onChange" route>
     <van-tabbar-item icon="home-o" replace :to="{ name: 'home' }">首页</van-tabbar-item>
@@ -43,11 +46,15 @@ export default {
     console.log(proxy.$wx)
     const active = ref(0)
     const themeC = ref('light')
+    const showPopover = ref(false)
+    const actions = [
+      { text: '修改资料', icon: 'edit' },
+      { text: '退出', icon: 'exchange' }
+    ]
     const onChange = function () {
       // console.log(active.value)
     }
     // 头像图片下拉框
-    const authorshow = ref(false)
     const clickTheme = debounceMerge(function () {
       themeC.value = themeC.value === 'dark' ? 'light' : 'dark'
       document.head.querySelector('#skin').setAttribute('href', `css/skin/theme_${themeC.value}.css`)
@@ -75,7 +82,8 @@ export default {
       clickTheme,
       userPic,
       isloginstate,
-      authorshow
+      showPopover,
+      actions
     }
   }
 }

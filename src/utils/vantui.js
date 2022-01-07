@@ -4,10 +4,10 @@
  * @Date: 2021-12-26 18:14:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-05 21:58:04
+ * @LastEditTime: 2022-01-07 10:52:33
  * @LastEditors: Harry
  */
-import { Sidebar, Swipe, Popup, Tabs, Tab, SwipeItem, TreeSelect, Image, Skeleton, Uploader, SidebarItem, Tabbar, TabbarItem, NavBar } from 'vant'
+import { Sidebar, Button, NoticeBar, Swipe, Popover, Tabs, Tab, SwipeItem, Image, Skeleton, Uploader, SidebarItem, Tabbar, TabbarItem, NavBar } from 'vant'
 const vant = function (app) {
   app.use(Sidebar)
   app.use(SidebarItem)
@@ -16,13 +16,14 @@ const vant = function (app) {
   app.use(NavBar)
   app.use(Uploader)
   app.use(Skeleton)
-  app.use(TreeSelect)
   app.use(Image)
   app.use(Swipe)
   app.use(Tabs)
   app.use(Tab)
+  app.use(NoticeBar)
+  app.use(Button)
+  app.use(Popover)
   app.use(SwipeItem)
-  app.use(Popup)
 }
 
 export default vant
