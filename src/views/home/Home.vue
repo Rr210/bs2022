@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 15:57:43
+ * @LastEditTime: 2022-01-10 16:51:49
  * @LastEditors: Harry
 -->
 <template>
@@ -52,11 +52,12 @@
         </template>
         <div class="item-wrap-pest">
           <item-pest
-            v-for="i in itemLists"
+            v-for="(i,index) in itemLists"
             :key="i.pid"
             :pic-url="'images/' + i.pest_name + '.jpg'"
             :item-text="i.pest_name"
             :cate-pest="i.base_cate"
+            @click="showItemPest(index)"
           ></item-pest>
         </div>
         <van-pagination
@@ -77,6 +78,17 @@
       </van-pull-refresh>
     </van-tab>
   </van-tabs>
+  <van-overlay :show="isshowpest" @click="isshowpest = false">
+    <show-pest
+      :picurlbg="'images/' + picindex.pest_name + '.jpg'"
+      :pestname="picindex.pest_name"
+      :catesk="picindex.cate_sk"
+      :basecate="picindex.base_cate"
+      :harmhost="picindex.harm_host"
+      :harmfeat="picindex.harm_feat"
+      :controlmeasures="picindex.control_measures"
+    ></show-pest>
+  </van-overlay>
 </template>
 
 <script>
@@ -85,15 +97,18 @@ import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { getCurrentInstance, onMounted } from '@vue/runtime-core'
 import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
 import ItemPest from '@/views/home/components/ItemPest.vue'
+import ShowPest from '@/views/home/components/ShowPest.vue'
 import debounceMerge from '@/utils/tool/debounce'
 export default {
-  components: { ItemPest },
+  components: { ItemPest, ShowPest },
   setup() {
     const { proxy } = getCurrentInstance()
+    const picindex = ref({})
     const activeIndex = ref(0)
     const imagesBanner = ref([])
     const itemLists = ref([])
     const isLoading = ref(false)
+    const isshowpest = ref(false)
     const itemListParams = reactive({
       pagenum: 1,
       pagesize: 9,
@@ -118,6 +133,10 @@ export default {
         isLoading.value = false
         itemListParams.total = res.total
       }
+    }
+    const showItemPest = function (index) {
+      isshowpest.value = !isshowpest.value
+      picindex.value = itemLists.value[index]
     }
     const changePage = function () {
       getInsectsList()
@@ -148,8 +167,11 @@ export default {
       itemLists,
       isLoading,
       onRefresh,
+      showItemPest,
       changePage,
+      isshowpest,
       itemListParams,
+      picindex,
       ...toRefs(itemListParams)
     }
   }
@@ -198,5 +220,9 @@ export default {
 }
 .van-notice-bar {
   margin: 0 8px;
+}
+
+.van-overlay {
+  z-index: 2;
 }
 </style>
