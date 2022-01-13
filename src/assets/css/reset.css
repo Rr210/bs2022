@@ -42,3 +42,8 @@ body {
 div {
   box-sizing: border-box;
 }
+.re_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
