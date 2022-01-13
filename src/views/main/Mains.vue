@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-13 10:34:55
+ * @LastEditTime: 2022-01-13 11:29:34
  * @LastEditors: Harry
 -->
 <template>
@@ -32,7 +32,10 @@
     </div>
   </div>
   <div v-else>
-    <van-image :src="imgpre"></van-image>
+    <div class="pre_res" v-if="imgres">
+      <van-image :src="imgpre"></van-image>
+      <van-image :src="imgres"></van-image>
+    </div>
     <van-uploader :before-read="beforeRead" @change="getPicture($event)">
       <van-button>重新上传</van-button>
     </van-uploader>
@@ -59,6 +62,7 @@ export default {
     const { proxy } = getCurrentInstance()
     const isshow = ref(false)
     const imgpre = ref('')
+    const imgres = ref('')
     const stateLogin = computed(() => {
       return proxy.$store.state.isLogin
     })
@@ -76,6 +80,7 @@ export default {
     // 上传图片文件
     const getPicture = function (e) {
       // 预览图片
+      imgres.value = ''
       const src = window.URL.createObjectURL(e.target.files[0])
       imgpre.value = stateLogin.value ? src : ''
       console.log(e)
@@ -89,6 +94,7 @@ export default {
         formData.append('inputpic', item)
         formData.append('appid', UID)
         const { data: res } = await axios.post(UPLOAD_PIC_URL, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        imgres.value = process.env.VUE_APP_STATIC + res.result.out_file.split('static/')[1]
         console.log(res)
       } else {
         isshow.value = true
@@ -161,6 +167,7 @@ export default {
       // uploadPic,
       isshow,
       imgpre,
+      imgres,
       stateLogin,
       signin,
       beforeRead,
@@ -171,6 +178,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.pre_res{
+  display: flex;
+  justify-content: space-evenly;
+  .van-image{
+    padding: 10px 5px;
+  }
+}
 .svg_wrap {
   border: 1px dashed #d9d9d9;
   margin: 20px;

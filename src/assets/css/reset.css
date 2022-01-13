@@ -47,3 +47,6 @@ div {
   justify-content: center;
   align-items: center;
 }
+.pre_res img {
+  border-radius: 10px;
+}
