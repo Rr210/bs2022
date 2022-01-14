@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 11:04:39
+ * @LastEditTime: 2022-01-14 20:25:49
  * @LastEditors: Harry
 -->
 <template>
@@ -14,7 +14,12 @@
     </template>
     <template #left>
       <!-- 展示登录的状态框 -->
-      <van-popover v-model:show="showPopover" placement="right-start" :actions="actions">
+      <van-popover
+        v-model:show="showPopover"
+        placement="right-start"
+        :actions="actions"
+        @select="onSelect"
+      >
         <template #reference>
           <van-image
             v-if="isloginstate"
@@ -43,13 +48,12 @@ import debounceMerge from '@/utils/tool/debounce'
 export default {
   setup() {
     const { proxy } = getCurrentInstance()
-    console.log(proxy.$wx)
     const active = ref(0)
     const themeC = ref('light')
     const showPopover = ref(false)
     const actions = [
-      { text: '修改资料', icon: 'edit' },
-      { text: '退出', icon: 'exchange' }
+      { text: '修改资料', icon: 'edit', index: 0 },
+      { text: '退出', icon: 'exchange', index: 1 }
     ]
     const onChange = function () {
       // console.log(active.value)
@@ -59,8 +63,14 @@ export default {
       themeC.value = themeC.value === 'dark' ? 'light' : 'dark'
       document.head.querySelector('#skin').setAttribute('href', `css/skin/theme_${themeC.value}.css`)
     }, 500, true)
+    // 点击头部的头像详情
+    const onSelect = function (action) {
+      console.log(action)
+      if (action.index === 1) {
+        proxy.$store.dispatch('layoutPage')
+      }
+    }
     const isLogined = function (userinfo) {
-      console.log(proxy.$store.state)
       proxy.$store.dispatch('saveLoginState', { userinfo })
     }
     const isloginstate = computed(() => {
@@ -83,7 +93,8 @@ export default {
       userPic,
       isloginstate,
       showPopover,
-      actions
+      actions,
+      onSelect
     }
   }
 }
