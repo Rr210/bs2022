@@ -4,8 +4,8 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-10 16:51:49
- * @LastEditors: Harry
+ * @LastEditTime: 2022-02-07 16:30:15
+ * @LastEditors: Please set LastEditors
 -->
 <template>
   <!-- <van-skeleton title avatar :row="3" /> -->
@@ -111,7 +111,7 @@ export default {
     const isshowpest = ref(false)
     const itemListParams = reactive({
       pagenum: 1,
-      pagesize: 9,
+      pagesize: 6,
       total: 0
     })
     // 防抖点击

@@ -4,8 +4,8 @@
  * @Date: 2022-01-06 14:55:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 15:08:29
- * @LastEditors: Harry
+ * @LastEditTime: 2022-02-07 16:22:10
+ * @LastEditors: Please set LastEditors
 -->
 <template>
   <transition name="van-slide-down">
@@ -80,7 +80,7 @@ export default {
 
 .tag-mask {
   position: absolute;
-  top: 6px;
-  right: -6px;
+  top: 12.2px;
+  right: 0px;
 }
 </style>

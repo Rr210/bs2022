@@ -11,4 +11,5 @@
   --van-tabs-bottom-bar-color: #ffbb00 !important;
   --van-tab-text-color: #ccc !important;
   --van-overlay-background-color: rgba(122, 122, 122, 0.48) !important;
+  --van-pagination-height: 0.56rem !important;
 }

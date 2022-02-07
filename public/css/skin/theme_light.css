@@ -4,4 +4,5 @@
   --pageBg: var(--van-white);
   --van-tabs-bottom-bar-color: #00758f !important;
   --van-nav-bar-o: #ecf9ff;
+  --van-pagination-height: 0.56rem !important;
 }
