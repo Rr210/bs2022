@@ -1,3 +1,11 @@
+/*
+ * @Author: Harry
+ * @Date: 2021-12-26 15:38:35
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-02-15 21:52:29
+ * @FilePath: \vant-u\vue.config.js
+ */
 /***
  * @Description:
  * @Author: Harry
@@ -27,7 +35,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = '中草药识别'
+        args[0].title = '中草药害虫识别'
         return args
       })
   },

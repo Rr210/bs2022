@@ -4,8 +4,8 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-07 16:30:15
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-15 17:49:26
+ * @LastEditors: harry
 -->
 <template>
   <!-- <van-skeleton title avatar :row="3" /> -->
@@ -65,6 +65,7 @@
           :total-items="total"
           @change="changePage"
           :show-page-size="5"
+          :items-per-page="pagesize"
           force-ellipses
         >
           <template #prev-text>

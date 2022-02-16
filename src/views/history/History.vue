@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 20:00:32
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-07 18:47:15
+ * @LastEditTime: 2022-02-16 14:58:05
  * @LastEditors: harry
 -->
 <template>
@@ -25,43 +25,29 @@
 import {
   computed,
   getCurrentInstance,
-  onMounted,
-  ref
+  onMounted
 } from '@vue/runtime-core'
 import HisTabnav from './components/HisTabnav.vue'
-import { HISTORY_GET_URL } from '../../utils/api/urlapi'
 export default {
   components: {
     HisTabnav
   },
   setup() {
     const { proxy } = getCurrentInstance()
-    const historyList = ref([])
     const stateLogin = computed(() => {
       return !proxy.$store.state.isLogin
     })
-    // 获取历史记录
-    const getHistoryList = async function () {
-      const { openid } = JSON.parse(window.localStorage.getItem('userinfo'))
-      if (openid) {
-        const { data: res } = await proxy.$http.post(HISTORY_GET_URL, {
-          data: openid
-        })
-        console.log(res)
-      }
-      console.log(openid)
-    }
     // 判断是否登录成功
     const signin = function () {
       proxy.$router.replace('/login')
     }
     onMounted(() => {
-      getHistoryList()
     })
-    return { signin, stateLogin, historyList }
+    return { signin, stateLogin }
   }
 }
 </script>
 
 <style lang="less" scoped>
+
 </style>
