@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-28 23:12:44
+ * @LastEditTime: 2022-03-01 00:24:52
  * @LastEditors: harry
 -->
 <template>
@@ -52,7 +52,11 @@
       >
         <van-button>重新上传</van-button>
       </van-uploader>
-      <div class="pic-2">
+      <!-- <img src="css/loading/down-loading.gif" alt="" srcset="" /> -->
+      <div v-show="!imgres">
+        <img src="css/loading/down_22_42_28_23_35_29.gif" class="gif-loading" alt="" srcset="" />
+      </div>
+      <div class="pic-2" v-show="imgres">
         <div class="pic-2-i">识别种类：{{ resPic.res_total }}</div>
         <div class="pic-2-i">识别速度：{{ resPic.time_count }}</div>
         <van-divider :style="driverStyle">害虫识别详情</van-divider>
@@ -294,6 +298,9 @@ export default {
 }
 .item-w {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   .item-c {
     width: 50%;
     padding: 7px;
@@ -304,7 +311,9 @@ export default {
     }
   }
 }
-
+.gif-loading{
+  width: 100%;
+}
 // .van-button--default {
 //   border: var(--van-button-border-width) solid var(--LightThemeColor);
 // }
