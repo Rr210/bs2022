@@ -4,41 +4,73 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-07 16:00:15
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-28 23:12:44
+ * @LastEditors: harry
 -->
 <template>
   <!-- <van-uploader :after-read="afterRead" /> -->
-  <div v-if="!imgpre">
-    <van-uploader :before-read="beforeRead" @change="getPicture($event)">
-      <div class="svg_wrap">
-        <div class="upload_pic">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-152cbb9b>
-            <path
-              fill="currentColor"
-              d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"
-            />
-          </svg>
+  <div class="pic-mains">
+    <div v-if="!imgpre">
+      <van-uploader :before-read="beforeRead" @change="getPicture($event)">
+        <div class="svg_wrap">
+          <div class="upload_pic">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1024 1024"
+              data-v-152cbb9b
+            >
+              <path
+                fill="currentColor"
+                d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"
+              />
+            </svg>
+          </div>
+          <div class="upload__text">
+            {{ stateLogin ? "" : "登录后使用" }}
+            <em>点击上传</em>
+          </div>
         </div>
-        <div class="upload__text">
-          {{ stateLogin ? '' : '登录后使用' }}
-          <em>点击上传</em>
+      </van-uploader>
+      <div class="empty_">
+        <van-image
+          class="empty_img"
+          src="css/svg/empty.svg"
+          fit="cover"
+        ></van-image>
+        <span class="span_s">您还未上传图片，暂无记录</span>
+      </div>
+    </div>
+    <div v-else>
+      <div class="pre_res" v-if="imgres">
+        <van-image :src="imgpre"></van-image>
+        <van-image :src="imgres"></van-image>
+      </div>
+      <van-uploader
+        :before-read="beforeRead"
+        @change="getPicture($event)"
+        class="re-upload"
+      >
+        <van-button>重新上传</van-button>
+      </van-uploader>
+      <div class="pic-2">
+        <div class="pic-2-i">识别种类：{{ resPic.res_total }}</div>
+        <div class="pic-2-i">识别速度：{{ resPic.time_count }}</div>
+        <van-divider :style="driverStyle">害虫识别详情</van-divider>
+        <div class="item-w">
+          <div
+            v-for="(item, index) in resPic.res"
+            :key="index"
+            class="item-c"
+            :style="index % 2 !== 0 ? driverStyle2 : ''"
+          >
+            <div class="item-c-i">类别：{{ item["cate-cz"]["cate"] }}</div>
+            <div class="item-c-i">名称：{{ item["cate-cz"]["zh-name"] }}</div>
+            <div class="item-c-i">数量：{{ item["nums"] }}</div>
+            <div class="item-c-i">识别率：{{ item["max_rate"] }}</div>
+          </div>
         </div>
       </div>
-    </van-uploader>
-    <div class="empty_">
-      <van-image class="empty_img" src="css/svg/empty.svg" fit="cover"></van-image>
-      <span class="span_s">您还未上传图片，暂无记录</span>
     </div>
-  </div>
-  <div v-else>
-    <div class="pre_res" v-if="imgres">
-      <van-image :src="imgpre"></van-image>
-      <van-image :src="imgres"></van-image>
-    </div>
-    <van-uploader :before-read="beforeRead" @change="getPicture($event)">
-      <van-button>重新上传</van-button>
-    </van-uploader>
   </div>
   <!-- 弹窗提醒 -->
   <van-popup
@@ -53,7 +85,12 @@
 </template>
 
 <script>
-import { onMounted, getCurrentInstance, ref, computed } from '@vue/runtime-core'
+import {
+  onMounted,
+  getCurrentInstance,
+  ref,
+  computed
+} from '@vue/runtime-core'
 import axios from 'axios'
 import { INIT_CONFIG_URL, UPLOAD_PIC_URL } from '../../utils/api/urlapi'
 // CONGIG_DETAILS
@@ -64,6 +101,7 @@ export default {
     const isshow = ref(false)
     const imgpre = ref('')
     const imgres = ref('')
+    const resPic = ref({})
     const stateLogin = computed(() => {
       return proxy.$store.state.isLogin
     })
@@ -94,8 +132,12 @@ export default {
         console.log(item)
         formData.append('inputpic', item)
         formData.append('appid', UID)
-        const { data: res } = await axios.post(UPLOAD_PIC_URL, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-        imgres.value = process.env.VUE_APP_STATIC + res.result.out_file.split('static/')[1]
+        const { data: res } = await axios.post(UPLOAD_PIC_URL, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        imgres.value =
+          process.env.VUE_APP_STATIC + res.result.out_file.split('static/')[1]
+        resPic.value = res.result.s_n_n
         console.log(res)
       } else {
         isshow.value = true
@@ -115,6 +157,18 @@ export default {
         // initTk(timestamp, noncestr, signature)
       }
     }
+    const driverStyle = computed(() => {
+      return {
+        color: 'var(--LightThemeColor)',
+        borderColor: 'var(--LightThemeColor)',
+        padding: '0 16px'
+      }
+    })
+    const driverStyle2 = computed(() => {
+      return {
+        borderLeft: '.2px solid var(--LightThemeColor)'
+      }
+    })
     // const initTk = function (timestamp, nonceStr, signature) {
     //   proxy.$wx.config({
     //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -170,6 +224,9 @@ export default {
       imgpre,
       imgres,
       stateLogin,
+      resPic,
+      driverStyle,
+      driverStyle2,
       signin,
       beforeRead,
       getPicture
@@ -179,10 +236,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.pre_res{
+.pre_res {
   display: flex;
   justify-content: space-evenly;
-  .van-image{
+  .van-image {
     padding: 10px 5px;
   }
 }
@@ -220,4 +277,35 @@ export default {
     font-size: 10px;
   }
 }
+.pic-mains {
+  padding-bottom: 55px;
+  .pic-2 {
+    padding: 20px;
+    font-size: 18.5px;
+    text-align: center;
+    .pic-2-i {
+      text-align: center;
+      padding: 5px 0;
+    }
+  }
+}
+.re-upload {
+  margin: 0 38% 0;
+}
+.item-w {
+  display: flex;
+  .item-c {
+    width: 50%;
+    padding: 7px;
+    justify-content: center;
+    align-items: center;
+    .item-c-i {
+      padding: 10px 0;
+    }
+  }
+}
+
+// .van-button--default {
+//   border: var(--van-button-border-width) solid var(--LightThemeColor);
+// }
 </style>

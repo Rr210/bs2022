@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-02-16 14:49:51
+ * @LastEditTime: 2022-02-28 22:14:43
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
@@ -13,7 +13,12 @@
         <img :src="hisbeforepic" />
         <img :src="hisafterpic"/>
       </div>
-      <div>{{}}</div>
+      <div>
+        <div>{{}}</div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
     <template #right>
       <van-button square type="danger" text="删除" />
