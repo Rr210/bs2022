@@ -3,13 +3,21 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-02-16 15:47:27
+ * @LastEditTime: 2022-02-28 19:58:29
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
   <van-dropdown-menu>
-    <van-dropdown-item v-model="value1" :options="option1" />
-    <van-dropdown-item v-model="value2" :options="option2" />
+    <van-dropdown-item
+      v-model="value1"
+      :options="option1"
+      @change="getHistoryO1"
+    />
+    <van-dropdown-item
+      v-model="value2"
+      :options="option2"
+      @change="getHistoryO1"
+    />
   </van-dropdown-menu>
   <div class="item-history-nav">
     <HisItem
@@ -25,40 +33,36 @@
 import { getCurrentInstance, onMounted, ref } from 'vue'
 import HisItem from './HisItem.vue'
 import { HISTORY_GET_URL } from '@/utils/api/urlapi'
+import { PEST_LIST_CATE } from '@/utils/content/cate'
 export default {
   name: 'HisTabnav',
   components: { HisItem },
   setup() {
-    const value1 = ref(0)
+    const value1 = ref('all')
     const value2 = ref('a')
     const { proxy } = getCurrentInstance()
-    const option1 = [
-      { text: '全部商品', value: 0 },
-      { text: '新款商品', value: 1 },
-      { text: '活动商品', value: 2 }
-    ]
+    const option1 = PEST_LIST_CATE
     const option2 = [
-      { text: '默认排序', value: 'a' },
-      { text: '好评排序', value: 'b' },
-      { text: '销量排序', value: 'c' }
+      { text: '时间升序', value: 'a' },
+      { text: '时间降序', value: 'b' }
     ]
     const ItemLists = ref([])
     // 处理图片的问题
     const handleItemLists = function (item) {
       return process.env.VUE_APP_URL + '/' + item
     }
-    const getHistoryList = async function (openid) {
+    const getHistoryO1 = async function () {
+      const data1 = JSON.parse(localStorage.getItem('userinfo'))
       const { data: res } = await proxy.$http.post(HISTORY_GET_URL, {
-        data: openid
+        data: data1.openid,
+        key: value1.value,
+        option2: value2.value
       })
       console.log(res)
       ItemLists.value = res.data
     }
     onMounted(() => {
-      const data = JSON.parse(localStorage.getItem('userinfo'))
-      if (data) {
-        getHistoryList(data.openid)
-      }
+      getHistoryO1()
     })
 
     return {
@@ -67,6 +71,7 @@ export default {
       option1,
       option2,
       ItemLists,
+      getHistoryO1,
       handleItemLists
     }
   }

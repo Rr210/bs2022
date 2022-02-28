@@ -1,6 +1,8 @@
 :root {
   --LightThemeColor: #00758f;
   --van-blue: #00758f !important;
+  --van-dropdown-menu-option-active-color: #00758f !important;
+  --van-dropdown-menu-title-active-text-color: #00758f !important;
   --pageBg: var(--van-white);
   --van-tabs-bottom-bar-color: #00758f !important;
   --van-nav-bar-o: #ecf9ff;
