@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-02-28 19:58:29
+ * @LastEditTime: 2022-03-01 15:42:39
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -25,12 +25,16 @@
       :key="index"
       :hisbeforepic="handleItemLists(item.dis_before)"
       :hisafterpic="handleItemLists(item.dis_after)"
+      :hisitempest="handleJsonString(item.result).res"
+      :histime="item.create_time"
+      :histotal="handleJsonString(item.result).res_total"
+      :hiscount="handleJsonString(item.result).time_count"
     ></HisItem>
   </div>
 </template>
 
 <script>
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { computed, getCurrentInstance, onMounted, ref } from 'vue'
 import HisItem from './HisItem.vue'
 import { HISTORY_GET_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
@@ -39,13 +43,21 @@ export default {
   components: { HisItem },
   setup() {
     const value1 = ref('all')
-    const value2 = ref('a')
+    const value2 = ref('b')
     const { proxy } = getCurrentInstance()
     const option1 = PEST_LIST_CATE
     const option2 = [
-      { text: '时间升序', value: 'a' },
-      { text: '时间降序', value: 'b' }
+      { text: '时间降序', value: 'b' },
+      { text: '时间升序', value: 'a' }
     ]
+    // 处理json字符串
+    const handleJsonString = computed(() => {
+      return function (item) {
+        const jsonC = JSON.parse(item)
+        console.log(jsonC)
+        return jsonC
+      }
+    })
     const ItemLists = ref([])
     // 处理图片的问题
     const handleItemLists = function (item) {
@@ -72,6 +84,7 @@ export default {
       option2,
       ItemLists,
       getHistoryO1,
+      handleJsonString,
       handleItemLists
     }
   }

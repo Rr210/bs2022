@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-01 00:24:52
+ * @LastEditTime: 2022-03-01 13:57:05
  * @LastEditors: harry
 -->
 <template>
@@ -52,9 +52,9 @@
       >
         <van-button>重新上传</van-button>
       </van-uploader>
-      <!-- <img src="css/loading/down-loading.gif" alt="" srcset="" /> -->
-      <div v-show="!imgres">
-        <img src="css/loading/down_22_42_28_23_35_29.gif" class="gif-loading" alt="" srcset="" />
+      <div v-show="!imgres" class="lo2">
+        <img src="css/svg/Pulse-1s-200px.svg" class="gif-loading" alt="" srcset="" />
+        <h6 style="margin:0">loading....</h6>
       </div>
       <div class="pic-2" v-show="imgres">
         <div class="pic-2-i">识别种类：{{ resPic.res_total }}</div>
@@ -311,8 +311,12 @@ export default {
     }
   }
 }
-.gif-loading{
-  width: 100%;
+.lo2{
+  text-align: center;
+  .gif-loading{
+    width: 50%;
+    margin: 70px 0 0 0;
+  }
 }
 // .van-button--default {
 //   border: var(--van-button-border-width) solid var(--LightThemeColor);
