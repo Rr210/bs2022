@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 15:28:48
+ * @LastEditTime: 2022-03-02 16:12:30
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
@@ -86,7 +86,7 @@
     </div> -->
     <template #right>
       <div class="right-i">
-        <van-button square type="primary" text="详情" />
+        <van-button square type="primary" text="详情" @click="detailClick(hisindex)" />
         <van-button
           square
           type="danger"
@@ -146,7 +146,7 @@ export default {
       default: ''
     }
   },
-  emits: ['prew', 'deletepid'],
+  emits: ['prew', 'deletepid', 'detailpid'],
   setup() {
     // 处理时间
     const { proxy } = getCurrentInstance()
@@ -181,14 +181,19 @@ export default {
       isDisable.value = true
       proxyRef.open('right')
     }
+    // 删除事件
     const deleteClick = function (pid) {
       proxy.$emit('deletepid', pid)
+    }
+    const detailClick = function(i) {
+      proxy.$emit('detailpid', i)
     }
     return {
       driverStyle,
       handletime,
       deleteClick,
       handleClick,
+      detailClick,
       handlePrewBefore
     }
   }

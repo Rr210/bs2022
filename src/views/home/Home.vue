@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-15 17:49:26
+ * @LastEditTime: 2022-03-02 16:01:21
  * @LastEditors: harry
 -->
 <template>
@@ -98,7 +98,7 @@ import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { getCurrentInstance, onMounted } from '@vue/runtime-core'
 import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
 import ItemPest from '@/views/home/components/ItemPest.vue'
-import ShowPest from '@/views/home/components/ShowPest.vue'
+import ShowPest from '@/components/ShowPest.vue'
 import debounceMerge from '@/utils/tool/debounce'
 export default {
   components: { ItemPest, ShowPest },

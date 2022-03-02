@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 15:29:29
+ * @LastEditTime: 2022-03-02 16:45:52
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -20,6 +20,7 @@
     />
   </van-dropdown-menu>
   <div class="item-history-nav">
+    <!-- 历史记录列表 -->
     <HisItem
       v-for="(item, index) in ItemLists"
       :key="index"
@@ -33,8 +34,22 @@
       :hispid="item.pid"
       @prew="prewOne"
       @deletepid="deleteHisRecord"
+      @detailpid="detailHisRecord"
     ></HisItem>
   </div>
+  <!-- 展示详情数据 -->
+  <van-overlay :show="isshowpest" @click="isshowpest = false">
+    <detail-pest :resPic="picindex"></detail-pest>
+    <!-- <show-pest
+      :picurlbg="'images/' + picindex.pest_name + '.jpg'"
+      :pestname="picindex.pest_name"
+      :catesk="picindex.cate_sk"
+      :basecate="picindex.base_cate"
+      :harmhost="picindex.harm_host"
+      :harmfeat="picindex.harm_feat"
+      :controlmeasures="picindex.control_measures"
+    ></show-pest> -->
+  </van-overlay>
 </template>
 
 <script>
@@ -43,13 +58,15 @@ import HisItem from './HisItem.vue'
 import { HISTORY_GET_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { ImagePreview, Dialog } from 'vant'
-
+import DetailPest from './DetailPest.vue'
 export default {
   name: 'HisTabnav',
-  components: { HisItem },
+  components: { HisItem, DetailPest },
   setup() {
     const value1 = ref('all')
     const value2 = ref('b')
+    const picindex = ref({})
+    const isshowpest = ref(false)
     const { proxy } = getCurrentInstance()
     const option1 = PEST_LIST_CATE
     const option2 = [
@@ -101,8 +118,18 @@ export default {
       }
       console.log(res)
     }
-    // 图片的预览问题
+    // 展示详情操作
+    // const showItemPest = function (index) {
+    //   isshowpest.value = !isshowpest.value
+    //   // picindex.value = itemLists.value[index]
+    // }
+    // 详情查看记录
     const ItemLists = ref([])
+    const detailHisRecord = function(index) {
+      isshowpest.value = !isshowpest.value
+      picindex.value = JSON.parse(ItemLists.value[index].result)
+    }
+    // 图片的预览问题
     // 处理图片的问题
     const handleItemLists = function (item) {
       return process.env.VUE_APP_URL + '/' + item
@@ -127,6 +154,10 @@ export default {
       option1,
       option2,
       ItemLists,
+      detailHisRecord,
+      picindex,
+      // showItemPest,
+      isshowpest,
       getHistoryO1,
       prewOne,
       deleteHisRecord,
@@ -140,5 +171,9 @@ export default {
 <style lang="less" scoped>
 .item-history-nav {
   margin-bottom: 55px;
+}
+
+.van-overlay {
+  z-index: 2;
 }
 </style>
