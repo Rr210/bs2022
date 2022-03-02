@@ -3,11 +3,11 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 13:14:02
+ * @LastEditTime: 2022-03-02 14:09:04
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
-  <van-swipe-cell>
+  <van-swipe-cell :ref="`list${hisindex}Ref`">
     <div class="his-item">
       <div class="his-item-1">
         <img :src="hisbeforepic" />
@@ -15,7 +15,7 @@
       <div class="his-item-2">
         <div class="his-item-2-1">
           <span class="h-i-2-1-s-1">{{ handletime(histime)[0] }}</span>
-          <span class="h-i-2-1-s-2">{{ "/" + handletime(histime)[1] }}</span>
+          <span class="h-i-2-1-s-2">{{ " / " + handletime(histime)[1] }}</span>
         </div>
         <div class="his-item-2-1">
           识别到<span>"{{ histotal }}"</span>种害虫,耗时<span>{{
@@ -23,7 +23,7 @@
           }}</span>
         </div>
       </div>
-      <div class="his-item-3">
+      <div class="his-item-3" @click="handleClick($event, hisindex)">
         <svg
           t="1646195784463"
           class="icon"
@@ -94,7 +94,8 @@
 </template>
 
 <script>
-import { computed } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
+import { getCurrentInstance } from '@vue/runtime-core'
 export default {
   props: {
     hisbeforepic: {
@@ -124,6 +125,11 @@ export default {
       required: true,
       default: 0
     },
+    hisindex: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     hiscount: {
       type: String,
       required: true,
@@ -132,6 +138,8 @@ export default {
   },
   setup() {
     // 处理时间
+    const { proxy } = getCurrentInstance()
+    const isDisable = ref(false)
     const handletime = computed(() => {
       return function (item) {
         return item.split(' ')
@@ -145,9 +153,23 @@ export default {
         margin: '5px 0'
       }
     })
+    // 处理点击展示左滑事件
+    const handleClick = function (event, item) {
+      event.stopPropagation()
+      const ref = `list${item}Ref`
+      const proxyRef = proxy.$refs[ref]
+      if (isDisable.value) {
+        isDisable.value = false
+        proxyRef.close()
+        return
+      }
+      isDisable.value = true
+      proxyRef.open('right')
+    }
     return {
       driverStyle,
-      handletime
+      handletime,
+      handleClick
     }
   }
 }
@@ -210,7 +232,7 @@ export default {
 }
 
 // 左滑展示详情和删除按钮
-.right-i{
+.right-i {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -218,7 +240,7 @@ export default {
   justify-content: center;
   align-items: center;
   // margin: 10px 0;
-  .van-button{
+  .van-button {
     height: 30px;
   }
 }

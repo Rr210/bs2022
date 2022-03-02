@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-01 15:42:39
+ * @LastEditTime: 2022-03-02 13:33:00
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -29,6 +29,7 @@
       :histime="item.create_time"
       :histotal="handleJsonString(item.result).res_total"
       :hiscount="handleJsonString(item.result).time_count"
+      :hisindex="index"
     ></HisItem>
   </div>
 </template>
