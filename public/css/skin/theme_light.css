@@ -1,10 +1,10 @@
 :root {
-  --LightThemeColor: #00758f;
-  --van-blue: #00758f !important;
-  --van-dropdown-menu-option-active-color: #00758f !important;
-  --van-dropdown-menu-title-active-text-color: #00758f !important;
+  --LightThemeColor: #585ddd;
+  --van-blue: #585ddd !important;
+  --van-dropdown-menu-option-active-color: #585ddd !important;
+  --van-dropdown-menu-title-active-text-color: #585ddd !important;
   --pageBg: var(--van-white);
-  --van-tabs-bottom-bar-color: #00758f !important;
+  --van-tabs-bottom-bar-color: #585ddd !important;
   --van-nav-bar-o: #ecf9ff;
   --van-pagination-height: 0.56rem !important;
   --card-history: #f6faff;
