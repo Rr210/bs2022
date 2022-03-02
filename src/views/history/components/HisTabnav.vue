@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 13:33:00
+ * @LastEditTime: 2022-03-02 15:29:29
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -30,6 +30,9 @@
       :histotal="handleJsonString(item.result).res_total"
       :hiscount="handleJsonString(item.result).time_count"
       :hisindex="index"
+      :hispid="item.pid"
+      @prew="prewOne"
+      @deletepid="deleteHisRecord"
     ></HisItem>
   </div>
 </template>
@@ -39,6 +42,8 @@ import { computed, getCurrentInstance, onMounted, ref } from 'vue'
 import HisItem from './HisItem.vue'
 import { HISTORY_GET_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
+import { ImagePreview, Dialog } from 'vant'
+
 export default {
   name: 'HisTabnav',
   components: { HisItem },
@@ -55,10 +60,48 @@ export default {
     const handleJsonString = computed(() => {
       return function (item) {
         const jsonC = JSON.parse(item)
-        console.log(jsonC)
+        // console.log(jsonC)
         return jsonC
       }
     })
+    // const picList = ref([])
+    // 图片预览问题
+    const prewOne = function (e) {
+      if (e) {
+        ImagePreview({
+          images: [e]
+        })
+      }
+    }
+    // 删除某项历史记录
+    const deleteHisRecord = function (pid) {
+      Dialog.confirm({
+        title: '提示',
+        message: '确定删除该记录，删除后将无法恢复'
+      })
+        .then(() => {
+          httpDeleteHistory(pid)
+          // on confirm
+        })
+        .catch(() => {
+          // on cancel
+        })
+    }
+    // 请求删除的方法
+    const httpDeleteHistory = async function (p) {
+      const u = JSON.parse(localStorage.getItem('userinfo'))
+      const { data: res } = await proxy.$http.delete(HISTORY_GET_URL, {
+        data: {
+          pid: p,
+          openid: u.openid
+        }
+      })
+      if (res.status_code === 1) {
+        getHistoryO1()
+      }
+      console.log(res)
+    }
+    // 图片的预览问题
     const ItemLists = ref([])
     // 处理图片的问题
     const handleItemLists = function (item) {
@@ -71,7 +114,7 @@ export default {
         key: value1.value,
         option2: value2.value
       })
-      console.log(res)
+      // console.log(res)
       ItemLists.value = res.data
     }
     onMounted(() => {
@@ -85,6 +128,8 @@ export default {
       option2,
       ItemLists,
       getHistoryO1,
+      prewOne,
+      deleteHisRecord,
       handleJsonString,
       handleItemLists
     }

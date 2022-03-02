@@ -3,14 +3,14 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 14:09:04
+ * @LastEditTime: 2022-03-02 15:28:48
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
   <van-swipe-cell :ref="`list${hisindex}Ref`">
     <div class="his-item">
       <div class="his-item-1">
-        <img :src="hisbeforepic" />
+        <img :src="hisbeforepic" @click="handlePrewBefore(hisbeforepic)" />
       </div>
       <div class="his-item-2">
         <div class="his-item-2-1">
@@ -87,7 +87,12 @@
     <template #right>
       <div class="right-i">
         <van-button square type="primary" text="详情" />
-        <van-button square type="danger" text="删除" />
+        <van-button
+          square
+          type="danger"
+          text="删除"
+          @click="deleteClick(hispid)"
+        />
       </div>
     </template>
   </van-swipe-cell>
@@ -130,12 +135,18 @@ export default {
       required: true,
       default: 0
     },
+    hispid: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     hiscount: {
       type: String,
       required: true,
       default: ''
     }
   },
+  emits: ['prew', 'deletepid'],
   setup() {
     // 处理时间
     const { proxy } = getCurrentInstance()
@@ -145,6 +156,10 @@ export default {
         return item.split(' ')
       }
     })
+    // 子向父传递事件
+    const handlePrewBefore = function (item) {
+      proxy.$emit('prew', item)
+    }
     const driverStyle = computed(() => {
       return {
         color: 'var(--LightThemeColor)',
@@ -166,10 +181,15 @@ export default {
       isDisable.value = true
       proxyRef.open('right')
     }
+    const deleteClick = function (pid) {
+      proxy.$emit('deletepid', pid)
+    }
     return {
       driverStyle,
       handletime,
-      handleClick
+      deleteClick,
+      handleClick,
+      handlePrewBefore
     }
   }
 }
