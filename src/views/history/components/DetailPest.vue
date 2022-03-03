@@ -3,7 +3,7 @@
  * @Date: 2022-03-02 16:21:14
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 16:56:36
+ * @LastEditTime: 2022-03-03 13:13:29
  * @FilePath: \vant-u\src\views\history\components\DetailPest.vue
 -->
 <template>
@@ -28,7 +28,7 @@
         <div class="item-c-i">{{ item["nums"] }}</div>
         <div class="item-c-i">{{ item["max_rate"] }}</div>
         <div class="item-c-i">
-          <van-button>详情</van-button>
+          <van-button @click="handleDetail(item['cate-cz']['zh-name'])">详情</van-button>
         </div>
       </div>
     </div>
@@ -37,6 +37,7 @@
 
 <script>
 import { computed } from '@vue/reactivity'
+import { getCurrentInstance } from '@vue/runtime-core'
 export default {
   name: 'DetailPest',
   props: {
@@ -48,14 +49,21 @@ export default {
       }
     }
   },
+  emits: ['detailmain'],
   setup() {
+    const { proxy } = getCurrentInstance()
     const driverStyle2 = computed(() => {
       return {
         borderLeft: '.2px solid var(--LightThemeColor)'
       }
     })
+    // 点击详情展示
+    const handleDetail = function (u) {
+      proxy.$emit('detailmain', u)
+    }
     return {
-      driverStyle2
+      driverStyle2,
+      handleDetail
     }
   }
 }
@@ -78,10 +86,10 @@ export default {
 //     }
 //   }
 // }
-.item-w{
+.item-w {
   font-size: 15px;
   display: flex;
-  .item-c{
+  .item-c {
     width: 33.33%;
   }
 }

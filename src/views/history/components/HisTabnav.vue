@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 16:45:52
+ * @LastEditTime: 2022-03-03 14:02:14
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -39,33 +39,40 @@
   </div>
   <!-- 展示详情数据 -->
   <van-overlay :show="isshowpest" @click="isshowpest = false">
-    <detail-pest :resPic="picindex"></detail-pest>
-    <!-- <show-pest
-      :picurlbg="'images/' + picindex.pest_name + '.jpg'"
-      :pestname="picindex.pest_name"
-      :catesk="picindex.cate_sk"
-      :basecate="picindex.base_cate"
-      :harmhost="picindex.harm_host"
-      :harmfeat="picindex.harm_feat"
-      :controlmeasures="picindex.control_measures"
-    ></show-pest> -->
+    <detail-pest :resPic="picindex" @detailmain="getResultPest"></detail-pest>
   </van-overlay>
+  <!-- 展示结果数据 -->
+  <van-overlay :show="pestkey" @click="pestkey = false">
+    <show-pest
+      :picurlbg="'images/' + pici.pest_name + '.jpg'"
+      :pestname="pici.pest_name"
+      :catesk="pici.cate_sk"
+      :basecate="pici.base_cate"
+      :harmhost="pici.harm_host"
+      :harmfeat="pici.harm_feat"
+      :controlmeasures="pici.control_measures"
+    ></show-pest
+  ></van-overlay>
 </template>
 
 <script>
 import { computed, getCurrentInstance, onMounted, ref } from 'vue'
 import HisItem from './HisItem.vue'
-import { HISTORY_GET_URL } from '@/utils/api/urlapi'
+import { HISTORY_GET_URL, SEARCH_PEST_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
-import { ImagePreview, Dialog } from 'vant'
+import { ImagePreview, Dialog, Toast } from 'vant'
 import DetailPest from './DetailPest.vue'
+import ShowPest from '@/components/ShowPest.vue'
+
 export default {
   name: 'HisTabnav',
-  components: { HisItem, DetailPest },
+  components: { HisItem, DetailPest, ShowPest },
   setup() {
     const value1 = ref('all')
     const value2 = ref('b')
     const picindex = ref({})
+    const pici = ref({})
+    const pestkey = ref(false)
     const isshowpest = ref(false)
     const { proxy } = getCurrentInstance()
     const option1 = PEST_LIST_CATE
@@ -87,6 +94,24 @@ export default {
       if (e) {
         ImagePreview({
           images: [e]
+        })
+      }
+    }
+    // 处理识别详情的结果
+    const getResultPest = async function (e) {
+      console.log(e)
+      const { data: res } = await proxy.$http.get(SEARCH_PEST_URL, {
+        params: {
+          key: e
+        }
+      })
+      console.log(res)
+      if (res.status_code === 1 && res.data.length > 0) {
+        pici.value = res.data[0]
+        pestkey.value = true
+      } else {
+        Toast({
+          message: '未找到害虫数据'
         })
       }
     }
@@ -125,7 +150,7 @@ export default {
     // }
     // 详情查看记录
     const ItemLists = ref([])
-    const detailHisRecord = function(index) {
+    const detailHisRecord = function (index) {
       isshowpest.value = !isshowpest.value
       picindex.value = JSON.parse(ItemLists.value[index].result)
     }
@@ -152,10 +177,13 @@ export default {
       value1,
       value2,
       option1,
+      pestkey,
       option2,
       ItemLists,
       detailHisRecord,
       picindex,
+      pici,
+      getResultPest,
       // showItemPest,
       isshowpest,
       getHistoryO1,

@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 21:20:54
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-02-07 18:44:37
+ * @LastEditTime: 2022-03-03 13:35:07
  * @FilePath: \vant-u\src\utils\api\urlapi.js
  */
 /***
@@ -22,6 +22,7 @@ const BANNER_URL = '/v5/banner'
 const LOGIN_STATE_URL = '/v5/islogined'
 const UPLOAD_PIC_URL = '/v5/upload'
 const HISTORY_GET_URL = '/v5/history'
+const SEARCH_PEST_URL = '/v5/search'
 const CONGIG_DETAILS = {
   appId: 'wx125fa03aabf95990'
 }
@@ -33,5 +34,6 @@ export {
   BANNER_URL,
   LOGIN_STATE_URL,
   UPLOAD_PIC_URL,
-  HISTORY_GET_URL
+  HISTORY_GET_URL,
+  SEARCH_PEST_URL
 }
