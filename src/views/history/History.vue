@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 20:00:32
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-16 14:58:05
+ * @LastEditTime: 2022-03-03 16:31:28
  * @LastEditors: harry
 -->
 <template>
@@ -39,6 +39,7 @@ export default {
     })
     // 判断是否登录成功
     const signin = function () {
+      localStorage.clear()
       proxy.$router.replace('/login')
     }
     onMounted(() => {

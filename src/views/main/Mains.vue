@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-01 13:57:05
+ * @LastEditTime: 2022-03-03 16:30:54
  * @LastEditors: harry
 -->
 <template>
@@ -150,6 +150,7 @@ export default {
     }
     // 登录
     const signin = function () {
+      localStorage.clear()
       proxy.$router.replace('/login')
     }
     const getSignature = async function () {
