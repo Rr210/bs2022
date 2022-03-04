@@ -9,5 +9,7 @@
   --van-pagination-height: 0.56rem !important;
   --card-history: #f6faff;
   --mainbg: #f6f6f6;
-  --mainCardBg: rgba(255, 255, 255, 0.712);
+  --mainCardBg: rgba(255, 255, 255, 0.723);
+  --blockCardBg: rgba(255, 255, 255, 0.42);
+  --blockCardColor: #f9fafb;
 }

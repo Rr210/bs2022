@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-03 14:02:14
+ * @LastEditTime: 2022-03-04 16:23:32
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -38,11 +38,17 @@
     ></HisItem>
   </div>
   <!-- 展示详情数据 -->
-  <van-overlay :show="isshowpest" @click="isshowpest = false">
-    <detail-pest :resPic="picindex" @detailmain="getResultPest"></detail-pest>
-  </van-overlay>
+  <van-popup v-model:show="isshowpest" class="vanpopCard">
+    <detail-pest
+      :resPic="picindex"
+      @prew="prewOne"
+      :apic="disAfterpic"
+      @detailmain="getResultPest"
+    >
+    </detail-pest>
+  </van-popup>
   <!-- 展示结果数据 -->
-  <van-overlay :show="pestkey" @click="pestkey = false">
+  <van-popup v-model:show="pestkey" class="vanpopCard">
     <show-pest
       :picurlbg="'images/' + pici.pest_name + '.jpg'"
       :pestname="pici.pest_name"
@@ -51,8 +57,8 @@
       :harmhost="pici.harm_host"
       :harmfeat="pici.harm_feat"
       :controlmeasures="pici.control_measures"
-    ></show-pest
-  ></van-overlay>
+    ></show-pest>
+  </van-popup>
 </template>
 
 <script>
@@ -74,6 +80,7 @@ export default {
     const pici = ref({})
     const pestkey = ref(false)
     const isshowpest = ref(false)
+    const disAfterpic = ref('')
     const { proxy } = getCurrentInstance()
     const option1 = PEST_LIST_CATE
     const option2 = [
@@ -153,6 +160,8 @@ export default {
     const detailHisRecord = function (index) {
       isshowpest.value = !isshowpest.value
       picindex.value = JSON.parse(ItemLists.value[index].result)
+      disAfterpic.value =
+        process.env.VUE_APP_URL + '/' + ItemLists.value[index].dis_after
     }
     // 图片的预览问题
     // 处理图片的问题
@@ -180,16 +189,17 @@ export default {
       pestkey,
       option2,
       ItemLists,
-      detailHisRecord,
+      disAfterpic,
       picindex,
       pici,
+      isshowpest,
+      handleJsonString,
       getResultPest,
       // showItemPest,
-      isshowpest,
+      detailHisRecord,
       getHistoryO1,
       prewOne,
       deleteHisRecord,
-      handleJsonString,
       handleItemLists
     }
   }

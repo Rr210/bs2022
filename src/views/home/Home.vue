@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-02 16:01:21
+ * @LastEditTime: 2022-03-04 16:12:33
  * @LastEditors: harry
 -->
 <template>
@@ -79,7 +79,7 @@
       </van-pull-refresh>
     </van-tab>
   </van-tabs>
-  <van-overlay :show="isshowpest" @click="isshowpest = false">
+  <van-popup v-model:show="isshowpest" class="vanpopCard">
     <show-pest
       :picurlbg="'images/' + picindex.pest_name + '.jpg'"
       :pestname="picindex.pest_name"
@@ -89,7 +89,7 @@
       :harmfeat="picindex.harm_feat"
       :controlmeasures="picindex.control_measures"
     ></show-pest>
-  </van-overlay>
+  </van-popup>
 </template>
 
 <script>

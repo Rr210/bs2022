@@ -4,13 +4,10 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-03 16:44:20
+ * @LastEditTime: 2022-03-04 10:42:32
  * @LastEditors: harry
 -->
 <template>
-  <!-- <button v-if="!isloginstate" @click="signin">登录</button>
-  <button v-else @click="layout">退出登录</button>
-  <button @click="layout">清除缓冲</button> -->
   <div class="main_w">
     <div class="hd_w">
       <div class="img_w">
@@ -255,7 +252,7 @@ button {
   margin: 0 auto;
   height: 180px;
   background-color: var(--pageBg);
-  background: url(https://cdn.jsdelivr.net/gh/Rr210/image@master/hexo/api/beijings.png)
+  background: url(/css/img/main/beijings.png)
     no-repeat;
   background-size: 100% 100%;
 }

@@ -4,30 +4,36 @@
  * @Date: 2022-01-07 16:22:18
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-10 17:30:39
- * @LastEditors: Harry
+ * @LastEditTime: 2022-03-04 16:28:32
+ * @LastEditors: harry
 -->
 <template>
-  <div class="wrapper" @click.stop>
     <div class="block">
       <div class="img_1">
         <img :src="picurlbg" alt srcset class="bg-img" />
-        <div class="item_pest_w">
-          <van-icon class="icon_item_pest" name="smile-o">{{ pestname }}</van-icon>
-          <van-icon class="icon_item_pest" name="fire-o">{{ basecate }}</van-icon>
-          <van-icon class="icon_item_pest" name="label-o">{{ catesk }}</van-icon>
+        <div class="item_pest">
+          <van-icon class="icon_item_pest" name="smile-o">{{
+            pestname
+          }}</van-icon>
+          <van-icon class="icon_item_pest" name="fire-o">{{
+            basecate
+          }}</van-icon>
+          <van-icon class="icon_item_pest" name="label-o">{{
+            catesk
+          }}</van-icon>
         </div>
       </div>
-      <div class="item_pest_w">
+      <div class="item_pest_w" @click="istouch">
         <van-divider :style="driverStyle">危害草药</van-divider>
         <van-icon class="icon_item_pest" name="flag-o">{{ harmhost }}</van-icon>
         <van-divider :style="driverStyle">危害特点</van-divider>
         <van-icon class="icon_item_pest" name="warn-o">{{ harmfeat }}</van-icon>
         <van-divider :style="driverStyle">控制措施</van-divider>
-        <van-icon class="icon_item_pest" name="notes-o">{{ controlmeasures }}</van-icon>
+        <van-icon class="icon_item_pest" name="notes-o">{{
+          controlmeasures
+        }}</van-icon>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -67,29 +73,24 @@ export default {
   },
   setup() {
     const driverStyle = computed(() => {
-      return { color: 'var(--LightThemeColor)', borderColor: 'var(--LightThemeColor)', padding: '0 16px' }
+      return {
+        color: 'var(--LightThemeColor)',
+        borderColor: 'var(--LightThemeColor)',
+        padding: '0 16px'
+      }
     })
+    const istouch = function () {
+      console.log(1)
+    }
     return {
-      driverStyle
+      driverStyle,
+      istouch
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.block {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  // height: 80%;
-  border-radius: 5px;
-  background-color: var(--pageBg);
-  overflow: auto;
-  max-height: 80%;
-  padding: 10px 5px;
-}
 .img_1 {
   display: flex;
   justify-content: space-evenly;
@@ -100,24 +101,23 @@ export default {
   height: 100px;
   border-radius: 10px;
   object-fit: cover;
-  // position: absolute;
-  // top: 0;
-  // left: 0;
-  // width: 100%;
-  // height: 100%;
-  // opacity: 0.85;
-  // // filter: blur(8px);
-  // border-radius: 5px;
 }
-
-.item_pest_w {
+.item_pest{
+  font-size: 15px;
   display: flex;
   flex-direction: column;
+  .icon_item_pest{
+    margin: 10px 0;
+  }
+}
+.item_pest_w {
   font-size: 16px;
   padding: 5px;
-  // color:#fff;
+  overflow-y: auto;
+  max-height: 300px;
   .icon_item_pest {
     // padding: 5px 0;
+    // height: 200px;
   }
 }
 </style>

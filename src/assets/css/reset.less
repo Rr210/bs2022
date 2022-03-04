@@ -50,41 +50,55 @@ body {
   font-size: 20px;
 }
 
-div{
+div {
   box-sizing: border-box;
 }
 
-.re_btn{
+.re_btn {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.pre_res{
-  img{
+.pre_res {
+  img {
     border-radius: 10px;
   }
 }
 
-[class*='van-hairline']::after{
+[class*='van-hairline']::after {
   border: 0;
 }
 
-.van-pagination__item--active,.van-pagination__item{
+.van-pagination__item--active,
+.van-pagination__item {
   border-radius: 10px;
 }
 
+// 遮罩层的样式设置
 
 .block {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 86%;
-  // height: 80%;
-  border-radius: 5px;
-  background-color: var(--pageBg);
-  overflow: auto;
+  width: 80vw;
   max-height: 80%;
+  border-radius: 5px;
   padding: 10px 5px;
+}
+
+// vant popup 弹窗里面的样式
+.vanpopCard {
+  background: transparent;
+  overflow-y: hidden;
+  border-radius: 10px;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--blockCardBg);
+    backdrop-filter: blur(20px);
+    width: 100%;
+    // max-height: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 }
