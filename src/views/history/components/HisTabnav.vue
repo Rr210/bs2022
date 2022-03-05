@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-04 16:23:32
+ * @LastEditTime: 2022-03-05 15:17:04
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -19,7 +19,7 @@
       @change="getHistoryO1"
     />
   </van-dropdown-menu>
-  <div class="item-history-nav">
+  <div class="item-history-nav" v-if="ItemLists.length > 0">
     <!-- 历史记录列表 -->
     <HisItem
       v-for="(item, index) in ItemLists"
@@ -36,6 +36,10 @@
       @deletepid="deleteHisRecord"
       @detailpid="detailHisRecord"
     ></HisItem>
+  </div>
+  <div class="his_empty" v-else>
+    <img src="/css/svg/his_empty.svg" alt="" />
+    <div class="span_s">您还未识别，暂无记录</div>
   </div>
   <!-- 展示详情数据 -->
   <van-popup v-model:show="isshowpest" class="vanpopCard">
@@ -211,6 +215,17 @@ export default {
   margin-bottom: 55px;
 }
 
+.his_empty {
+  padding-top: 50px;
+  text-align: center;
+  img {
+    width: 70%;
+  }
+  .span_s {
+    color: var(--LightThemeColor);
+    font-size: 12px;
+  }
+}
 .van-overlay {
   z-index: 2;
 }

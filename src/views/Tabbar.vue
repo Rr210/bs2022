@@ -4,8 +4,8 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-14 20:25:49
- * @LastEditors: Harry
+ * @LastEditTime: 2022-03-05 14:46:45
+ * @LastEditors: harry
 -->
 <template>
   <van-nav-bar title="Pest identification">
@@ -52,7 +52,7 @@ export default {
     const themeC = ref('light')
     const showPopover = ref(false)
     const actions = [
-      { text: '修改资料', icon: 'edit', index: 0 },
+      { text: '切换主题', icon: 'edit', index: 0 },
       { text: '退出', icon: 'exchange', index: 1 }
     ]
     const onChange = function () {

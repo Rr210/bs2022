@@ -4,8 +4,8 @@
  * @Date: 2022-01-06 14:55:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-02-07 16:22:10
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-05 14:28:32
+ * @LastEditors: harry
 -->
 <template>
   <transition name="van-slide-down">
@@ -14,7 +14,7 @@
         <img :src="picUrl" :alt="itemText" :title="itemText" srcset />
       </div>
       <div class="item_text">{{ itemText }}</div>
-      <van-tag class="tag-mask" mark type="primary">{{ catePest }}</van-tag>
+      <van-tag class="tag-mask" mark type="primary">{{ catePest.substring(0,2) }}</van-tag>
     </div>
   </transition>
 </template>
@@ -80,7 +80,7 @@ export default {
 
 .tag-mask {
   position: absolute;
-  top: 12.2px;
+  top: 14px;
   right: 0px;
 }
 </style>

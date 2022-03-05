@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 13:23:44
+ * @LastEditTime: 2022-03-05 15:03:07
  * @LastEditors: harry
 -->
 <template>
@@ -21,24 +21,7 @@
       </van-swipe-item>
     </van-swipe>
   </transition>
-  <van-notice-bar
-    left-icon="volume-o"
-    color="var(--LightThemeColor)"
-    background="var(--van-nav-bar-o)"
-    :scrollable="false"
-  >
-    <van-swipe
-      vertical
-      class="notice-swipe"
-      :autoplay="3000"
-      :show-indicators="false"
-    >
-      <van-swipe-item>明月直入，无心可猜。</van-swipe-item>
-      <van-swipe-item>仙人抚我顶，结发受长生。</van-swipe-item>
-      <van-swipe-item>今人不见古时月，今月曾经照古人。</van-swipe-item>
-    </van-swipe>
-  </van-notice-bar>
-  <van-tabs v-model:active="activeIndex" @click-tab="leftChangeNav">
+  <van-tabs class="van-tabs-custom" v-model:active="activeIndex" @click-tab="leftChangeNav">
     <van-tab v-for="item in items" :key="item.pid" :title="item.text">
       <van-pull-refresh
         v-model="isLoading"
@@ -243,6 +226,7 @@ export default {
 
 .banner_img {
   width: 100%;
+  height: 170px;
 }
 .van-item-pest-swiper {
   border: 20px solid var(--pageBg);
@@ -263,6 +247,7 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .notice-swipe {

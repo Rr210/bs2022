@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:38:35
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-02-15 21:52:29
+ * @LastEditTime: 2022-03-05 13:36:04
  * @FilePath: \vant-u\vue.config.js
  */
 /***
