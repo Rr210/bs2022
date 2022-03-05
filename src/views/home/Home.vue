@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-04 16:12:33
+ * @LastEditTime: 2022-03-05 13:23:44
  * @LastEditors: harry
 -->
 <template>
@@ -12,7 +12,11 @@
   <!-- 轮播图位置 -->
   <transition name="van-fade">
     <van-swipe :autoplay="3000" v-if="imagesBanner.length > 0" lazy-render>
-      <van-swipe-item class="van-item-pest-swiper" v-for="image in imagesBanner" :key="image.bid">
+      <van-swipe-item
+        class="van-item-pest-swiper"
+        v-for="image in imagesBanner"
+        :key="image.bid"
+      >
         <img :src="'banner/' + image.pic" class="banner_img" />
       </van-swipe-item>
     </van-swipe>
@@ -23,7 +27,12 @@
     background="var(--van-nav-bar-o)"
     :scrollable="false"
   >
-    <van-swipe vertical class="notice-swipe" :autoplay="3000" :show-indicators="false">
+    <van-swipe
+      vertical
+      class="notice-swipe"
+      :autoplay="3000"
+      :show-indicators="false"
+    >
       <van-swipe-item>明月直入，无心可猜。</van-swipe-item>
       <van-swipe-item>仙人抚我顶，结发受长生。</van-swipe-item>
       <van-swipe-item>今人不见古时月，今月曾经照古人。</van-swipe-item>
@@ -31,7 +40,11 @@
   </van-notice-bar>
   <van-tabs v-model:active="activeIndex" @click-tab="leftChangeNav">
     <van-tab v-for="item in items" :key="item.pid" :title="item.text">
-      <van-pull-refresh v-model="isLoading" :head-height="80" @refresh="onRefresh">
+      <van-pull-refresh
+        v-model="isLoading"
+        :head-height="80"
+        @refresh="onRefresh"
+      >
         <!-- 下拉提示，通过 scale 实现一个缩放效果 -->
         <template #pulling="props">
           <img
@@ -50,9 +63,13 @@
         <template #loading>
           <img class="doge" src="https://img.yzcdn.cn/vant/doge-fire.jpg" />
         </template>
-        <div class="item-wrap-pest">
+        <div
+          class="item-wrap-pest"
+          @touchstart="onSwiperStart"
+          @touchend="onSwiperEnd"
+        >
           <item-pest
-            v-for="(i,index) in itemLists"
+            v-for="(i, index) in itemLists"
             :key="i.pid"
             :pic-url="'images/' + i.pest_name + '.jpg'"
             :item-text="i.pest_name"
@@ -110,16 +127,42 @@ export default {
     const itemLists = ref([])
     const isLoading = ref(false)
     const isshowpest = ref(false)
+    const TouchDistance = reactive({
+      StartX: 0,
+      EndX: 0
+    })
+    const onSwiperStart = function (e) {
+      TouchDistance.StartX = e.changedTouches[0].screenX
+    }
+    const onSwiperEnd = function (e) {
+      TouchDistance.EndX = e.changedTouches[0].screenX
+      const difference = TouchDistance.StartX - TouchDistance.EndX
+      const pageLimit = itemListParams.total / itemListParams.pagesize
+      console.log(difference)
+      if (difference > 80) {
+        itemListParams.pagenum++
+      } else if (difference < -80) {
+        itemListParams.pagenum--
+      } else {
+        return
+      }
+      if (itemListParams.pagenum > pageLimit || itemListParams.pagenum === 0) { return }
+      getInsectsList()
+    }
     const itemListParams = reactive({
       pagenum: 1,
       pagesize: 6,
       total: 0
     })
     // 防抖点击
-    const leftChangeNav = debounceMerge(function () {
-      itemListParams.pagenum = 1
-      getInsectsList()
-    }, 500, true)
+    const leftChangeNav = debounceMerge(
+      function () {
+        itemListParams.pagenum = 1
+        getInsectsList()
+      },
+      500,
+      true
+    )
     // 数据的请求
     const getInsectsList = async function () {
       const params = {
@@ -142,7 +185,7 @@ export default {
     const changePage = function () {
       getInsectsList()
     }
-    const onClickTab = function () { }
+    const onClickTab = function () {}
     // 获取banner图
     const getBanner = async function () {
       const { data: res } = await proxy.$http.post(BANNER_URL)
@@ -152,9 +195,13 @@ export default {
       }
     }
     // 当tag刷新的时候调用的事件
-    const onRefresh = debounceMerge(function () {
-      getInsectsList()
-    }, 500, true)
+    const onRefresh = debounceMerge(
+      function () {
+        getInsectsList()
+      },
+      500,
+      true
+    )
     onMounted(() => {
       getBanner()
       getInsectsList()
@@ -162,12 +209,15 @@ export default {
     return {
       activeIndex,
       leftChangeNav,
+      onSwiperStart,
       items: PEST_LIST_CATE,
       imagesBanner,
       onClickTab,
       itemLists,
       isLoading,
+      onSwiperEnd,
       onRefresh,
+      TouchDistance,
       showItemPest,
       changePage,
       isshowpest,

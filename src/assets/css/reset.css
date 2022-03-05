@@ -62,6 +62,7 @@ div {
   max-height: 80%;
   border-radius: 5px;
   padding: 10px 5px;
+  color: var(--blockCardColor);
 }
 .vanpopCard {
   background: transparent;

@@ -1,3 +1,11 @@
+/*
+ * @Author: Harry
+ * @Date: 2021-12-26 15:16:20
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-03-05 12:29:48
+ * @FilePath: \vant-u\src\main.js
+ */
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'

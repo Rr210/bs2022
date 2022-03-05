@@ -3,7 +3,7 @@
  * @Date: 2022-03-02 16:21:14
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-04 13:08:48
+ * @LastEditTime: 2022-03-04 18:30:58
  * @FilePath: \vant-u\src\views\history\components\DetailPest.vue
 -->
 <template>
@@ -30,8 +30,10 @@
         <div class="item-c-i">{{ item["cate-cz"]["zh-name"] }}</div>
         <div class="item-c-i">{{ item["nums"] }}</div>
         <div class="item-c-i">{{ item["max_rate"] }}</div>
-        <div class="item-c-i">
-          <van-button class="detail-btn" @click="handleDetail(item['cate-cz']['zh-name'])"
+        <div style="text-align: center">
+          <van-button
+            class="detail-btn"
+            @click="handleDetail(item['cate-cz']['zh-name'])"
             >详情</van-button
           >
         </div>
@@ -90,7 +92,7 @@ export default {
   font-weight: 550;
   .item-c {
     width: 33.33%;
-    .item-c-i{
+    .item-c-i {
       padding: 10px 0;
       display: flex;
       justify-content: center;
@@ -100,16 +102,22 @@ export default {
   }
 }
 .hd-detail-w {
-  text-align: center;
+  background-color: rgba(146, 151, 179, 0.13);
+  border: 0.1px solid rgba(223, 225, 237, 0.4);
+  width: 110px;
+  height: 110px;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 0 auto;
   img {
+    vertical-align: middle;
     width: 100px;
     height: 100px;
-    border-radius: 10px;
   }
 }
 
-.detail-btn{
-  height: 20px;
+.detail-btn {
+  height: 30px;
   text-align: center;
   // background-color: var(--LightThemeColor);
 }
