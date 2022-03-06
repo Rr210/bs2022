@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-03 16:30:54
+ * @LastEditTime: 2022-03-06 18:19:39
  * @LastEditors: harry
 -->
 <template>
@@ -40,38 +40,50 @@
         <span class="span_s">您还未上传图片，暂无记录</span>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="pic-mains-2">
       <div class="pre_res" v-if="imgres">
-        <van-image :src="imgpre"></van-image>
-        <van-image :src="imgres"></van-image>
+        <!-- <van-image :src="imgpre"></van-image> -->
+        <div class="pre_res_1">
+          <van-image :src="imgres"></van-image>
+        </div>
+        <div class="pre_res_2">
+          <div class="r_pre">Category</div>
+          <div class="r_pre r_pre_1">{{ resPic.res_total }}种</div>
+          <div class="r_pre">Speed</div>
+          <div class="r_pre r_pre_1">{{ resPic.time_count }}</div>
+        </div>
       </div>
-      <van-uploader
-        :before-read="beforeRead"
-        @change="getPicture($event)"
-        class="re-upload"
-      >
-        <van-button>重新上传</van-button>
-      </van-uploader>
+
       <div v-show="!imgres" class="lo2">
-        <img src="css/svg/Pulse-1s-200px.svg" class="gif-loading" alt="" srcset="" />
-        <h6 style="margin:0">loading....</h6>
+        <img
+          src="css/svg/Pulse-1s-200px.svg"
+          class="gif-loading"
+          alt=""
+          srcset=""
+        />
+        <h6 style="margin: 0">loading....</h6>
       </div>
       <div class="pic-2" v-show="imgres">
-        <div class="pic-2-i">识别种类：{{ resPic.res_total }}</div>
-        <div class="pic-2-i">识别速度：{{ resPic.time_count }}</div>
-        <van-divider :style="driverStyle">害虫识别详情</van-divider>
-        <div class="item-w">
-          <div
-            v-for="(item, index) in resPic.res"
-            :key="index"
-            class="item-c"
-            :style="index % 2 !== 0 ? driverStyle2 : ''"
+        <van-swipe class="my-swipe" :loop="false" indicator-color="white">
+          <van-swipe-item v-for="(item, index) in resPic.res" :key="index">
+            <icon-main
+              :itemcate="item['cate-cz']['cate']"
+              :itemmc="item['cate-cz']['zh-name']"
+              :itemnum="item['nums']"
+              :itemrate="item['max_rate']"
+              class="icon-main-custom"
+            ></icon-main>
+          </van-swipe-item>
+        </van-swipe>
+        <div class="btn-function">
+          <div class="condel">取消</div>
+          <van-uploader
+            :before-read="beforeRead"
+            @change="getPicture($event)"
+            class="re-upload"
           >
-            <div class="item-c-i">类别：{{ item["cate-cz"]["cate"] }}</div>
-            <div class="item-c-i">名称：{{ item["cate-cz"]["zh-name"] }}</div>
-            <div class="item-c-i">数量：{{ item["nums"] }}</div>
-            <div class="item-c-i">识别率：{{ item["max_rate"] }}</div>
-          </div>
+            重新上传
+          </van-uploader>
         </div>
       </div>
     </div>
@@ -97,9 +109,11 @@ import {
 } from '@vue/runtime-core'
 import axios from 'axios'
 import { INIT_CONFIG_URL, UPLOAD_PIC_URL } from '../../utils/api/urlapi'
+import IconMain from './components/IconMain.vue'
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
+  components: { IconMain },
   setup() {
     const { proxy } = getCurrentInstance()
     const isshow = ref(false)
@@ -242,11 +256,35 @@ export default {
 
 <style lang="less" scoped>
 .pre_res {
+  font-size: 16px;
+  // padding: 60px 60px 0 0;
   display: flex;
-  justify-content: space-evenly;
-  .van-image {
-    padding: 10px 5px;
+  justify-content: center;
+  align-items: center;
+  .pre_res_1 {
+    flex: 1.5;
+    width: 100%;
+    padding: 20px;
   }
+  .pre_res_2 {
+    // text-align: center;
+    flex: 1;
+    .r_pre {
+      padding: 10px;
+      color: rgb(197, 204, 203);
+    }
+    .r_pre_1 {
+      color: var(--LightThemeColor);
+      font-weight: 550;
+    }
+  }
+}
+.pic-2 {
+  background-color: var(--pageBg);
+  box-shadow: 0 -2px 10px 0 rgba(204, 204, 204, 0.534);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  padding-bottom: 132px;
 }
 .svg_wrap {
   border: 1px dashed #d9d9d9;
@@ -282,44 +320,39 @@ export default {
     font-size: 10px;
   }
 }
-.pic-mains {
-  padding-bottom: 55px;
-  .pic-2 {
-    padding: 20px;
-    font-size: 18.5px;
-    text-align: center;
-    .pic-2-i {
-      text-align: center;
-      padding: 5px 0;
-    }
-  }
-}
-.re-upload {
-  margin: 0 38% 0;
-}
-.item-w {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  .item-c {
-    width: 50%;
-    padding: 7px;
-    justify-content: center;
-    align-items: center;
-    .item-c-i {
-      padding: 10px 0;
-    }
-  }
-}
-.lo2{
+.lo2 {
   text-align: center;
-  .gif-loading{
+  .gif-loading {
     width: 50%;
     margin: 70px 0 0 0;
   }
 }
-// .van-button--default {
-//   border: var(--van-button-border-width) solid var(--LightThemeColor);
-// }
+
+.btn-function {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  padding: 20px;
+  position: fixed;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255,255,255,.9);
+  // background-color: var(--pageBg);
+  .condel {
+    flex: 1;
+    text-align: right;
+  }
+  .re-upload {
+    text-align: center;
+    flex: 2;
+    background-color: var(--LightThemeColor);
+    color: var(--pageBg);
+    border-radius: 10px;
+    margin: 0 40px;
+    height: 30px;
+    line-height: 30px;
+  }
+}
 </style>

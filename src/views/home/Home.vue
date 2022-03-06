@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 15:03:07
+ * @LastEditTime: 2022-03-06 14:43:57
  * @LastEditors: harry
 -->
 <template>
@@ -120,7 +120,7 @@ export default {
     const onSwiperEnd = function (e) {
       TouchDistance.EndX = e.changedTouches[0].screenX
       const difference = TouchDistance.StartX - TouchDistance.EndX
-      const pageLimit = itemListParams.total / itemListParams.pagesize
+      const pageLimit = Math.ceil(itemListParams.total / itemListParams.pagesize)
       console.log(difference)
       if (difference > 80) {
         itemListParams.pagenum++

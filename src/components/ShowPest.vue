@@ -4,13 +4,13 @@
  * @Date: 2022-01-07 16:22:18
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 12:13:14
+ * @LastEditTime: 2022-03-06 14:50:35
  * @LastEditors: harry
 -->
 <template>
   <div class="block">
     <div class="img_1">
-      <div class="item-1">
+      <div class="item-1" @click="prewOne(picurlbg)">
         <img :src="picurlbg" alt srcset class="bg-img" />
       </div>
       <div class="item_pest">
@@ -34,6 +34,7 @@
 
 <script>
 import { computed } from '@vue/reactivity'
+import { ImagePreview } from 'vant'
 export default {
   props: {
     picurlbg: {
@@ -76,8 +77,16 @@ export default {
         fontWeight: 550
       }
     })
+    const prewOne = function (e) {
+      if (e) {
+        ImagePreview({
+          images: [e]
+        })
+      }
+    }
     return {
-      driverStyle
+      driverStyle,
+      prewOne
     }
   }
 }

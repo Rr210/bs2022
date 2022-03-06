@@ -3,7 +3,7 @@
   --van-blue: #585ddd !important;
   --van-dropdown-menu-option-active-color: #585ddd !important;
   --van-dropdown-menu-title-active-text-color: #585ddd !important;
-  --pageBg: var(--van-white);
+  --pageBg: #fff;
   --van-tabs-bottom-bar-color: #585ddd !important;
   --van-nav-bar-o: #ecf9ff;
   --van-pagination-height: 0.56rem !important;
@@ -12,4 +12,5 @@
   --mainCardBg: rgba(255, 255, 255, 0.723);
   --blockCardBg: rgba(255, 255, 255, 0.42);
   --blockCardColor: #080824;
+  --btnFunctionBg: #ffffff;
 }
