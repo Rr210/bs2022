@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 18:19:39
+ * @LastEditTime: 2022-03-06 19:11:34
  * @LastEditors: harry
 -->
 <template>
@@ -63,20 +63,19 @@
         />
         <h6 style="margin: 0">loading....</h6>
       </div>
-      <div class="pic-2" v-show="imgres">
-        <van-swipe class="my-swipe" :loop="false" indicator-color="white">
-          <van-swipe-item v-for="(item, index) in resPic.res" :key="index">
+      <div class="pic-2" v-if="imgres">
+        <swiper class="my-swipe">
+          <swiper-slide v-for="(item, index) in resPic.res" :key="index">
             <icon-main
               :itemcate="item['cate-cz']['cate']"
               :itemmc="item['cate-cz']['zh-name']"
               :itemnum="item['nums']"
               :itemrate="item['max_rate']"
-              class="icon-main-custom"
             ></icon-main>
-          </van-swipe-item>
-        </van-swipe>
+          </swiper-slide>
+        </swiper>
         <div class="btn-function">
-          <div class="condel">取消</div>
+          <div class="condel" @click="cancelMain">取消</div>
           <van-uploader
             :before-read="beforeRead"
             @change="getPicture($event)"
@@ -101,6 +100,11 @@
 </template>
 
 <script>
+import 'swiper/swiper.less'
+import 'swiper/components/pagination/pagination.less'
+
+// swiper 必备组件
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import {
   onMounted,
   getCurrentInstance,
@@ -113,7 +117,7 @@ import IconMain from './components/IconMain.vue'
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
-  components: { IconMain },
+  components: { IconMain, Swiper, SwiperSlide },
   setup() {
     const { proxy } = getCurrentInstance()
     const isshow = ref(false)
@@ -188,6 +192,12 @@ export default {
         borderLeft: '.2px solid var(--LightThemeColor)'
       }
     })
+    // 取消按钮
+    const cancelMain = function() {
+      imgres.value = ''
+      imgpre.value = ''
+      resPic.value = []
+    }
     // const initTk = function (timestamp, nonceStr, signature) {
     //   proxy.$wx.config({
     //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -238,6 +248,7 @@ export default {
     })
     return {
       getSignature,
+      cancelMain,
       // uploadPic,
       isshow,
       imgpre,
@@ -338,11 +349,13 @@ export default {
   bottom: 50px;
   left: 0;
   width: 100%;
-  background-color: rgba(255,255,255,.9);
-  // background-color: var(--pageBg);
+  // background-color: rgba(255,255,255,.9);
+  background-color: var(--btnFunctionBg);
+  z-index: 9999;
   .condel {
     flex: 1;
     text-align: right;
+    color: #6062669a;
   }
   .re-upload {
     text-align: center;

@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-04 18:08:53
+ * @LastEditTime: 2022-03-06 18:22:11
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
@@ -232,8 +232,8 @@ export default {
   // justify-content: center;
   // align-items: center;
   // margin: 10px 0;
-  .van-button {
-    // height: 30px;
-  }
+  // .van-button {
+  //   // height: 30px;
+  // }
 }
 </style>

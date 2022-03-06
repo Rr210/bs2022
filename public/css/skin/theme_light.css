@@ -12,5 +12,5 @@
   --mainCardBg: rgba(255, 255, 255, 0.723);
   --blockCardBg: rgba(255, 255, 255, 0.42);
   --blockCardColor: #080824;
-  --btnFunctionBg: #ffffff;
+  --btnFunctionBg: rgba(255, 255, 255, 0.9);
 }

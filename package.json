@@ -38,6 +38,7 @@
     "eslint-plugin-vue": "^7.0.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
-    "postcss-pxtorem": "^5.1.1"
+    "postcss-pxtorem": "^5.1.1",
+    "swiper": "^6.8.4"
   }
 }

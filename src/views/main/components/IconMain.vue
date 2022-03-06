@@ -3,7 +3,7 @@
  * @Date: 2022-03-06 16:41:39
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 18:07:16
+ * @LastEditTime: 2022-03-06 18:42:13
  * @FilePath: \vant-u\src\views\main\components\IconMain.vue
 -->
 <template>
@@ -125,11 +125,11 @@
   </div>
   <div class="item_pest_w">
     <van-divider>危害草药</van-divider>
-    <div class="icon_item_pest">{{ pici.harm_host }}</div>
+    <div class="icon_item_pest">{{ pici.harm_host || '无' }}</div>
     <van-divider>危害特点</van-divider>
-    <div class="icon_item_pest">{{ pici.harm_feat }}</div>
+    <div class="icon_item_pest">{{ pici.harm_feat || '无'}}</div>
     <van-divider>控制措施</van-divider>
-    <div class="icon_item_pest">{{ pici.control_measures }}</div>
+    <div class="icon_item_pest">{{ pici.control_measures|| '无' }}</div>
   </div>
 </template>
 
@@ -210,8 +210,8 @@ export default {
     }
   }
 }
-.item_pest_w{
-    padding: 10px;
-    font-size: 15px;
+.item_pest_w {
+  padding: 10px;
+  font-size: 15px;
 }
 </style>
