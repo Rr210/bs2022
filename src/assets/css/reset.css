@@ -58,6 +58,7 @@ div {
   border-radius: 10px;
 }
 .block {
+  position: relative;
   width: 80vw;
   max-height: 80%;
   border-radius: 5px;

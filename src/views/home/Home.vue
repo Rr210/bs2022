@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 14:43:57
+ * @LastEditTime: 2022-03-09 15:57:58
  * @LastEditors: harry
 -->
 <template>
@@ -21,7 +21,11 @@
       </van-swipe-item>
     </van-swipe>
   </transition>
-  <van-tabs class="van-tabs-custom" v-model:active="activeIndex" @click-tab="leftChangeNav">
+  <van-tabs
+    class="van-tabs-custom"
+    v-model:active="activeIndex"
+    @click-tab="leftChangeNav"
+  >
     <van-tab v-for="item in items" :key="item.pid" :title="item.text">
       <van-pull-refresh
         v-model="isLoading"
@@ -100,6 +104,7 @@ import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
 import ItemPest from '@/views/home/components/ItemPest.vue'
 import ShowPest from '@/components/ShowPest.vue'
 import debounceMerge from '@/utils/tool/debounce'
+import { provide } from 'vue' // 引入provide
 export default {
   components: { ItemPest, ShowPest },
   setup() {
@@ -114,13 +119,22 @@ export default {
       StartX: 0,
       EndX: 0
     })
+    // 爷孙组件
+    const handleMark = (data) => {
+      if (data === 11) {
+        isshowpest.value = false
+      }
+    }
+    provide('awaitSon', handleMark)
     const onSwiperStart = function (e) {
       TouchDistance.StartX = e.changedTouches[0].screenX
     }
     const onSwiperEnd = function (e) {
       TouchDistance.EndX = e.changedTouches[0].screenX
       const difference = TouchDistance.StartX - TouchDistance.EndX
-      const pageLimit = Math.ceil(itemListParams.total / itemListParams.pagesize)
+      const pageLimit = Math.ceil(
+        itemListParams.total / itemListParams.pagesize
+      )
       console.log(difference)
       if (difference > 80) {
         itemListParams.pagenum++
@@ -129,7 +143,9 @@ export default {
       } else {
         return
       }
-      if (itemListParams.pagenum > pageLimit || itemListParams.pagenum === 0) { return }
+      if (itemListParams.pagenum > pageLimit || itemListParams.pagenum === 0) {
+        return
+      }
       getInsectsList()
     }
     const itemListParams = reactive({

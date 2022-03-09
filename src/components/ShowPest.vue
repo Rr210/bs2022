@@ -4,21 +4,24 @@
  * @Date: 2022-01-07 16:22:18
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 14:50:35
+ * @LastEditTime: 2022-03-09 16:01:35
  * @LastEditors: harry
 -->
 <template>
   <div class="block">
+    <div class="close-btn">
+      <close-btn></close-btn>
+    </div>
     <div class="img_1">
       <div class="item-1" @click="prewOne(picurlbg)">
         <img :src="picurlbg" alt srcset class="bg-img" />
       </div>
       <div class="item_pest">
-        <van-icon class="icon_item_pest" name="smile-o">{{
+        <div class="icon_item_pest" name="smile-o">{{
           pestname
-        }}</van-icon>
-        <van-icon class="icon_item_pest" name="fire-o">{{ basecate }}</van-icon>
-        <van-icon class="icon_item_pest" name="label-o">{{ catesk }}</van-icon>
+        }}</div>
+        <div class="icon_item_pest" name="fire-o">{{ basecate }}</div>
+        <div class="icon_item_pest" name="label-o">{{ catesk }}</div>
       </div>
     </div>
     <div class="item_pest_w">
@@ -35,7 +38,9 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { ImagePreview } from 'vant'
+import CloseBtn from './CloseBtn.vue'
 export default {
+  components: { CloseBtn },
   props: {
     picurlbg: {
       type: String,
@@ -95,7 +100,7 @@ export default {
 <style lang="less" scoped>
 .img_1 {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   .item-1 {
     background-color: rgba(146, 151, 179, 0.13);
@@ -104,7 +109,7 @@ export default {
     height: 110px;
     padding: 5px;
     border-radius: 10px;
-    margin: 0 auto;
+    margin: 5px 10px 0 0;
   }
 }
 .bg-img {
@@ -132,5 +137,14 @@ export default {
     // padding: 5px 0;
     // height: 200px;
   }
+}
+
+.close-btn {
+  position: absolute;
+  top: 2px;
+  right: 0px;
+  width: 27px;
+  // height: 28px;
+  // z-index: 99999;
 }
 </style>
