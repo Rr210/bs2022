@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-04 10:42:32
+ * @LastEditTime: 2022-03-18 15:05:35
  * @LastEditors: harry
 -->
 <template>
@@ -92,26 +92,29 @@
 </template>
 
 <script>
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
+import { computed, onMounted, reactive, toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
   setup() {
-    const { proxy } = getCurrentInstance()
+    const route = useRoute()
+    const Store = useStore()
     const signin = function () {
       localStorage.clear()
-      proxy.$router.replace('/login')
+      route.replace('/login')
     }
     // 退出登录
     const layout = function () {
-      proxy.$store.dispatch('layoutPage')
+      Store.dispatch('layoutPage')
       console.log('已退出')
     }
     // 判断登录的情况
     const isLogined = function (userinfo) {
-      console.log(proxy.$store.state)
-      proxy.$store.dispatch('saveLoginState', { userinfo })
+      console.log(Store.state)
+      Store.dispatch('saveLoginState', { userinfo })
     }
     const isloginstate = computed(() => {
-      return proxy.$store.state.isLogin
+      return Store.state.isLogin
     })
     const hasUser = reactive({
       hasUserInfo: {},

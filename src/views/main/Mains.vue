@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 19:11:34
+ * @LastEditTime: 2022-03-18 15:19:12
  * @LastEditors: harry
 -->
 <template>
@@ -105,33 +105,33 @@ import 'swiper/components/pagination/pagination.less'
 
 // swiper 必备组件
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import {
-  onMounted,
-  getCurrentInstance,
-  ref,
-  computed
-} from '@vue/runtime-core'
-import axios from 'axios'
+import { onMounted, computed, reactive, toRefs } from '@vue/runtime-core'
 import { INIT_CONFIG_URL, UPLOAD_PIC_URL } from '../../utils/api/urlapi'
+import { loginApi, uploadPic } from '@/utils/service/main.js'
 import IconMain from './components/IconMain.vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
   components: { IconMain, Swiper, SwiperSlide },
   setup() {
-    const { proxy } = getCurrentInstance()
-    const isshow = ref(false)
-    const imgpre = ref('')
-    const imgres = ref('')
-    const resPic = ref({})
+    const stateTemp = reactive({
+      isshow: false,
+      imgpre: '',
+      imgres: '',
+      resPic: {}
+    })
+    const Store = useStore()
+    const route = useRoute()
     const stateLogin = computed(() => {
-      return proxy.$store.state.isLogin
+      return Store.state.isLogin
     })
     const beforeRead = (file) => {
       console.log(stateLogin.value)
       if (!stateLogin) {
         // Toast('请上传 jpg 格式图片')
-        isshow.value = true
+        stateTemp.isshow = true
         return false
       }
       console.log(file)
@@ -141,38 +141,38 @@ export default {
     // 上传图片文件
     const getPicture = function (e) {
       // 预览图片
-      imgres.value = ''
+      stateTemp.imgres = ''
       const src = window.URL.createObjectURL(e.target.files[0])
-      imgpre.value = stateLogin.value ? src : ''
+      stateTemp.imgpre = stateLogin.value ? src : ''
       console.log(e)
     }
     const uploadpicserve = async function (item) {
-      const UID = proxy.$store.state.userinfo.openid
+      const UID = Store.state.userinfo.openid
       console.log(UID)
       if (UID) {
         const formData = new FormData()
         console.log(item)
         formData.append('inputpic', item)
         formData.append('appid', UID)
-        const { data: res } = await axios.post(UPLOAD_PIC_URL, formData, {
+        const { data: res } = await uploadPic(UPLOAD_PIC_URL, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        imgres.value =
+        stateTemp.imgres =
           process.env.VUE_APP_STATIC + res.result.out_file.split('static/')[1]
-        resPic.value = res.result.s_n_n
+        stateTemp.resPic = res.result.s_n_n
         console.log(res)
       } else {
-        isshow.value = true
+        stateTemp.isshow = true
       }
       console.log(UID)
     }
     // 登录
     const signin = function () {
       localStorage.clear()
-      proxy.$router.replace('/login')
+      route.replace('/login')
     }
     const getSignature = async function () {
-      const { data: res } = await proxy.$http.post(INIT_CONFIG_URL)
+      const { data: res } = await loginApi(INIT_CONFIG_URL)
       if (res.status_code === 1) {
         console.log(res)
         const { noncestr, signature, timestamp } = res.TK
@@ -193,10 +193,10 @@ export default {
       }
     })
     // 取消按钮
-    const cancelMain = function() {
-      imgres.value = ''
-      imgpre.value = ''
-      resPic.value = []
+    const cancelMain = function () {
+      stateTemp.imgres = ''
+      stateTemp.imgpre = ''
+      stateTemp.resPic = []
     }
     // const initTk = function (timestamp, nonceStr, signature) {
     //   proxy.$wx.config({
@@ -250,16 +250,13 @@ export default {
       getSignature,
       cancelMain,
       // uploadPic,
-      isshow,
-      imgpre,
-      imgres,
       stateLogin,
-      resPic,
       driverStyle,
       driverStyle2,
       signin,
       beforeRead,
-      getPicture
+      getPicture,
+      ...toRefs(stateTemp)
     }
   }
 }

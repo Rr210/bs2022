@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 13:33:42
+ * @LastEditTime: 2022-03-18 15:48:46
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -66,34 +66,36 @@
 </template>
 
 <script>
-import { computed, getCurrentInstance, onMounted, provide, ref } from 'vue'
+import { computed, onMounted, provide, reactive, ref, toRefs } from 'vue'
 import HisItem from './HisItem.vue'
 import { HISTORY_GET_URL, SEARCH_PEST_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { ImagePreview, Dialog, Toast } from 'vant'
 import DetailPest from './DetailPest.vue'
 import ShowPest from '@/components/ShowPest.vue'
+import { searchPest, deleteHistory, historyGet } from '@/utils/service/history'
 
 export default {
   name: 'HisTabnav',
   components: { HisItem, DetailPest, ShowPest },
   setup() {
-    const value1 = ref('all')
-    const value2 = ref('b')
-    const picindex = ref({})
-    const pici = ref({})
-    const pestkey = ref(false)
-    const isshowpest = ref(false)
-    const disAfterpic = ref('')
-    const { proxy } = getCurrentInstance()
-    const option1 = PEST_LIST_CATE
-    const option2 = [
-      { text: '时间降序', value: 'b' },
-      { text: '时间升序', value: 'a' }
-    ]
+    const stateTemp = reactive({
+      value1: 'all',
+      value2: 'b',
+      picindex: {},
+      pici: {},
+      pestkey: false,
+      isshowpest: false,
+      disAfterpic: '',
+      option1: PEST_LIST_CATE,
+      option2: [
+        { text: '时间降序', value: 'b' },
+        { text: '时间升序', value: 'a' }
+      ]
+    })
     const handleMark = (data) => {
       if (data === 11) {
-        pestkey.value = false
+        stateTemp.pestkey = false
       }
     }
     provide('awaitSon', handleMark)
@@ -117,15 +119,15 @@ export default {
     // 处理识别详情的结果
     const getResultPest = async function (e) {
       console.log(e)
-      const { data: res } = await proxy.$http.get(SEARCH_PEST_URL, {
+      const { data: res } = await searchPest(SEARCH_PEST_URL, {
         params: {
           key: e
         }
       })
       console.log(res)
       if (res.status_code === 1 && res.data.length > 0) {
-        pici.value = res.data[0]
-        pestkey.value = true
+        stateTemp.pici = res.data[0]
+        stateTemp.pestkey = true
       } else {
         Toast({
           message: '未找到害虫数据'
@@ -150,7 +152,7 @@ export default {
     // 请求删除的方法
     const httpDeleteHistory = async function (p) {
       const u = JSON.parse(localStorage.getItem('userinfo'))
-      const { data: res } = await proxy.$http.delete(HISTORY_GET_URL, {
+      const { data: res } = await deleteHistory(HISTORY_GET_URL, {
         data: {
           temp: p,
           openid: u.openid
@@ -169,9 +171,9 @@ export default {
     // 详情查看记录
     const ItemLists = ref([])
     const detailHisRecord = function (index) {
-      isshowpest.value = !isshowpest.value
-      picindex.value = JSON.parse(ItemLists.value[index].result)
-      disAfterpic.value =
+      stateTemp.isshowpest = !stateTemp.isshowpest
+      stateTemp.picindex = JSON.parse(ItemLists.value[index].result)
+      stateTemp.disAfterpic =
         process.env.VUE_APP_URL + '/' + ItemLists.value[index].dis_after
     }
     // 图片的预览问题
@@ -181,10 +183,10 @@ export default {
     }
     const getHistoryO1 = async function () {
       const data1 = JSON.parse(localStorage.getItem('userinfo'))
-      const { data: res } = await proxy.$http.post(HISTORY_GET_URL, {
+      const { data: res } = await historyGet(HISTORY_GET_URL, {
         data: data1.openid,
-        key: value1.value,
-        option2: value2.value
+        key: stateTemp.value1,
+        option2: stateTemp.value2
       })
       // console.log(res)
       ItemLists.value = res.data
@@ -194,16 +196,7 @@ export default {
     })
 
     return {
-      value1,
-      value2,
-      option1,
-      pestkey,
-      option2,
       ItemLists,
-      disAfterpic,
-      picindex,
-      pici,
-      isshowpest,
       handleJsonString,
       getResultPest,
       // showItemPest,
@@ -211,7 +204,8 @@ export default {
       getHistoryO1,
       prewOne,
       deleteHisRecord,
-      handleItemLists
+      handleItemLists,
+      ...toRefs(stateTemp)
     }
   }
 }

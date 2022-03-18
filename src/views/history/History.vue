@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 20:00:32
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-03 16:31:28
+ * @LastEditTime: 2022-03-18 15:22:55
  * @LastEditors: harry
 -->
 <template>
@@ -24,23 +24,25 @@
 <script>
 import {
   computed,
-  getCurrentInstance,
   onMounted
 } from '@vue/runtime-core'
 import HisTabnav from './components/HisTabnav.vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 export default {
   components: {
     HisTabnav
   },
   setup() {
-    const { proxy } = getCurrentInstance()
+    const Store = useStore()
+    const route = useRoute()
     const stateLogin = computed(() => {
-      return !proxy.$store.state.isLogin
+      return !Store.state.isLogin
     })
     // 判断是否登录成功
     const signin = function () {
       localStorage.clear()
-      proxy.$router.replace('/login')
+      route.replace('/login')
     }
     onMounted(() => {
     })

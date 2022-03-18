@@ -1,3 +1,11 @@
+/*
+ * @Author: Harry
+ * @Date: 2021-12-26 15:49:21
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-03-18 14:36:54
+ * @FilePath: \vant-u\src\utils\http.js
+ */
 /***
  * @Description:
  * @Author: Harry
@@ -10,7 +18,7 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
+axios.defaults.baseURL = process.env.VUE_APP_URL
 const startLoading = () => {
   NProgress.start()
 }

@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 13:45:39
+ * @LastEditTime: 2022-03-18 15:43:20
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
@@ -53,12 +53,17 @@
     <van-divider :style="driverStyle"></van-divider>
     <template #right>
       <div class="right-i">
-        <van-button square type="primary" text="详情" @click="detailClick(hisindex)" />
+        <van-button
+          square
+          type="primary"
+          text="详情"
+          @click="detailClick(hisindex)"
+        />
         <van-button
           square
           type="danger"
           text="删除"
-          @click="deleteClick(hispid,hisbeforepic)"
+          @click="deleteClick(hispid, hisbeforepic)"
         />
       </div>
     </template>
@@ -114,7 +119,7 @@ export default {
     }
   },
   emits: ['prew', 'deletepid', 'detailpid'],
-  setup() {
+  setup(props, context) {
     // 处理时间
     const { proxy } = getCurrentInstance()
     const isDisable = ref(false)
@@ -125,7 +130,7 @@ export default {
     })
     // 子向父传递事件
     const handlePrewBefore = function (item) {
-      proxy.$emit('prew', item)
+      context.emit('prew', item)
     }
     const driverStyle = computed(() => {
       return {
@@ -150,10 +155,13 @@ export default {
     }
     // 删除事件
     const deleteClick = function (pid, pic) {
-      proxy.$emit('deletepid', { pid, pic: pic.split('/')[pic.split('/').length - 1] })
+      context.emit('deletepid', {
+        pid,
+        pic: pic.split('/')[pic.split('/').length - 1]
+      })
     }
-    const detailClick = function(i) {
-      proxy.$emit('detailpid', i)
+    const detailClick = function (i) {
+      context.emit('detailpid', i)
     }
     return {
       driverStyle,
@@ -224,16 +232,16 @@ export default {
 }
 
 // 左滑展示详情和删除按钮
-.right-i {
-  // display: flex;
-  // flex-direction: column;
-  // height: 100%;
-  // width: 100%;
-  // justify-content: center;
-  // align-items: center;
-  // margin: 10px 0;
-  // .van-button {
-  //   // height: 30px;
-  // }
-}
+// .right-i {
+//   // display: flex;
+//   // flex-direction: column;
+//   // height: 100%;
+//   // width: 100%;
+//   // justify-content: center;
+//   // align-items: center;
+//   // margin: 10px 0;
+//   // .van-button {
+//   //   // height: 30px;
+//   // }
+// }
 </style>

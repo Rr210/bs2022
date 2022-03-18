@@ -3,7 +3,7 @@
  * @Date: 2022-03-02 16:21:14
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-04 18:30:58
+ * @LastEditTime: 2022-03-18 15:45:56
  * @FilePath: \vant-u\src\views\history\components\DetailPest.vue
 -->
 <template>
@@ -44,7 +44,6 @@
 
 <script>
 import { computed } from '@vue/reactivity'
-import { getCurrentInstance } from '@vue/runtime-core'
 export default {
   name: 'DetailPest',
   props: {
@@ -62,19 +61,18 @@ export default {
     }
   },
   emits: ['detailmain', 'prew'],
-  setup() {
-    const { proxy } = getCurrentInstance()
+  setup(prop, context) {
     const driverStyle2 = computed(() => {
       return {
         // borderLeft: '.2px solid var(--LightThemeColor)'
       }
     })
     const handlePrewAfter = function (item) {
-      proxy.$emit('prew', item)
+      context.emit('prew', item)
     }
     // 点击详情展示
     const handleDetail = function (u) {
-      proxy.$emit('detailmain', u)
+      context.emit('detailmain', u)
     }
     return {
       driverStyle2,

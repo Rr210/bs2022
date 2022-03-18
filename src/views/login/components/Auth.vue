@@ -4,22 +4,22 @@
  * @Date: 2022-01-05 22:27:34
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-05 22:36:17
- * @LastEditors: Harry
+ * @LastEditTime: 2022-03-18 15:18:47
+ * @LastEditors: harry
 -->
 <template>
   <div class="loding_w"></div>
 </template>
 
 <script>
-import { getCurrentInstance, onMounted } from '@vue/runtime-core'
+import { onMounted } from '@vue/runtime-core'
 import Base64 from '@/utils/serct/base64'
-import { INIT_SIGN_URL } from '../../../utils/api/urlapi'
+import { INIT_SIGN_URL } from '@/utils/api/urlapi'
+import { initLogin } from '@/utils/service/login'
 export default {
   setup() {
-    const { proxy } = getCurrentInstance()
     const initUserInfo = async function (code) {
-      const { data: res } = await proxy.$http.post(INIT_SIGN_URL, {
+      const { data: res } = await initLogin(INIT_SIGN_URL, {
         data: { code }
       })
       if (res.status_code === 1) {

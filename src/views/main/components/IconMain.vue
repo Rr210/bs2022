@@ -3,7 +3,7 @@
  * @Date: 2022-03-06 16:41:39
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 18:42:13
+ * @LastEditTime: 2022-03-18 15:19:06
  * @FilePath: \vant-u\src\views\main\components\IconMain.vue
 -->
 <template>
@@ -134,9 +134,10 @@
 </template>
 
 <script>
-import { getCurrentInstance, onMounted, ref } from '@vue/runtime-core'
-import { SEARCH_PEST_URL } from '../../../utils/api/urlapi'
+import { onMounted, ref } from '@vue/runtime-core'
+import { SEARCH_PEST_URL } from '@/utils/api/urlapi'
 import { Toast } from 'vant'
+import { searchPest } from '@/utils/service/main'
 export default {
   name: 'IconMain',
   props: {
@@ -163,11 +164,10 @@ export default {
   },
   setup(props) {
     //   获取数据
-    const { proxy } = getCurrentInstance()
     const pici = ref({})
     // 处理识别详情的结果
     const getPestItem = async function (e) {
-      const { data: res } = await proxy.$http.get(SEARCH_PEST_URL, {
+      const { data: res } = await searchPest(SEARCH_PEST_URL, {
         params: {
           key: e
         }

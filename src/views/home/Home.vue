@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-09 15:57:58
+ * @LastEditTime: 2022-03-18 15:20:02
  * @LastEditors: harry
 -->
 <template>
@@ -97,24 +97,28 @@
 </template>
 
 <script>
-import { reactive, ref, toRefs } from '@vue/reactivity'
+import { reactive, toRefs } from '@vue/reactivity'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
-import { getCurrentInstance, onMounted } from '@vue/runtime-core'
+import { onMounted } from '@vue/runtime-core'
 import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
 import ItemPest from '@/views/home/components/ItemPest.vue'
 import ShowPest from '@/components/ShowPest.vue'
 import debounceMerge from '@/utils/tool/debounce'
 import { provide } from 'vue' // 引入provide
+import { pestList, bannerList } from '@/utils/service/home'
+
 export default {
   components: { ItemPest, ShowPest },
   setup() {
-    const { proxy } = getCurrentInstance()
-    const picindex = ref({})
-    const activeIndex = ref(0)
-    const imagesBanner = ref([])
-    const itemLists = ref([])
-    const isLoading = ref(false)
-    const isshowpest = ref(false)
+    const stateTemp = reactive({
+      picindex: {},
+      activeIndex: 0,
+      imagesBanner: [],
+      itemLists: [],
+      isLoading: false,
+      isshowpest: false,
+      items: PEST_LIST_CATE
+    })
     const TouchDistance = reactive({
       StartX: 0,
       EndX: 0
@@ -122,7 +126,7 @@ export default {
     // 爷孙组件
     const handleMark = (data) => {
       if (data === 11) {
-        isshowpest.value = false
+        stateTemp.isshowpest = false
       }
     }
     provide('awaitSon', handleMark)
@@ -165,21 +169,21 @@ export default {
     // 数据的请求
     const getInsectsList = async function () {
       const params = {
-        key: PEST_LIST_CATE[activeIndex.value].path,
+        key: PEST_LIST_CATE[stateTemp.activeIndex].path,
         pagenum: itemListParams.pagenum,
         pagesize: itemListParams.pagesize
       }
-      const { data: res } = await proxy.$http.get(PEST_LIST_URL, { params })
+      const { data: res } = await pestList(PEST_LIST_URL, { params })
       console.log(res)
       if (res.status_code === 1) {
-        itemLists.value = res.data
-        isLoading.value = false
+        stateTemp.itemLists = res.data
+        stateTemp.isLoading = false
         itemListParams.total = res.total
       }
     }
     const showItemPest = function (index) {
-      isshowpest.value = !isshowpest.value
-      picindex.value = itemLists.value[index]
+      stateTemp.isshowpest = !stateTemp.isshowpest
+      stateTemp.picindex = stateTemp.itemLists[index]
     }
     const changePage = function () {
       getInsectsList()
@@ -187,10 +191,10 @@ export default {
     const onClickTab = function () {}
     // 获取banner图
     const getBanner = async function () {
-      const { data: res } = await proxy.$http.post(BANNER_URL)
+      const { data: res } = await bannerList(BANNER_URL)
       console.log(res)
       if (res.status_code === 1) {
-        imagesBanner.value = res.banner_list.data
+        stateTemp.imagesBanner = res.banner_list.data
       }
     }
     // 当tag刷新的时候调用的事件
@@ -206,23 +210,17 @@ export default {
       getInsectsList()
     })
     return {
-      activeIndex,
       leftChangeNav,
       onSwiperStart,
-      items: PEST_LIST_CATE,
-      imagesBanner,
       onClickTab,
-      itemLists,
-      isLoading,
       onSwiperEnd,
       onRefresh,
       TouchDistance,
       showItemPest,
       changePage,
-      isshowpest,
       itemListParams,
-      picindex,
-      ...toRefs(itemListParams)
+      ...toRefs(itemListParams),
+      ...toRefs(stateTemp)
     }
   }
 }

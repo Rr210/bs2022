@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:16:49
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 13:02:46
+ * @LastEditTime: 2022-03-18 13:58:30
  * @FilePath: \vant-u\README.md
 -->
 ## 仓库简介
@@ -49,3 +49,12 @@
 </td>
 </tr>
 </table>
+
+## 配置方法
+
+>待写
+### 前端配置
+
+### 后端配置
+
+### 数据库配置
