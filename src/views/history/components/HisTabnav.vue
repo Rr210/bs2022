@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 15:17:04
+ * @LastEditTime: 2022-03-18 13:33:42
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { computed, getCurrentInstance, onMounted, ref } from 'vue'
+import { computed, getCurrentInstance, onMounted, provide, ref } from 'vue'
 import HisItem from './HisItem.vue'
 import { HISTORY_GET_URL, SEARCH_PEST_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
@@ -91,6 +91,12 @@ export default {
       { text: '时间降序', value: 'b' },
       { text: '时间升序', value: 'a' }
     ]
+    const handleMark = (data) => {
+      if (data === 11) {
+        pestkey.value = false
+      }
+    }
+    provide('awaitSon', handleMark)
     // 处理json字符串
     const handleJsonString = computed(() => {
       return function (item) {
@@ -127,13 +133,14 @@ export default {
       }
     }
     // 删除某项历史记录
-    const deleteHisRecord = function (pid) {
+    const deleteHisRecord = function (temp) {
       Dialog.confirm({
         title: '提示',
         message: '确定删除该记录，删除后将无法恢复'
       })
         .then(() => {
-          httpDeleteHistory(pid)
+          console.log(temp)
+          httpDeleteHistory(temp)
           // on confirm
         })
         .catch(() => {
@@ -145,7 +152,7 @@ export default {
       const u = JSON.parse(localStorage.getItem('userinfo'))
       const { data: res } = await proxy.$http.delete(HISTORY_GET_URL, {
         data: {
-          pid: p,
+          temp: p,
           openid: u.openid
         }
       })

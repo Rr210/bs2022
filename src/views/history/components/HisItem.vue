@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-06 18:22:11
+ * @LastEditTime: 2022-03-18 13:45:39
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
@@ -58,7 +58,7 @@
           square
           type="danger"
           text="删除"
-          @click="deleteClick(hispid)"
+          @click="deleteClick(hispid,hisbeforepic)"
         />
       </div>
     </template>
@@ -149,8 +149,8 @@ export default {
       proxyRef.open('right')
     }
     // 删除事件
-    const deleteClick = function (pid) {
-      proxy.$emit('deletepid', pid)
+    const deleteClick = function (pid, pic) {
+      proxy.$emit('deletepid', { pid, pic: pic.split('/')[pic.split('/').length - 1] })
     }
     const detailClick = function(i) {
       proxy.$emit('detailpid', i)
