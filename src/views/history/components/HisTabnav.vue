@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:48:46
+ * @LastEditTime: 2022-03-19 16:22:19
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -163,11 +163,6 @@ export default {
       }
       console.log(res)
     }
-    // 展示详情操作
-    // const showItemPest = function (index) {
-    //   isshowpest.value = !isshowpest.value
-    //   // picindex.value = itemLists.value[index]
-    // }
     // 详情查看记录
     const ItemLists = ref([])
     const detailHisRecord = function (index) {

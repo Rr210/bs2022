@@ -4,19 +4,19 @@
  * @Date: 2022-01-06 14:55:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 14:28:32
+ * @LastEditTime: 2022-03-19 16:38:43
  * @LastEditors: harry
 -->
 <template>
-  <transition name="van-slide-down">
-    <div class="item_wrap">
-      <div class="item_pic">
-        <img :src="picUrl" :alt="itemText" :title="itemText" srcset />
-      </div>
-      <div class="item_text">{{ itemText }}</div>
-      <van-tag class="tag-mask" mark type="primary">{{ catePest.substring(0,2) }}</van-tag>
+  <div class="item_wrap">
+    <div class="item_pic" :style="`animation: zoomIn .${index + 4}s linear`">
+      <img :src="picUrl" :alt="itemText" :title="itemText" srcset />
     </div>
-  </transition>
+    <div class="item_text">{{ itemText }}</div>
+    <van-tag class="tag-mask" mark type="primary">{{
+      catePest.substring(0, 2)
+    }}</van-tag>
+  </div>
 </template>
 
 <script>
@@ -37,12 +37,14 @@ export default {
       type: String,
       required: true,
       default: ''
+    },
+    index: {
+      type: Number,
+      required: true,
+      default: 0
     }
   },
-  setup(props, context) {
-
-  }
-
+  setup(props, context) {}
 }
 </script>
 
@@ -55,6 +57,7 @@ export default {
   align-items: center;
   width: 26%;
   height: 110px;
+  // animation: zoomIn 0.5s linear;
   .item_pic {
     width: 100%;
     height: 70%;

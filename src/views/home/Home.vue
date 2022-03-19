@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:20:02
+ * @LastEditTime: 2022-03-19 16:36:02
  * @LastEditors: harry
 -->
 <template>
@@ -61,6 +61,7 @@
             :pic-url="'images/' + i.pest_name + '.jpg'"
             :item-text="i.pest_name"
             :cate-pest="i.base_cate"
+            :index="index"
             @click="showItemPest(index)"
           ></item-pest>
         </div>

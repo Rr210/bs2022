@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 15:22:12
+ * @LastEditTime: 2022-03-19 16:05:55
  * @LastEditors: harry
 -->
 <template>
@@ -51,6 +51,7 @@
           <div class="r_pre r_pre_1">{{ resPic.res_total }}种</div>
           <div class="r_pre">Speed</div>
           <div class="r_pre r_pre_1">{{ resPic.time_count }}</div>
+          <slide-lr v-if="resPic.res_total > 1"></slide-lr>
         </div>
       </div>
 
@@ -111,10 +112,11 @@ import { uploadPic } from '@/utils/service/main.js'
 import IconMain from './components/IconMain.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import SlideLr from './components/SlideLr.vue'
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
-  components: { IconMain, Swiper, SwiperSlide },
+  components: { IconMain, Swiper, SwiperSlide, SlideLr },
   setup() {
     const stateTemp = reactive({
       isshow: false,
@@ -276,6 +278,7 @@ export default {
   }
   .pre_res_2 {
     // text-align: center;
+    position: relative;
     flex: 1;
     .r_pre {
       padding: 10px;
@@ -289,7 +292,7 @@ export default {
 }
 .pic-2 {
   background-color: var(--pageBg);
-  box-shadow: 0 -2px 10px 0 rgba(204, 204, 204, 0.534);
+  box-shadow: 0 -2px 10px 0 var(--mainpic2boxshadow);
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   padding-bottom: 132px;

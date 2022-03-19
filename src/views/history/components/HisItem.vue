@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:28:11
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:43:20
+ * @LastEditTime: 2022-03-19 16:23:21
  * @FilePath: \vant-u\src\views\history\components\HisItem.vue
 -->
 <template>
@@ -191,6 +191,7 @@ export default {
   // background-color: #ccc;
   border-radius: 10px;
   padding: 5px;
+  animation: fadeIn 1s linear;
   .his-item-1 {
     flex: 1.5;
     display: flex;

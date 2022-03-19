@@ -19,5 +19,7 @@
   --mainCardBg: rgba(0, 0, 0, 0.71);
   --blockCardBg: rgba(16, 18, 27, 0.4);
   --blockCardColor: #22eb8e;
-  --btnFunctionBg: rgba(39, 41, 45, 0.897);
+  --btnFunctionBg: rgba(39, 41, 45, 0.95);
+  --mainpic2boxshadow: rgba(0, 0, 0, 0.3);
+  --topbtnColor: #f3f2f2;
 }

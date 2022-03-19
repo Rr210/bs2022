@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:16:49
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 15:11:18
+ * @LastEditTime: 2022-03-19 15:36:03
  * @FilePath: \vant-u\README.md
 -->
 ## 仓库简介
@@ -98,56 +98,34 @@
     │  
     ├─assets
     │  └─css
-    │      │  reset.css
-    │      │  reset.less
-    │      │  themevars.css
-    │      │  themevars.less
     │      │  
     │      ├─font
-    │      │      BY-Full-of-care-2.ttf
     │      │      
     │      └─icon
-    │              iconfont.css
-    │              iconfont.ttf
     │              
     ├─components
     │      CloseBtn.vue
     │      ShowPest.vue
     │      
     ├─router
-    │      index.js
     │      
     ├─store
-    │  │  index.js
     │  │  
     │  └─login
-    │          actions.js
-    │          moudles.js
-    │          mutations.js
-    │          state.js
     │          
     ├─utils
     │  │  http.js
     │  │  vantui.js
     │  │  
     │  ├─api
-    │  │      urlapi.js
     │  │      
     │  ├─content
-    │  │      cate.js
     │  │      
     │  ├─serct
-    │  │      base64.js
-    │  │      cookierule.js
     │  │      
     │  ├─service
-    │  │      history.js
-    │  │      home.js
-    │  │      login.js
-    │  │      main.js
     │  │      
     │  └─tool
-    │          debounce.js
     │          
     └─views
         │  Tabbar.vue

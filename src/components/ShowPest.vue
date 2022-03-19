@@ -4,27 +4,25 @@
  * @Date: 2022-01-07 16:22:18
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-09 16:01:35
+ * @LastEditTime: 2022-03-19 17:19:27
  * @LastEditors: harry
 -->
 <template>
-  <div class="block">
+  <div class="block" :style="`width:${WidthContent};height:${HeightContent};`">
     <div class="close-btn">
-      <close-btn></close-btn>
+      <close-btn @screen="fullScreen"></close-btn>
     </div>
     <div class="img_1">
       <div class="item-1" @click="prewOne(picurlbg)">
         <img :src="picurlbg" alt srcset class="bg-img" />
       </div>
       <div class="item_pest">
-        <div class="icon_item_pest" name="smile-o">{{
-          pestname
-        }}</div>
+        <div class="icon_item_pest" name="smile-o">{{ pestname }}</div>
         <div class="icon_item_pest" name="fire-o">{{ basecate }}</div>
         <div class="icon_item_pest" name="label-o">{{ catesk }}</div>
       </div>
     </div>
-    <div class="item_pest_w">
+    <div class="item_pest_w" :style="`max-height:${MaxHeight}`">
       <van-divider :style="driverStyle">危害草药</van-divider>
       <div class="icon_item_pest">{{ harmhost }}</div>
       <van-divider :style="driverStyle">危害特点</van-divider>
@@ -36,7 +34,7 @@
 </template>
 
 <script>
-import { computed } from '@vue/reactivity'
+import { computed, reactive, toRefs } from '@vue/reactivity'
 import { ImagePreview } from 'vant'
 import CloseBtn from './CloseBtn.vue'
 export default {
@@ -89,8 +87,29 @@ export default {
         })
       }
     }
+    // 全屏显示
+    const StyleCon = reactive({
+      WidthContent: '80vw',
+      MaxHeight: '8rem',
+      HeightContent: '80%',
+      flag: false
+    })
+    const fullScreen = function () {
+      StyleCon.flag = !StyleCon.flag
+      if (StyleCon.flag) {
+        StyleCon.WidthContent = '100vw'
+        StyleCon.HeightContent = '100vh'
+        StyleCon.MaxHeight = '100vh'
+      } else {
+        StyleCon.WidthContent = '80vw'
+        StyleCon.HeightContent = '80%'
+        StyleCon.MaxHeight = '8rem'
+      }
+    }
     return {
+      ...toRefs(StyleCon),
       driverStyle,
+      fullScreen,
       prewOne
     }
   }
@@ -99,6 +118,7 @@ export default {
 
 <style lang="less" scoped>
 .img_1 {
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,8 +162,8 @@ export default {
 .close-btn {
   position: absolute;
   top: 2px;
-  right: 0px;
-  width: 27px;
+  right: 2px;
+  width: 60px;
   // height: 28px;
   // z-index: 99999;
 }
