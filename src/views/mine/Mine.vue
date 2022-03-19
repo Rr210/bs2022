@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:05:35
+ * @LastEditTime: 2022-03-19 14:02:07
  * @LastEditors: harry
 -->
 <template>
@@ -93,15 +93,15 @@
 
 <script>
 import { computed, onMounted, reactive, toRefs } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 export default {
   setup() {
-    const route = useRoute()
+    const router = useRouter()
     const Store = useStore()
     const signin = function () {
       localStorage.clear()
-      route.replace('/login')
+      router.replace('/login')
     }
     // 退出登录
     const layout = function () {

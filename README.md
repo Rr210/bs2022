@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:16:49
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 13:58:30
+ * @LastEditTime: 2022-03-19 15:11:18
  * @FilePath: \vant-u\README.md
 -->
 ## 仓库简介
@@ -55,6 +55,129 @@
 >待写
 ### 前端配置
 
+1. 使用框架：`vue3+vant3`
+2. 安装node.js
+3. 当前文件下`npm install`安装环境
 ### 后端配置
 
+1. 使用语言:python 版本:`3.8.5`,工具`pycharm`
+2. 文件夹`medicine`为后端文件，暂未公开
+3. 环境安装 `pip install -r requirements.txt`
+
 ### 数据库配置
+
+1. 使用数据库：mysql 版本：`8.0.25`
+2. 数据库文件 `back.sql`,暂未公开
+
+
+## 前端项目结构
+
+```
+│  .env.dev
+│  .env.pro
+│  postcss.config.js
+│  
+├─public
+│  │  
+│  ├─banner
+│  │      
+│  ├─css
+│  │  ├─img
+│  │  │  └─main
+│  │  │          
+│  │  ├─loading
+│  │  │      
+│  │  ├─skin
+│  │  │      
+│  │  └─svg
+│  └─images
+│          
+└─src
+    │  App.vue
+    │  main.js
+    │  
+    ├─assets
+    │  └─css
+    │      │  reset.css
+    │      │  reset.less
+    │      │  themevars.css
+    │      │  themevars.less
+    │      │  
+    │      ├─font
+    │      │      BY-Full-of-care-2.ttf
+    │      │      
+    │      └─icon
+    │              iconfont.css
+    │              iconfont.ttf
+    │              
+    ├─components
+    │      CloseBtn.vue
+    │      ShowPest.vue
+    │      
+    ├─router
+    │      index.js
+    │      
+    ├─store
+    │  │  index.js
+    │  │  
+    │  └─login
+    │          actions.js
+    │          moudles.js
+    │          mutations.js
+    │          state.js
+    │          
+    ├─utils
+    │  │  http.js
+    │  │  vantui.js
+    │  │  
+    │  ├─api
+    │  │      urlapi.js
+    │  │      
+    │  ├─content
+    │  │      cate.js
+    │  │      
+    │  ├─serct
+    │  │      base64.js
+    │  │      cookierule.js
+    │  │      
+    │  ├─service
+    │  │      history.js
+    │  │      home.js
+    │  │      login.js
+    │  │      main.js
+    │  │      
+    │  └─tool
+    │          debounce.js
+    │          
+    └─views
+        │  Tabbar.vue
+        │  
+        ├─history
+        │  │  History.vue
+        │  │  
+        │  └─components
+        │          DetailPest.vue
+        │          HisItem.vue
+        │          HisTabnav.vue
+        │          
+        ├─home
+        │  │  Home.vue
+        │  │  
+        │  └─components
+        │          ItemPest.vue
+        │          
+        ├─login
+        │  │  Login.vue
+        │  │  
+        │  └─components
+        │          Auth.vue
+        │          
+        ├─main
+        │  │  Mains.vue
+        │  │  
+        │  └─components
+        │          IconMain.vue
+        │          
+        └─mine
+                Mine.vue
+```

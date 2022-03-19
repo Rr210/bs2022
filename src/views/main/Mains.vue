@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:19:12
+ * @LastEditTime: 2022-03-19 15:22:12
  * @LastEditors: harry
 -->
 <template>
@@ -106,11 +106,11 @@ import 'swiper/components/pagination/pagination.less'
 // swiper 必备组件
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { onMounted, computed, reactive, toRefs } from '@vue/runtime-core'
-import { INIT_CONFIG_URL, UPLOAD_PIC_URL } from '../../utils/api/urlapi'
-import { loginApi, uploadPic } from '@/utils/service/main.js'
+import { UPLOAD_PIC_URL } from '../../utils/api/urlapi'
+import { uploadPic } from '@/utils/service/main.js'
 import IconMain from './components/IconMain.vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
@@ -123,7 +123,7 @@ export default {
       resPic: {}
     })
     const Store = useStore()
-    const route = useRoute()
+    const router = useRouter()
     const stateLogin = computed(() => {
       return Store.state.isLogin
     })
@@ -169,16 +169,7 @@ export default {
     // 登录
     const signin = function () {
       localStorage.clear()
-      route.replace('/login')
-    }
-    const getSignature = async function () {
-      const { data: res } = await loginApi(INIT_CONFIG_URL)
-      if (res.status_code === 1) {
-        console.log(res)
-        const { noncestr, signature, timestamp } = res.TK
-        console.log(noncestr, signature, timestamp)
-        // initTk(timestamp, noncestr, signature)
-      }
+      router.replace('/login')
     }
     const driverStyle = computed(() => {
       return {
@@ -198,6 +189,15 @@ export default {
       stateTemp.imgpre = ''
       stateTemp.resPic = []
     }
+    // const getSignature = async function () {
+    //   const { data: res } = await loginApi(INIT_CONFIG_URL)
+    //   if (res.status_code === 1) {
+    //     console.log(res)
+    //     const { noncestr, signature, timestamp } = res.TK
+    //     console.log(noncestr, signature, timestamp)
+    //     // initTk(timestamp, noncestr, signature)
+    //   }
+    // }
     // const initTk = function (timestamp, nonceStr, signature) {
     //   proxy.$wx.config({
     //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -244,10 +244,10 @@ export default {
     //   // }
     // }, 500, true)
     onMounted(() => {
-      getSignature()
+      // getSignature()
     })
     return {
-      getSignature,
+      // getSignature,
       cancelMain,
       // uploadPic,
       stateLogin,

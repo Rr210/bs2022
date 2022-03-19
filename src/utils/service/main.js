@@ -3,8 +3,8 @@
  * @Date: 2022-03-18 14:33:50
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:00:37
- * @FilePath: \vant-u\src\utils\serve\main.js
+ * @LastEditTime: 2022-03-18 16:13:38
+ * @FilePath: \vant-u\src\utils\service\main.js
  */
 import axios from '@/utils/http.js'
 // 登录验证
@@ -16,6 +16,6 @@ export function uploadPic(requestAPI, fromdata, header) {
   return axios.post(requestAPI, fromdata, header)
 }
 // 搜索昆虫结果
-export function searchPest(requestAPI) {
-  return axios.get(requestAPI)
+export function searchPest(requestAPI, params) {
+  return axios.get(requestAPI, params)
 }
