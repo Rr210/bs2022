@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 16:05:55
+ * @LastEditTime: 2022-03-23 16:39:21
  * @LastEditors: harry
 -->
 <template>
@@ -113,6 +113,8 @@ import IconMain from './components/IconMain.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import SlideLr from './components/SlideLr.vue'
+// 进行图片的压缩 压缩的等级为0.6
+import Compressor from 'compressorjs'
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
@@ -148,21 +150,28 @@ export default {
       stateTemp.imgpre = stateLogin.value ? src : ''
       console.log(e)
     }
-    const uploadpicserve = async function (item) {
+    const uploadpicserve = function (item) {
       const UID = Store.state.userinfo.openid
       console.log(UID)
       if (UID) {
         const formData = new FormData()
         console.log(item)
-        formData.append('inputpic', item)
-        formData.append('appid', UID)
-        const { data: res } = await uploadPic(UPLOAD_PIC_URL, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        return new Compressor(item, {
+          quality: 0.6, // 压缩质量
+          checkOrientation: false, // 图片翻转，默认为false
+          success: async (result) => {
+            formData.append('inputpic', result)
+            formData.append('appid', UID)
+            const { data: res } = await uploadPic(UPLOAD_PIC_URL, formData, {
+              headers: { 'Content-Type': 'multipart/form-data' }
+            })
+            stateTemp.imgres =
+              process.env.VUE_APP_STATIC +
+              res.result.out_file.split('static/')[1]
+            stateTemp.resPic = res.result.s_n_n
+            console.log(res)
+          }
         })
-        stateTemp.imgres =
-          process.env.VUE_APP_STATIC + res.result.out_file.split('static/')[1]
-        stateTemp.resPic = res.result.s_n_n
-        console.log(res)
       } else {
         stateTemp.isshow = true
       }
