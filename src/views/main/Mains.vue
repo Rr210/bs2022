@@ -4,11 +4,10 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-23 16:39:21
+ * @LastEditTime: 2022-03-23 17:53:38
  * @LastEditors: harry
 -->
 <template>
-  <!-- <van-uploader :after-read="afterRead" /> -->
   <div class="pic-mains">
     <div v-if="!imgpre">
       <van-uploader :before-read="beforeRead" @change="getPicture($event)">
@@ -106,7 +105,7 @@ import 'swiper/components/pagination/pagination.less'
 
 // swiper 必备组件
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { onMounted, computed, reactive, toRefs } from '@vue/runtime-core'
+import { computed, reactive, toRefs } from '@vue/runtime-core'
 import { UPLOAD_PIC_URL } from '../../utils/api/urlapi'
 import { uploadPic } from '@/utils/service/main.js'
 import IconMain from './components/IconMain.vue'
@@ -254,9 +253,6 @@ export default {
     //   //   isshow.value = true
     //   // }
     // }, 500, true)
-    onMounted(() => {
-      // getSignature()
-    })
     return {
       // getSignature,
       cancelMain,

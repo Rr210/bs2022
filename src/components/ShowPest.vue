@@ -4,7 +4,7 @@
  * @Date: 2022-01-07 16:22:18
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 17:19:27
+ * @LastEditTime: 2022-03-25 09:56:44
  * @LastEditors: harry
 -->
 <template>
@@ -97,9 +97,9 @@ export default {
     const fullScreen = function () {
       StyleCon.flag = !StyleCon.flag
       if (StyleCon.flag) {
-        StyleCon.WidthContent = '100vw'
-        StyleCon.HeightContent = '100vh'
-        StyleCon.MaxHeight = '100vh'
+        StyleCon.WidthContent = '99vw'
+        StyleCon.HeightContent = '99vh'
+        StyleCon.MaxHeight = '77vh'
       } else {
         StyleCon.WidthContent = '80vw'
         StyleCon.HeightContent = '80%'

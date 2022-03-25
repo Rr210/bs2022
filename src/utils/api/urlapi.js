@@ -3,17 +3,8 @@
  * @Date: 2021-12-26 21:20:54
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-03 13:35:07
+ * @LastEditTime: 2022-03-23 17:50:33
  * @FilePath: \vant-u\src\utils\api\urlapi.js
- */
-/***
- * @Description:
- * @Author: Harry
- * @Date: 2021-12-26 21:20:54
- * @Url: https://u.mr90.top
- * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-12 17:05:26
- * @LastEditors: Harry
  */
 const INIT_CONFIG_URL = '/v5/api'
 const INIT_SIGN_URL = '/v5/wxauth2'
