@@ -1,0 +1,18 @@
+:root {
+  --LightThemeColor: #585ddd;
+  --van-blue: #585ddd !important;
+  --van-dropdown-menu-option-active-color: #585ddd !important;
+  --van-dropdown-menu-title-active-text-color: #585ddd !important;
+  --pageBg: #fff;
+  --van-tabs-bottom-bar-color: #585ddd !important;
+  --van-nav-bar-o: #ecf9ff;
+  --van-pagination-height: 0.56rem !important;
+  --card-history: #f6faff;
+  --mainbg: #f6f6f6;
+  --mainCardBg: rgba(255, 255, 255, 0.723);
+  --blockCardBg: rgba(255, 255, 255, 0.42);
+  --blockCardColor: #080824;
+  --btnFunctionBg: rgba(255, 255, 255, 0.96);
+  --mainpic2boxshadow: rgba(204, 204, 204, 0.534);
+  --topbtnColor: #2c2c2c;
+}

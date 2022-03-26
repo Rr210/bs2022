@@ -1,0 +1,25 @@
+:root {
+  --LightThemeColor: #ffbb00;
+  --van-dropdown-menu-option-active-color: #ffbb00 !important;
+  --van-dropdown-menu-title-active-text-color: #ffbb00 !important;
+  --van-primary-color: #ffbb00 !important;
+  --pageBg: #27292d;
+  --van-tabbar-item-text-color: var(--van-white) !important;
+  --van-tabbar-background-color: #23272a !important;
+  --van-background-color-light: #23272a !important;
+  --van-background-color: #23272a !important;
+  --van-text-color: var(--van-white) !important;
+  --van-border-color: #424242 !important;
+  --van-tabs-bottom-bar-color: #ffbb00 !important;
+  --van-tab-text-color: #ccc !important;
+  --van-overlay-background-color: rgba(122, 122, 122, 0.48) !important;
+  --van-pagination-height: 0.56rem !important;
+  --card-history: #313334;
+  --mainbg: #313334;
+  --mainCardBg: rgba(0, 0, 0, 0.71);
+  --blockCardBg: rgba(16, 18, 27, 0.4);
+  --blockCardColor: #22eb8e;
+  --btnFunctionBg: rgba(39, 41, 45, 0.95);
+  --mainpic2boxshadow: rgba(0, 0, 0, 0.3);
+  --topbtnColor: #f3f2f2;
+}
