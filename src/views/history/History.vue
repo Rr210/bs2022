@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 20:00:32
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 14:01:32
+ * @LastEditTime: 2022-03-25 11:13:52
  * @LastEditors: harry
 -->
 <template>
@@ -26,9 +26,10 @@ import {
   computed,
   onMounted
 } from '@vue/runtime-core'
-import HisTabnav from './components/HisTabnav.vue'
+import { defineAsyncComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+const HisTabnav = defineAsyncComponent(() => import('./components/HisTabnav.vue'))
 export default {
   components: {
     HisTabnav

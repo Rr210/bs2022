@@ -4,7 +4,7 @@
  * @Date: 2021-12-27 12:51:06
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 15:36:57
+ * @LastEditTime: 2022-03-25 11:03:12
  * @LastEditors: harry
 -->
 <template>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { CONGIG_DETAILS } from '../../utils/api/urlapi'
+import { CONGIG_DETAILS } from '@/utils/api/urlapi'
 export default {
   setup() {
     const wxauth2 = async function () {

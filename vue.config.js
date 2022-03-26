@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:38:35
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-05 13:36:04
+ * @LastEditTime: 2022-03-25 12:10:22
  * @FilePath: \vant-u\vue.config.js
  */
 /***
@@ -18,7 +18,9 @@
 // vue.config.js
 const path = require('path')
 // 定制主题
+const webpack = require('webpack')
 const themePath = path.join(__dirname, './src/assets/css/themevars.less')
+const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = {
   publicPath: './', // 文件加载设置为相对路径
   outputDir: './medicine/static/',
@@ -38,6 +40,18 @@ module.exports = {
         args[0].title = '中草药害虫识别'
         return args
       })
+    if (process.env.NODE_ENV === 'pro') {
+      config.plugin('compressionPlugin')
+        .use(new CompressionPlugin({
+          test: /\.js$|\.html$|\.css/, // 匹配文件名
+          threshold: 10240, // 对超过10k的数据压缩
+          deleteOriginalAssets: false // 不删除源文件
+        }),
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 5,
+          minChunkSize: 100
+        }))
+    }
   },
   devServer: {
     open: false, // 项目启动时是否自动打开浏览器，我这里设置为false,不打开，true表示打开

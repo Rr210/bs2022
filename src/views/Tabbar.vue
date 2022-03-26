@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 14:17:57
+ * @LastEditTime: 2022-03-25 11:00:35
  * @LastEditors: harry
 -->
 <template>
@@ -47,7 +47,7 @@
     <van-tabbar-item icon="clock-o" replace :to="{ name: 'history' }" badge="5"
       >历史</van-tabbar-item
     >
-    <van-tabbar-item icon="setting-o" replace :to="{ name: 'mine' }" badge="20"
+    <van-tabbar-item icon="setting-o" replace :to="{ name: 'mine' }" dot
       >设置</van-tabbar-item
     >
   </van-tabbar>

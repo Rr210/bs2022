@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 16:22:19
+ * @LastEditTime: 2022-03-25 11:14:30
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -66,14 +66,14 @@
 </template>
 
 <script>
-import { computed, onMounted, provide, reactive, ref, toRefs } from 'vue'
-import HisItem from './HisItem.vue'
+import { computed, onMounted, provide, reactive, ref, toRefs, defineAsyncComponent } from 'vue'
 import { HISTORY_GET_URL, SEARCH_PEST_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { ImagePreview, Dialog, Toast } from 'vant'
-import DetailPest from './DetailPest.vue'
-import ShowPest from '@/components/ShowPest.vue'
 import { searchPest, deleteHistory, historyGet } from '@/utils/service/history'
+const DetailPest = defineAsyncComponent(() => import('./DetailPest.vue'))
+const HisItem = defineAsyncComponent(() => import('./HisItem.vue'))
+const ShowPest = defineAsyncComponent(() => import('@/components/ShowPest.vue'))
 
 export default {
   name: 'HisTabnav',

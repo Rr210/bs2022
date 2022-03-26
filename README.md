@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:16:49
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 15:36:03
+ * @LastEditTime: 2022-03-25 11:45:32
  * @FilePath: \vant-u\README.md
 -->
 ## 仓库简介
@@ -58,6 +58,8 @@
 1. 使用框架：`vue3+vant3`
 2. 安装node.js
 3. 当前文件下`npm install`安装环境
+#### 前端优化
+1. 白屏优化：组件的懒加载,开启gzip压缩---优化效果使用后将首页的访问速度从12s优化到1.68s
 ### 后端配置
 
 1. 使用语言:python 版本:`3.8.5`,工具`pycharm`

@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-23 17:53:38
+ * @LastEditTime: 2022-03-25 11:13:21
  * @LastEditors: harry
 -->
 <template>
@@ -102,18 +102,18 @@
 <script>
 import 'swiper/swiper.less'
 import 'swiper/components/pagination/pagination.less'
-
+import { defineAsyncComponent } from 'vue'
 // swiper 必备组件
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { computed, reactive, toRefs } from '@vue/runtime-core'
 import { UPLOAD_PIC_URL } from '../../utils/api/urlapi'
 import { uploadPic } from '@/utils/service/main.js'
-import IconMain from './components/IconMain.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import SlideLr from './components/SlideLr.vue'
 // 进行图片的压缩 压缩的等级为0.6
 import Compressor from 'compressorjs'
+const SlideLr = defineAsyncComponent(() => import('./components/SlideLr.vue'))
+const IconMain = defineAsyncComponent(() => import('./components/IconMain.vue'))
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
