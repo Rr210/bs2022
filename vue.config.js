@@ -18,7 +18,7 @@
 // vue.config.js
 const path = require('path')
 // 定制主题
-const webpack = require('webpack')
+// const webpack = require('webpack')
 const themePath = path.join(__dirname, './src/assets/css/themevars.less')
 const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = {
@@ -46,10 +46,6 @@ module.exports = {
           test: /\.js$|\.html$|\.css/, // 匹配文件名
           threshold: 10240, // 对超过10k的数据压缩
           deleteOriginalAssets: false // 不删除源文件
-        }),
-        new webpack.optimize.LimitChunkCountPlugin({
-          maxChunks: 5,
-          minChunkSize: 100
         }))
     }
   },

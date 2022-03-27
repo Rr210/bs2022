@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-25 11:00:35
+ * @LastEditTime: 2022-03-27 16:55:39
  * @LastEditors: harry
 -->
 <template>
@@ -37,14 +37,14 @@
     </template>
   </van-nav-bar>
   <router-view />
-  <van-tabbar v-model="active" @change="onChange" route>
+  <van-tabbar v-model="active" route>
     <van-tabbar-item icon="home-o" replace :to="{ name: 'home' }"
       >首页</van-tabbar-item
     >
     <van-tabbar-item icon="scan" replace :to="{ name: 'main' }" dot
       >识别</van-tabbar-item
     >
-    <van-tabbar-item icon="clock-o" replace :to="{ name: 'history' }" badge="5"
+    <van-tabbar-item icon="clock-o" replace :to="{ name: 'history' }" :badge="dotnum"
       >历史</van-tabbar-item
     >
     <van-tabbar-item icon="setting-o" replace :to="{ name: 'mine' }" dot
@@ -69,9 +69,6 @@ export default {
         { text: '退出', icon: 'exchange', index: 1 }
       ]
     })
-    const onChange = function () {
-      // console.log(active.value)
-    }
     // 头像图片下拉框
     const clickTheme = debounceMerge(
       function () {
@@ -87,17 +84,20 @@ export default {
     const onSelect = function (action) {
       console.log(action)
       if (action.index === 1) {
-        Store.dispatch('layoutPage')
+        Store.dispatch('login/layoutPage')
       }
     }
     const isLogined = function (userinfo) {
-      Store.dispatch('saveLoginState', { userinfo })
+      Store.dispatch('login/saveLoginState', { userinfo })
     }
     const isloginstate = computed(() => {
-      return Store.state.isLogin
+      return Store.state.login.isLogin
+    })
+    const dotnum = computed(() => {
+      return Store.state.history.historyNum
     })
     const userPic = computed(() => {
-      return Store.state.userinfo
+      return Store.state.login.userinfo
     })
     onMounted(() => {
       const userinfo = localStorage.getItem('userinfo')
@@ -106,9 +106,9 @@ export default {
       }
     })
     return {
-      onChange,
       clickTheme,
       userPic,
+      dotnum,
       isloginstate,
       onSelect,
       ...toRefs(stateTemp)

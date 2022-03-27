@@ -1,15 +1,14 @@
-import axios from 'axios'
-import { LOGIN_STATE_URL } from '@/utils/api/urlapi'
-
-/***
- * @Description:
+/*
  * @Author: Harry
  * @Date: 2022-01-05 10:50:41
- * @Url: https://u.mr90.top
- * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 15:15:54
- * @LastEditors: Harry
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-03-27 16:50:24
+ * @FilePath: \vant-u\src\store\login\actions.js
  */
+import axios from '@/utils/http'
+import { LOGIN_STATE_URL } from '@/utils/api/urlapi'
+
 export const saveLoginState = function (context, data) {
   return new Promise(() => {
     const openid = data.userinfo.openid

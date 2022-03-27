@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-19 14:02:07
+ * @LastEditTime: 2022-03-27 16:47:14
  * @LastEditors: harry
 -->
 <template>
@@ -51,7 +51,7 @@
         <div class="icon_i">
           <img src="css/img/main/sc.png" />
         </div>
-        <div class="title_w">我的收藏</div>
+        <div class="title_w">历史识别</div>
       </div>
       <div class="item_f">
         <div class="icon_i">
@@ -105,16 +105,15 @@ export default {
     }
     // 退出登录
     const layout = function () {
-      Store.dispatch('layoutPage')
+      Store.dispatch('login/layoutPage')
       console.log('已退出')
     }
     // 判断登录的情况
     const isLogined = function (userinfo) {
-      console.log(Store.state)
-      Store.dispatch('saveLoginState', { userinfo })
+      Store.dispatch('login/saveLoginState', { userinfo })
     }
     const isloginstate = computed(() => {
-      return Store.state.isLogin
+      return Store.state.login.isLogin
     })
     const hasUser = reactive({
       hasUserInfo: {},

@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-25 11:13:21
+ * @LastEditTime: 2022-03-27 16:40:12
  * @LastEditors: harry
 -->
 <template>
@@ -112,8 +112,11 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // 进行图片的压缩 压缩的等级为0.6
 import Compressor from 'compressorjs'
+import { Toast } from 'vant'
 const SlideLr = defineAsyncComponent(() => import('./components/SlideLr.vue'))
-const IconMain = defineAsyncComponent(() => import('./components/IconMain.vue'))
+const IconMain = defineAsyncComponent(() =>
+  import('./components/IconMain.vue')
+)
 // CONGIG_DETAILS
 // import debounceMerge from '../../utils/tool/debounce'
 export default {
@@ -128,7 +131,7 @@ export default {
     const Store = useStore()
     const router = useRouter()
     const stateLogin = computed(() => {
-      return Store.state.isLogin
+      return Store.state.login.isLogin
     })
     const beforeRead = (file) => {
       console.log(stateLogin.value)
@@ -150,7 +153,7 @@ export default {
       console.log(e)
     }
     const uploadpicserve = function (item) {
-      const UID = Store.state.userinfo.openid
+      const UID = Store.state.login.userinfo.openid
       console.log(UID)
       if (UID) {
         const formData = new FormData()
@@ -161,14 +164,21 @@ export default {
           success: async (result) => {
             formData.append('inputpic', result)
             formData.append('appid', UID)
-            const { data: res } = await uploadPic(UPLOAD_PIC_URL, formData, {
-              headers: { 'Content-Type': 'multipart/form-data' }
-            })
-            stateTemp.imgres =
-              process.env.VUE_APP_STATIC +
-              res.result.out_file.split('static/')[1]
-            stateTemp.resPic = res.result.s_n_n
-            console.log(res)
+            try {
+              const { data: res } = await uploadPic(UPLOAD_PIC_URL, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+              })
+              stateTemp.imgres =
+                process.env.VUE_APP_STATIC +
+                res.result.out_file.split('static/')[1]
+              stateTemp.resPic = res.result.s_n_n
+              console.log(res)
+            } catch (error) {
+              stateTemp.imgres = ''
+              stateTemp.imgpre = ''
+              stateTemp.resPic = []
+              Toast.fail(error)
+            }
           }
         })
       } else {

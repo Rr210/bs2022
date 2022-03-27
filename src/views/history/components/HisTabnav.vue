@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-25 11:14:30
+ * @LastEditTime: 2022-03-27 16:54:45
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -66,19 +66,33 @@
 </template>
 
 <script>
-import { computed, onMounted, provide, reactive, ref, toRefs, defineAsyncComponent } from 'vue'
+import {
+  computed,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  defineAsyncComponent,
+  watch
+  // watch
+} from 'vue'
 import { HISTORY_GET_URL, SEARCH_PEST_URL } from '@/utils/api/urlapi'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { ImagePreview, Dialog, Toast } from 'vant'
 import { searchPest, deleteHistory, historyGet } from '@/utils/service/history'
+import { useStore } from 'vuex'
 const DetailPest = defineAsyncComponent(() => import('./DetailPest.vue'))
 const HisItem = defineAsyncComponent(() => import('./HisItem.vue'))
-const ShowPest = defineAsyncComponent(() => import('@/components/ShowPest.vue'))
+const ShowPest = defineAsyncComponent(() =>
+  import('@/components/ShowPest.vue')
+)
 
 export default {
   name: 'HisTabnav',
   components: { HisItem, DetailPest, ShowPest },
   setup() {
+    const store = useStore()
     const stateTemp = reactive({
       value1: 'all',
       value2: 'b',
@@ -171,6 +185,9 @@ export default {
       stateTemp.disAfterpic =
         process.env.VUE_APP_URL + '/' + ItemLists.value[index].dis_after
     }
+    watch(ItemLists, (newValue, old) => {
+      store.dispatch('history/DotNumber', newValue.length)
+    })
     // 图片的预览问题
     // 处理图片的问题
     const handleItemLists = function (item) {
@@ -193,6 +210,7 @@ export default {
     return {
       ItemLists,
       handleJsonString,
+      // countDot,
       getResultPest,
       // showItemPest,
       detailHisRecord,
