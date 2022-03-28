@@ -4,11 +4,27 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-27 16:47:14
+ * @LastEditTime: 2022-03-28 17:18:15
  * @LastEditors: harry
 -->
 <template>
   <div class="main_w">
+    <van-popup v-model:show="isshow">
+      <About v-if="selectShowIndex === 1"></About>
+      <hai-bao
+        v-if="selectShowIndex === 2"
+        :hbbg="'images/' + randomPest[1] + '.jpg'"
+        :userpic="
+          !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
+        "
+        :username="hasUserInfo.nickname"
+        :pestname="randomPest.length > 0 ? randomPest[1] : ''"
+        :preconmea="randomPest.length > 0 ? randomPest[6] : ''"
+        @changeH="handleChangeEvent"
+      ></hai-bao>
+      <Contact v-if="selectShowIndex === 3"></Contact>
+    </van-popup>
+
     <div class="hd_w">
       <div class="img_w">
         <div class="img_w_1">
@@ -35,11 +51,11 @@
     </div>
     <!-- 中部设计开始 -->
     <div class="mid_w_share">
-      <div class="mid_item">
+      <div class="mid_item" @click="clickAbout(2)">
         <img src="css/img/main/ewm.png" />
         <div class="text_">分享海报</div>
       </div>
-      <div class="mid_item">
+      <div class="mid_item" @click="clickAbout(3)">
         <img class="" src="css/img/main/kf.png" />
         <div class="text_">联系我</div>
         <button class="contact" open-type="contact"></button>
@@ -63,7 +79,7 @@
         <div class="icon_i">
           <img src="css/img/main/ab.png" />
         </div>
-        <div class="title_w">关于程序</div>
+        <div class="title_w" @click="clickAbout(1)">关于程序</div>
       </div>
       <div class="item_f" bindtap="closeF">
         <div class="icon_i">
@@ -92,10 +108,23 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive, toRefs } from 'vue'
+import {
+  computed,
+  defineAsyncComponent,
+  onMounted,
+  reactive,
+  toRefs
+} from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { getRandom } from '@/utils/service/mine'
+import { RANDOM_PEST } from '@/utils/api/urlapi'
+import debounceMerge from '@/utils/tool/debounce'
+const About = defineAsyncComponent(() => import('@/components/About.vue'))
+const HaiBao = defineAsyncComponent(() => import('@/components/HaiBao.vue'))
+const Contact = defineAsyncComponent(() => import('@/components/Contact.vue'))
 export default {
+  components: { About, HaiBao, Contact },
   setup() {
     const router = useRouter()
     const Store = useStore()
@@ -112,13 +141,44 @@ export default {
     const isLogined = function (userinfo) {
       Store.dispatch('login/saveLoginState', { userinfo })
     }
+    // 关于程序
+    const hasUser = reactive({
+      hasUserInfo: {},
+      isHasUserinfo: false,
+      isshow: false,
+      selectShowIndex: 0,
+      randomPest: []
+    })
+    // 获取随机数据
+    const getRandomPest = debounceMerge(
+      async function () {
+        const userinfo = JSON.parse(localStorage.getItem('userinfo'))
+        const { data: res } = await getRandom(RANDOM_PEST, {
+          params: {
+            openid: userinfo.openid
+          }
+        })
+        console.log(res)
+        if (res.status_code === 1) {
+          hasUser.randomPest = res.data
+        }
+      },
+      300,
+      true
+    )
     const isloginstate = computed(() => {
       return Store.state.login.isLogin
     })
-    const hasUser = reactive({
-      hasUserInfo: {},
-      isHasUserinfo: false
-    })
+    const handleChangeEvent = function () {
+      getRandomPest()
+    }
+    const clickAbout = function (e) {
+      hasUser.isshow = !hasUser.isshow
+      hasUser.selectShowIndex = e
+      if (e === 2) {
+        getRandomPest()
+      }
+    }
     // 遮罩层关闭
     onMounted(() => {
       const stateUserinfo = localStorage.getItem('userinfo')
@@ -132,6 +192,8 @@ export default {
       signin,
       isloginstate,
       layout,
+      clickAbout,
+      handleChangeEvent,
       ...toRefs(hasUser)
     }
   }
@@ -244,7 +306,6 @@ button {
   height: 100%;
   padding-bottom: 55px;
   width: 100%;
-
 }
 
 // 头像设计开始
@@ -254,8 +315,7 @@ button {
   margin: 0 auto;
   height: 180px;
   background-color: var(--pageBg);
-  background: url(/css/img/main/beijings.png)
-    no-repeat;
+  background: url(/css/img/main/beijings.png) no-repeat;
   background-size: 100% 100%;
 }
 

@@ -3,7 +3,7 @@
  * @Date: 2022-03-18 14:33:50
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 16:13:38
+ * @LastEditTime: 2022-03-28 14:42:16
  * @FilePath: \vant-u\src\utils\service\main.js
  */
 import axios from '@/utils/http.js'

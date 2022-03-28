@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-27 16:55:39
+ * @LastEditTime: 2022-03-28 13:00:05
  * @LastEditors: harry
 -->
 <template>
@@ -94,7 +94,8 @@ export default {
       return Store.state.login.isLogin
     })
     const dotnum = computed(() => {
-      return Store.state.history.historyNum
+      const dot = Store.state.history.historyNum
+      return dot === 0 ? '' : dot
     })
     const userPic = computed(() => {
       return Store.state.login.userinfo
