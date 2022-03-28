@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-27 16:40:12
+ * @LastEditTime: 2022-03-28 19:58:29
  * @LastEditors: harry
 -->
 <template>
@@ -117,8 +117,6 @@ const SlideLr = defineAsyncComponent(() => import('./components/SlideLr.vue'))
 const IconMain = defineAsyncComponent(() =>
   import('./components/IconMain.vue')
 )
-// CONGIG_DETAILS
-// import debounceMerge from '../../utils/tool/debounce'
 export default {
   components: { IconMain, Swiper, SwiperSlide, SlideLr },
   setup() {
@@ -209,64 +207,8 @@ export default {
       stateTemp.imgpre = ''
       stateTemp.resPic = []
     }
-    // const getSignature = async function () {
-    //   const { data: res } = await loginApi(INIT_CONFIG_URL)
-    //   if (res.status_code === 1) {
-    //     console.log(res)
-    //     const { noncestr, signature, timestamp } = res.TK
-    //     console.log(noncestr, signature, timestamp)
-    //     // initTk(timestamp, noncestr, signature)
-    //   }
-    // }
-    // const initTk = function (timestamp, nonceStr, signature) {
-    //   proxy.$wx.config({
-    //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    //     appId: CONGIG_DETAILS.appId, // 必填，公众号的唯一标识
-    //     timestamp, // 必填，生成签名的时间戳
-    //     nonceStr, // 必填，生成签名的随机串
-    //     signature, // 必填，签名
-    //     jsApiList: [
-    //       'onMenuShareQZone',
-    //       'onMenuShareWeibo',
-    //       'chooseImage'
-    //     ] // 必填，需要使用的JS接口列表
-    //   })
-    //   proxy.$wx.ready(function () {
-    //     proxy.$wx.checkJsApi({
-    //       jsApiList: [
-    //         'onMenuShareQZone',
-    //         'onMenuShareWeibo',
-    //         'chooseImage'
-    //       ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-    //       success: function (res) {
-    //         console.log(res)
-    //         // 以键值对的形式返回，可用的api值true，不可用为false
-    //         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-    //       }
-    //     })
-    //     // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-    //   })
-    // }
-    // const uploadPic = debounceMerge(function () {
-    //   // console.log(stateLogin.value)
-    //   // if (stateLogin.value) {
-    //   //   proxy.$wx.chooseImage({
-    //   //     count: 1, // 默认9
-    //   //     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-    //   //     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-    //   //     success: function (res) {
-    //   //       console.log(res)
-    //   //       imgpre.value = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-    //   //     }
-    //   //   })
-    //   // } else {
-    //   //   isshow.value = true
-    //   // }
-    // }, 500, true)
     return {
-      // getSignature,
       cancelMain,
-      // uploadPic,
       stateLogin,
       driverStyle,
       driverStyle2,
