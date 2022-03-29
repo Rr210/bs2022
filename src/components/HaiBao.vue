@@ -3,7 +3,7 @@
  * @Date: 2022-03-28 13:57:14
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-28 20:44:59
+ * @LastEditTime: 2022-03-29 12:49:19
  * @FilePath: \vant-u\src\components\HaiBao.vue
 -->
 <template>
@@ -43,7 +43,7 @@
         <div class="time-hb">{{ timeM }} | {{ timeW }}</div>
         <div class="title-hb">害虫“{{ pestname }}”防治措施有哪些？</div>
         <div class="hb-con">{{ substring(preconmea) }}</div>
-        <div class="hb-ewm" @click="doCut">
+        <div class="hb-ewm" @click="cutDo">
           <img src="css/img/main/gzh.png" alt="" srcset="" />
           <div>点击二维码生成海报</div>
         </div>
@@ -54,8 +54,7 @@
 
 <script>
 import { computed, reactive, toRefs } from '@vue/reactivity'
-import html2canvas from 'html2canvas'
-import { Toast } from 'vant'
+import { doCut } from '@/utils/tool/html2cancas-c.js'
 export default {
   name: 'HaiBao',
   props: {
@@ -86,6 +85,7 @@ export default {
   emits: ['changeH'],
   setup(props, context) {
     const myDate = new Date()
+    // 处理星期
     const formatWeek = function (num) {
       const l = ['日', '一', '二', '三', '四', '五', '六']
       return '星期' + l[num]
@@ -106,67 +106,15 @@ export default {
     const changeHb = function () {
       context.emit('changeH')
     }
-
-    // 截图保存 仅支持pc端 和 普通浏览器 微信内置不兼容
-    const doCut = function () {
-      state.flag = false
+    // 截图功能
+    const cutDo = function () {
       const shareDom = document.querySelector('#capture')
-      console.log(shareDom.offsetHeight)
-      html2canvas(shareDom, {
-        dpi: window.devicePixelRatio * 2,
-        scale: 1,
-        allowTaint: true,
-        useCORS: true,
-        height: shareDom.offsetHeight,
-        width: shareDom.offsetWidth,
-        scrollY: 0,
-        scrollX: 0
-      }).then((canvas) => {
-        const img = new Image()
-        img.src = canvas.toDataURL('png')
-        img.setAttribute('crossOrigin', 'anonymous')
-        img.onload = function () {
-          const imgUrl = canvas.toDataURL('image/png')
-          // console.log(imgUrl)
-          state.imageUrl = imgUrl
-          Toast('海报已生成，长按后分享给好友')
-          // saveFile(imgUrl, 'test.png')
-          // 根据生成的图片地址imgUrl（base64）进行后续保存操作
-        }
-      })
+      doCut(shareDom, state)
     }
-    // 保存图片
-    // const saveFile = function (data, filename) {
-    //   const saveLink = document.createElementNS(
-    //     'http://www.w3.org/1999/xhtml',
-    //     'a'
-    //   )
-    //   saveLink.href = data
-    //   saveLink.download = filename
-    //   var event = document.createEvent('MouseEvents')
-    //   event.initMouseEvent(
-    //     'click',
-    //     true,
-    //     false,
-    //     window,
-    //     0,
-    //     0,
-    //     0,
-    //     0,
-    //     0,
-    //     false,
-    //     false,
-    //     false,
-    //     false,
-    //     0,
-    //     null
-    //   )
-    //   saveLink.dispatchEvent(event)
-    // }
     return {
       substring,
       changeHb,
-      doCut,
+      cutDo,
       ...toRefs(state)
     }
   }
@@ -279,7 +227,7 @@ export default {
     width: 100%;
     height: 100%;
   }
-  .candleHb{
+  .candleHb {
     position: absolute;
     bottom: 0px;
     left: 0px;

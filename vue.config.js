@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:38:35
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-25 12:10:22
+ * @LastEditTime: 2022-03-29 12:18:26
  * @FilePath: \vant-u\vue.config.js
  */
 /***
@@ -18,20 +18,36 @@
 // vue.config.js
 const path = require('path')
 // 定制主题
-// const webpack = require('webpack')
+const webpack = require('webpack')
 const themePath = path.join(__dirname, './src/assets/css/themevars.less')
-const CompressionPlugin = require('compression-webpack-plugin')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const productionGzipExtensions = ['js', 'css']
 module.exports = {
   publicPath: './', // 文件加载设置为相对路径
   outputDir: './medicine/static/',
+  productionSourceMap: process.env.NODE_ENV !== 'pro',
   // lintOnSave: false, // 关闭eslint
-  // productionSourceMap: true, // 生产环境下css 分离文件
   configureWebpack: {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src')
       }
-    }
+    },
+    plugins: [
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      // 下面是下载的插件的配置
+      new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false // 不删除源文件
+      }),
+      new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 5,
+        minChunkSize: 100
+      })
+    ]
   },
   chainWebpack: config => {
     config
@@ -41,12 +57,8 @@ module.exports = {
         return args
       })
     if (process.env.NODE_ENV === 'pro') {
-      config.plugin('compressionPlugin')
-        .use(new CompressionPlugin({
-          test: /\.js$|\.html$|\.css/, // 匹配文件名
-          threshold: 10240, // 对超过10k的数据压缩
-          deleteOriginalAssets: false // 不删除源文件
-        }))
+      config.plugins.delete('preload')
+      config.plugins.delete('prefetch')
     }
   },
   devServer: {

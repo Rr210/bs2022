@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-28 19:58:29
+ * @LastEditTime: 2022-03-29 12:33:43
  * @LastEditors: harry
 -->
 <template>
@@ -101,7 +101,6 @@
 
 <script>
 import 'swiper/swiper.less'
-import 'swiper/components/pagination/pagination.less'
 import { defineAsyncComponent } from 'vue'
 // swiper 必备组件
 import { Swiper, SwiperSlide } from 'swiper/vue'

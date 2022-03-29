@@ -3,17 +3,8 @@
  * @Date: 2022-01-02 10:17:18
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-02-28 13:19:47
+ * @LastEditTime: 2022-03-29 15:26:03
  * @FilePath: \vant-u\src\utils\content\cate.js
- */
-/***
- * @Description:
- * @Author: Harry
- * @Date: 2022-01-02 10:17:18
- * @Url: https://u.mr90.top
- * @github: https://github.com/rr210
- * @LastEditTime: 2022-01-07 15:11:26
- * @LastEditors: Harry
  */
 const PEST_LIST_CATE = [
   {
@@ -42,6 +33,26 @@ const PEST_LIST_CATE = [
   }
 ]
 
+const DETAIL_PEST = [
+  {
+    pid: 0,
+    text: '危害特点',
+    path: '危害特点',
+    value: 'harm_feat'
+  },
+  {
+    pid: 1,
+    text: '危害寄主',
+    path: '危害寄主',
+    value: 'harm_host'
+  },
+  {
+    pid: 2,
+    text: '防治措施',
+    path: '防治措施',
+    value: 'control_measures'
+  }
+]
 export {
-  PEST_LIST_CATE
+  PEST_LIST_CATE, DETAIL_PEST
 }

@@ -4,11 +4,10 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-25 11:12:32
+ * @LastEditTime: 2022-03-29 15:40:20
  * @LastEditors: harry
 -->
 <template>
-  <!-- <van-skeleton title avatar :row="3" /> -->
   <!-- 轮播图位置 -->
   <transition name="van-fade">
     <van-swipe :autoplay="3000" v-if="imagesBanner.length > 0" lazy-render>
@@ -84,7 +83,7 @@
       </van-pull-refresh>
     </van-tab>
   </van-tabs>
-  <van-popup v-model:show="isshowpest" class="vanpopCard">
+  <!-- <van-popup v-model:show="isshowpest" class="vanpopCard">
     <show-pest
       :picurlbg="'images/' + picindex.pest_name + '.jpg'"
       :pestname="picindex.pest_name"
@@ -94,7 +93,7 @@
       :harmfeat="picindex.harm_feat"
       :controlmeasures="picindex.control_measures"
     ></show-pest>
-  </van-popup>
+  </van-popup> -->
 </template>
 
 <script>
@@ -105,28 +104,33 @@ import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
 import debounceMerge from '@/utils/tool/debounce'
 import { provide, defineAsyncComponent } from 'vue' // 引入provide
 import { pestList, bannerList } from '@/utils/service/home'
+import { useRouter } from 'vue-router'
+import store from '../../store'
 const ItemPest = defineAsyncComponent(() =>
   import('@/views/home/components/ItemPest.vue')
 )
-const ShowPest = defineAsyncComponent(() =>
-  import('@/components/ShowPest.vue')
-)
 
 export default {
-  components: { ItemPest, ShowPest },
+  components: { ItemPest },
   setup() {
+    const router = useRouter()
     const stateTemp = reactive({
-      picindex: {},
-      activeIndex: 0,
-      imagesBanner: [],
-      itemLists: [],
-      isLoading: false,
-      isshowpest: false,
-      items: PEST_LIST_CATE
+      picindex: {}, // 以前展示的showpest组件需要的内容
+      activeIndex: 0, // tab索引值
+      imagesBanner: [], // banner图
+      itemLists: [], // 每一个害虫类别的组件
+      isLoading: false, // 下拉刷新
+      isshowpest: false, // 是否展示组件
+      items: PEST_LIST_CATE // tab栏文字介绍
     })
     const TouchDistance = reactive({
-      StartX: 0,
-      EndX: 0
+      StartX: 0, // 移动端触碰开始
+      EndX: 0 // 移动端触碰结束
+    })
+    const itemListParams = reactive({
+      pagenum: 1, // 表示当前页面
+      pagesize: 6, // 表示的一页数量
+      total: 0 // 表示总数  用于分页
     })
     // 爷孙组件
     const handleMark = (data) => {
@@ -157,11 +161,6 @@ export default {
       }
       getInsectsList()
     }
-    const itemListParams = reactive({
-      pagenum: 1,
-      pagesize: 6,
-      total: 0
-    })
     // 防抖点击
     const leftChangeNav = debounceMerge(
       function () {
@@ -184,11 +183,24 @@ export default {
         stateTemp.itemLists = res.data
         stateTemp.isLoading = false
         itemListParams.total = res.total
+        saveDetailVuex(res.data)
       }
     }
     const showItemPest = function (index) {
-      stateTemp.isshowpest = !stateTemp.isshowpest
-      stateTemp.picindex = stateTemp.itemLists[index]
+      router.push({
+        name: 'detail',
+        params: {
+          pestname: index
+        }
+      })
+      // stateTemp.isshowpest = !stateTemp.isshowpest
+      // stateTemp.picindex = stateTemp.itemLists[index]
+    }
+    // 将获取的数据保存的vuex状态管理中
+    const saveDetailVuex = function (data) {
+      if (data.length > 0) {
+        store.dispatch('home/changeDetailPest', data)
+      }
     }
     const changePage = function () {
       getInsectsList()

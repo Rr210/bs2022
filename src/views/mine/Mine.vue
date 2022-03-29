@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-28 17:18:15
+ * @LastEditTime: 2022-03-29 13:21:34
  * @LastEditors: harry
 -->
 <template>
@@ -120,6 +120,7 @@ import { useStore } from 'vuex'
 import { getRandom } from '@/utils/service/mine'
 import { RANDOM_PEST } from '@/utils/api/urlapi'
 import debounceMerge from '@/utils/tool/debounce'
+import { Toast } from 'vant'
 const About = defineAsyncComponent(() => import('@/components/About.vue'))
 const HaiBao = defineAsyncComponent(() => import('@/components/HaiBao.vue'))
 const Contact = defineAsyncComponent(() => import('@/components/Contact.vue'))
@@ -172,13 +173,17 @@ export default {
     const handleChangeEvent = function () {
       getRandomPest()
     }
-    const clickAbout = function (e) {
-      hasUser.isshow = !hasUser.isshow
-      hasUser.selectShowIndex = e
-      if (e === 2) {
-        getRandomPest()
+    const clickAbout = debounceMerge(function (e) {
+      if (isloginstate.value) {
+        hasUser.isshow = !hasUser.isshow
+        hasUser.selectShowIndex = e
+        if (e === 2) {
+          getRandomPest()
+        }
+      } else {
+        Toast('您还未登录')
       }
-    }
+    }, 500, true)
     // 遮罩层关闭
     onMounted(() => {
       const stateUserinfo = localStorage.getItem('userinfo')

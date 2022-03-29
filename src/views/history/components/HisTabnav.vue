@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-27 16:54:45
+ * @LastEditTime: 2022-03-29 13:25:22
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -166,16 +166,18 @@ export default {
     // 请求删除的方法
     const httpDeleteHistory = async function (p) {
       const u = JSON.parse(localStorage.getItem('userinfo'))
-      const { data: res } = await deleteHistory(HISTORY_GET_URL, {
-        data: {
-          temp: p,
-          openid: u.openid
+      if (u) {
+        const { data: res } = await deleteHistory(HISTORY_GET_URL, {
+          data: {
+            temp: p,
+            openid: u.openid
+          }
+        })
+        if (res.status_code === 1) {
+          getHistoryO1()
         }
-      })
-      if (res.status_code === 1) {
-        getHistoryO1()
+        console.log(res)
       }
-      console.log(res)
     }
     // 详情查看记录
     const ItemLists = ref([])
@@ -195,13 +197,15 @@ export default {
     }
     const getHistoryO1 = async function () {
       const data1 = JSON.parse(localStorage.getItem('userinfo'))
-      const { data: res } = await historyGet(HISTORY_GET_URL, {
-        data: data1.openid,
-        key: stateTemp.value1,
-        option2: stateTemp.value2
-      })
-      // console.log(res)
-      ItemLists.value = res.data
+      if (data1) {
+        const { data: res } = await historyGet(HISTORY_GET_URL, {
+          data: data1.openid,
+          key: stateTemp.value1,
+          option2: stateTemp.value2
+        })
+        // console.log(res)
+        ItemLists.value = res.data
+      }
     }
     onMounted(() => {
       getHistoryO1()
