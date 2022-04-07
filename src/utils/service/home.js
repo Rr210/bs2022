@@ -13,5 +13,5 @@ export function pestList(requestAPI, params) {
 }
 // banner图列表
 export function bannerList(requestAPI) {
-  return axios.post(requestAPI)
+  return axios.get(requestAPI)
 }

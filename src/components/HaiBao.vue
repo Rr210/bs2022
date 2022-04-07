@@ -3,7 +3,7 @@
  * @Date: 2022-03-28 13:57:14
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 12:49:19
+ * @LastEditTime: 2022-03-29 17:23:12
  * @FilePath: \vant-u\src\components\HaiBao.vue
 -->
 <template>
@@ -63,15 +63,15 @@ export default {
       required: true,
       default: 'css/img/main/gravatar.png'
     },
-    hbbg: {
-      type: String,
-      required: true,
-      default: 'css/img/main/gravatar.png'
-    },
     username: {
       type: String,
       required: true,
       default: '无'
+    },
+    hbbg: {
+      type: String,
+      required: true,
+      default: 'css/img/main/gravatar.png'
     },
     pestname: {
       type: String,

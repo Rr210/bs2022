@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 12:33:43
+ * @LastEditTime: 2022-04-07 12:59:39
  * @LastEditors: harry
 -->
 <template>
@@ -13,11 +13,7 @@
       <van-uploader :before-read="beforeRead" @change="getPicture($event)">
         <div class="svg_wrap">
           <div class="upload_pic">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1024 1024"
-              data-v-152cbb9b
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-152cbb9b>
               <path
                 fill="currentColor"
                 d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"
@@ -31,11 +27,7 @@
         </div>
       </van-uploader>
       <div class="empty_">
-        <van-image
-          class="empty_img"
-          src="css/svg/empty.svg"
-          fit="cover"
-        ></van-image>
+        <van-image class="empty_img" src="css/svg/empty.svg" fit="cover"></van-image>
         <span class="span_s">您还未上传图片，暂无记录</span>
       </div>
     </div>
@@ -55,15 +47,11 @@
       </div>
 
       <div v-show="!imgres" class="lo2">
-        <img
-          src="css/svg/Pulse-1s-200px.svg"
-          class="gif-loading"
-          alt=""
-          srcset=""
-        />
+        <img src="css/svg/Pulse-1s-200px.svg" class="gif-loading" alt srcset />
         <h6 style="margin: 0">loading....</h6>
       </div>
-      <div class="pic-2" v-if="imgres">
+      <div class="pic-2" :class="isactive ? 'isactive-detail' : 'active-detail'" v-if="imgres">
+        <span class="move-detail" @click="changeContop(0)"></span>
         <swiper class="my-swipe">
           <swiper-slide v-for="(item, index) in resPic.res" :key="index">
             <icon-main
@@ -80,9 +68,7 @@
             :before-read="beforeRead"
             @change="getPicture($event)"
             class="re-upload"
-          >
-            重新上传
-          </van-uploader>
+          >重新上传</van-uploader>
         </div>
       </div>
     </div>
@@ -123,7 +109,8 @@ export default {
       isshow: false,
       imgpre: '',
       imgres: '',
-      resPic: {}
+      resPic: {},
+      isactive: false
     })
     const Store = useStore()
     const router = useRouter()
@@ -140,6 +127,16 @@ export default {
       console.log(file)
       uploadpicserve(file)
       return true
+    }
+    const changeContop = function (nums) {
+      if (nums === 0) {
+        stateTemp.isactive = !stateTemp.isactive
+      } else {
+        if (!stateTemp.isactive) {
+          console.log('object')
+          stateTemp.isactive = true
+        }
+      }
     }
     // 上传图片文件
     const getPicture = function (e) {
@@ -174,7 +171,7 @@ export default {
               stateTemp.imgres = ''
               stateTemp.imgpre = ''
               stateTemp.resPic = []
-              Toast.fail(error)
+              Toast.fail(error.message)
             }
           }
         })
@@ -214,6 +211,7 @@ export default {
       signin,
       beforeRead,
       getPicture,
+      changeContop,
       ...toRefs(stateTemp)
     }
   }
@@ -221,7 +219,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// .pic-mains-2 {
+//   width: 100%;
+//   height: 220px;
+// }
 .pre_res {
+  width: 100%;
+  height: 240px;
   font-size: 16px;
   // padding: 60px 60px 0 0;
   display: flex;
@@ -252,6 +256,8 @@ export default {
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   padding-bottom: 132px;
+  position: absolute;
+  padding-top: 5px;
 }
 .svg_wrap {
   border: 1px dashed #d9d9d9;
@@ -323,5 +329,13 @@ export default {
     height: 30px;
     line-height: 30px;
   }
+}
+.isactive-detail {
+  top: 150px;
+  transition: top 1s;
+}
+.active-detail {
+  top: 280px;
+  transition: top 1s;
 }
 </style>

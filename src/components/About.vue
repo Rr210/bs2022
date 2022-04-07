@@ -3,11 +3,11 @@
  * @Date: 2022-03-28 13:29:05
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-28 13:45:09
+ * @LastEditTime: 2022-03-29 17:16:49
  * @FilePath: \vant-u\src\components\About.vue
 -->
 <template>
-  <div>````</div>
+  <div>waiting loading....</div>
 </template>
 
 <script>

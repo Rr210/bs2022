@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 13:21:34
+ * @LastEditTime: 2022-04-07 12:17:19
  * @LastEditors: harry
 -->
 <template>
@@ -22,7 +22,14 @@
         :preconmea="randomPest.length > 0 ? randomPest[6] : ''"
         @changeH="handleChangeEvent"
       ></hai-bao>
-      <Contact v-if="selectShowIndex === 3"></Contact>
+      <Contact
+        v-if="selectShowIndex === 3"
+        :userpic="
+          !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
+        "
+        :username="hasUserInfo.nickname"
+        :zzpic="'css/img/main/zuozhe.png'"
+      ></Contact>
     </van-popup>
 
     <div class="hd_w">
@@ -37,15 +44,11 @@
           />
         </div>
         <div class="Nickname">
-          <div>
-            {{ isloginstate && hasUserInfo.nickname }}
-          </div>
+          <div>{{ isloginstate && hasUserInfo.nickname }}</div>
           <div class="title_w_1">海纳百川,厚积薄发</div>
         </div>
         <div class="btn_u" @click="isHasUserinfo = !isHasUserinfo">
-          <van-button type="primary" style="height: 40px">
-            {{ !isloginstate ? "未登录" : "更新" }}
-          </van-button>
+          <van-button type="primary" style="height: 40px">{{ !isloginstate ? "未登录" : "更新" }}</van-button>
         </div>
       </div>
     </div>
@@ -56,7 +59,7 @@
         <div class="text_">分享海报</div>
       </div>
       <div class="mid_item" @click="clickAbout(3)">
-        <img class="" src="css/img/main/kf.png" />
+        <img class src="css/img/main/kf.png" />
         <div class="text_">联系我</div>
         <button class="contact" open-type="contact"></button>
       </div>
@@ -67,7 +70,7 @@
         <div class="icon_i">
           <img src="css/img/main/sc.png" />
         </div>
-        <div class="title_w">历史识别</div>
+        <div class="title_w">模型训练</div>
       </div>
       <div class="item_f">
         <div class="icon_i">
@@ -98,9 +101,7 @@
         <img class="login-img" src="css/img/main/login.png" />
       </div>
       <div class="login-h">欢迎登入该程序</div>
-      <div class="login-h-t">
-        如果无法登录，请点击我的界面“清除缓存”后再登录
-      </div>
+      <div class="login-h-t">如果无法登录，请点击我的界面“清除缓存”后再登录</div>
       <div class="login-bt" @click="signin">确定</div>
       <div class="login-bt2" @click="isHasUserinfo = !isHasUserinfo">取消</div>
     </div>
@@ -173,17 +174,21 @@ export default {
     const handleChangeEvent = function () {
       getRandomPest()
     }
-    const clickAbout = debounceMerge(function (e) {
-      if (isloginstate.value) {
-        hasUser.isshow = !hasUser.isshow
-        hasUser.selectShowIndex = e
-        if (e === 2) {
-          getRandomPest()
+    const clickAbout = debounceMerge(
+      function (e) {
+        if (isloginstate.value) {
+          hasUser.isshow = !hasUser.isshow
+          hasUser.selectShowIndex = e
+          if (e === 2) {
+            getRandomPest()
+          }
+        } else {
+          Toast('您还未登录')
         }
-      } else {
-        Toast('您还未登录')
-      }
-    }, 500, true)
+      },
+      500,
+      true
+    )
     // 遮罩层关闭
     onMounted(() => {
       const stateUserinfo = localStorage.getItem('userinfo')

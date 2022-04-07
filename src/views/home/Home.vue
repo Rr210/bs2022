@@ -4,33 +4,21 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 15:40:20
+ * @LastEditTime: 2022-04-03 13:10:48
  * @LastEditors: harry
 -->
 <template>
   <!-- 轮播图位置 -->
   <transition name="van-fade">
     <van-swipe :autoplay="3000" v-if="imagesBanner.length > 0" lazy-render>
-      <van-swipe-item
-        class="van-item-pest-swiper"
-        v-for="image in imagesBanner"
-        :key="image.bid"
-      >
-        <img :src="'banner/' + image.pic" class="banner_img" />
+      <van-swipe-item class="van-item-pest-swiper" v-for="image in imagesBanner" :key="image.bid">
+        <img :src="bannerPic + image.pic" class="banner_img" />
       </van-swipe-item>
     </van-swipe>
   </transition>
-  <van-tabs
-    class="van-tabs-custom"
-    v-model:active="activeIndex"
-    @click-tab="leftChangeNav"
-  >
+  <van-tabs class="van-tabs-custom" v-model:active="activeIndex" @click-tab="leftChangeNav">
     <van-tab v-for="item in items" :key="item.pid" :title="item.text">
-      <van-pull-refresh
-        v-model="isLoading"
-        :head-height="80"
-        @refresh="onRefresh"
-      >
+      <van-pull-refresh v-model="isLoading" :head-height="80" @refresh="onRefresh">
         <!-- 下拉提示，通过 scale 实现一个缩放效果 -->
         <template #pulling="props">
           <img
@@ -49,11 +37,7 @@
         <template #loading>
           <img class="doge" src="https://img.yzcdn.cn/vant/doge-fire.jpg" />
         </template>
-        <div
-          class="item-wrap-pest"
-          @touchstart="onSwiperStart"
-          @touchend="onSwiperEnd"
-        >
+        <div class="item-wrap-pest" @touchstart="onSwiperStart" @touchend="onSwiperEnd">
           <item-pest
             v-for="(i, index) in itemLists"
             :key="i.pid"
@@ -93,19 +77,19 @@
       :harmfeat="picindex.harm_feat"
       :controlmeasures="picindex.control_measures"
     ></show-pest>
-  </van-popup> -->
+  </van-popup>-->
 </template>
 
 <script>
 import { reactive, toRefs } from '@vue/reactivity'
 import { PEST_LIST_CATE } from '@/utils/content/cate'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, computed } from '@vue/runtime-core'
 import { BANNER_URL, PEST_LIST_URL } from '@/utils/api/urlapi'
 import debounceMerge from '@/utils/tool/debounce'
 import { provide, defineAsyncComponent } from 'vue' // 引入provide
 import { pestList, bannerList } from '@/utils/service/home'
 import { useRouter } from 'vue-router'
-import store from '../../store'
+import { useStore } from 'vuex'
 const ItemPest = defineAsyncComponent(() =>
   import('@/views/home/components/ItemPest.vue')
 )
@@ -114,6 +98,7 @@ export default {
   components: { ItemPest },
   setup() {
     const router = useRouter()
+    const store = useStore()
     const stateTemp = reactive({
       picindex: {}, // 以前展示的showpest组件需要的内容
       activeIndex: 0, // tab索引值
@@ -142,6 +127,9 @@ export default {
     const onSwiperStart = function (e) {
       TouchDistance.StartX = e.changedTouches[0].screenX
     }
+    const bannerPic = computed(() => {
+      return process.env.VUE_APP_URL + '/banner/'
+    })
     const onSwiperEnd = function (e) {
       TouchDistance.EndX = e.changedTouches[0].screenX
       const difference = TouchDistance.StartX - TouchDistance.EndX
@@ -205,7 +193,7 @@ export default {
     const changePage = function () {
       getInsectsList()
     }
-    const onClickTab = function () {}
+    const onClickTab = function () { }
     // 获取banner图
     const getBanner = async function () {
       const { data: res } = await bannerList(BANNER_URL)
@@ -230,6 +218,7 @@ export default {
       leftChangeNav,
       onSwiperStart,
       onClickTab,
+      bannerPic,
       onSwiperEnd,
       onRefresh,
       TouchDistance,

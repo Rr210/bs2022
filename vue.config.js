@@ -3,17 +3,8 @@
  * @Date: 2021-12-26 15:38:35
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 12:18:26
+ * @LastEditTime: 2022-03-30 13:13:26
  * @FilePath: \vant-u\vue.config.js
- */
-/***
- * @Description:
- * @Author: Harry
- * @Date: 2021-11-11 10:13:01
- * @Url: https://u.mr90.top
- * @github: https://github.com/rr210
- * @LastEditTime: 2021-12-28 13:55:19
- * @LastEditors: Harry
  */
 // vue.config.js
 const path = require('path')
