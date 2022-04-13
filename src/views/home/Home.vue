@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-03 13:10:48
+ * @LastEditTime: 2022-04-13 11:07:05
  * @LastEditors: harry
 -->
 <template>
@@ -21,11 +21,8 @@
       <van-pull-refresh v-model="isLoading" :head-height="80" @refresh="onRefresh">
         <!-- 下拉提示，通过 scale 实现一个缩放效果 -->
         <template #pulling="props">
-          <img
-            class="doge"
-            src="https://img.yzcdn.cn/vant/doge.png"
-            :style="{ transform: `scale(${props.distance / 80})` }"
-          />
+          <img class="doge" src="https://img.yzcdn.cn/vant/doge.png"
+            :style="{ transform: `scale(${props.distance / 80})` }" />
         </template>
 
         <!-- 释放提示 -->
@@ -38,24 +35,11 @@
           <img class="doge" src="https://img.yzcdn.cn/vant/doge-fire.jpg" />
         </template>
         <div class="item-wrap-pest" @touchstart="onSwiperStart" @touchend="onSwiperEnd">
-          <item-pest
-            v-for="(i, index) in itemLists"
-            :key="i.pid"
-            :pic-url="'images/' + i.pest_name + '.jpg'"
-            :item-text="i.pest_name"
-            :cate-pest="i.base_cate"
-            :index="index"
-            @click="showItemPest(index)"
-          ></item-pest>
+          <item-pest v-for="(i, index) in itemLists" :key="i.pid" :pic-url="'images/' + i.pest_name + '.jpg'"
+            :item-text="i.pest_name" :cate-pest="i.base_cate" :index="index" @click="showItemPest(index)"></item-pest>
         </div>
-        <van-pagination
-          v-model="pagenum"
-          :total-items="total"
-          @change="changePage"
-          :show-page-size="5"
-          :items-per-page="pagesize"
-          force-ellipses
-        >
+        <van-pagination v-model="pagenum" :total-items="total" @change="changePage" :show-page-size="5"
+          :items-per-page="pagesize" force-ellipses>
           <template #prev-text>
             <van-icon name="arrow-left" />
           </template>
@@ -66,18 +50,7 @@
         </van-pagination>
       </van-pull-refresh>
     </van-tab>
-  </van-tabs>
-  <!-- <van-popup v-model:show="isshowpest" class="vanpopCard">
-    <show-pest
-      :picurlbg="'images/' + picindex.pest_name + '.jpg'"
-      :pestname="picindex.pest_name"
-      :catesk="picindex.cate_sk"
-      :basecate="picindex.base_cate"
-      :harmhost="picindex.harm_host"
-      :harmfeat="picindex.harm_feat"
-      :controlmeasures="picindex.control_measures"
-    ></show-pest>
-  </van-popup>-->
+    </van-tabs>
 </template>
 
 <script>
@@ -248,20 +221,24 @@ export default {
   width: 100%;
   height: 170px;
 }
+
 .van-item-pest-swiper {
   border: 20px solid var(--pageBg);
   border-left-width: 25px;
   border-right-width: 25px;
   box-sizing: border-box;
+
   .banner_img {
     border-radius: 10px;
   }
 }
+
 .van-tab__panel {
   box-sizing: border-box;
   padding: 10px;
   margin-bottom: 60px;
 }
+
 .item-wrap-pest {
   display: flex;
   justify-content: space-evenly;
@@ -274,6 +251,7 @@ export default {
   height: 40px;
   line-height: 40px;
 }
+
 .van-notice-bar {
   margin: 0 8px;
 }

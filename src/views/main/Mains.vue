@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-07 12:59:39
+ * @LastEditTime: 2022-04-13 10:13:01
  * @LastEditors: harry
 -->
 <template>
@@ -14,10 +14,8 @@
         <div class="svg_wrap">
           <div class="upload_pic">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-152cbb9b>
-              <path
-                fill="currentColor"
-                d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"
-              />
+              <path fill="currentColor"
+                d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z" />
             </svg>
           </div>
           <div class="upload__text">
@@ -54,35 +52,21 @@
         <span class="move-detail" @click="changeContop(0)"></span>
         <swiper class="my-swipe">
           <swiper-slide v-for="(item, index) in resPic.res" :key="index">
-            <icon-main
-              :itemcate="item['cate-cz']['cate']"
-              :itemmc="item['cate-cz']['zh-name']"
-              :itemnum="item['nums']"
-              :itemrate="item['max_rate']"
-            ></icon-main>
+            <icon-main :itemcate="item['cate-cz']['cate']" :itemmc="item['cate-cz']['zh-name']" :itemnum="item['nums']"
+              :itemrate="item['max_rate']"></icon-main>
           </swiper-slide>
         </swiper>
         <div class="btn-function">
           <div class="condel" @click="cancelMain">取消</div>
-          <van-uploader
-            :before-read="beforeRead"
-            @change="getPicture($event)"
-            class="re-upload"
-          >重新上传</van-uploader>
+          <van-uploader :before-read="beforeRead" @change="getPicture($event)" class="re-upload">重新上传</van-uploader>
         </div>
       </div>
     </div>
   </div>
   <!-- 弹窗提醒 -->
-  <van-popup
-    class="re_btn"
-    v-model:show="isshow"
-    round
-    position="bottom"
-    :style="{ height: '20%' }"
-  >
+  <van-popup class="re_btn" v-model:show="isshow" round position="bottom" :style="{ height: '20%' }">
     <van-button type="primary" @click="signin">您还未登录，点击登录</van-button>
-  </van-popup>
+    </van-popup>
 </template>
 
 <script>
@@ -231,70 +215,85 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .pre_res_1 {
     flex: 1.5;
     width: 100%;
     padding: 20px;
   }
+
   .pre_res_2 {
     // text-align: center;
     position: relative;
     flex: 1;
+
     .r_pre {
       padding: 10px;
       color: rgb(197, 204, 203);
     }
+
     .r_pre_1 {
       color: var(--LightThemeColor);
       font-weight: 550;
     }
   }
 }
+
 .pic-2 {
   background-color: var(--pageBg);
-  box-shadow: 0 -2px 10px 0 var(--mainpic2boxshadow);
+  box-shadow: 0 -8px 10px 0 var(--mainpic2boxshadow);
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   padding-bottom: 132px;
   position: absolute;
   padding-top: 5px;
+  width: 100%;
 }
+
 .svg_wrap {
   border: 1px dashed #d9d9d9;
   margin: 20px;
   text-align: center;
   border-radius: 10px;
   width: 335px;
+
   .upload_pic {
     display: inline-block;
     color: #c0c4cc;
     width: 120px;
   }
 }
+
 .upload__text {
   color: #606266;
   font-size: 14px;
   text-align: center;
   margin: 10px 0;
+
   em {
     color: var(--LightThemeColor);
     font-style: normal;
   }
 }
+
 .empty_ {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .empty_img {
     padding: 50px 0;
   }
+
   .span_s {
     color: var(--LightThemeColor);
     font-size: 10px;
   }
 }
+
 .lo2 {
   text-align: center;
+
   .gif-loading {
     width: 50%;
     margin: 70px 0 0 0;
@@ -314,11 +313,13 @@ export default {
   // background-color: rgba(255,255,255,.9);
   background-color: var(--btnFunctionBg);
   z-index: 9999;
+
   .condel {
     flex: 1;
     text-align: right;
     color: #6062669a;
   }
+
   .re-upload {
     text-align: center;
     flex: 2;
@@ -330,10 +331,12 @@ export default {
     line-height: 30px;
   }
 }
+
 .isactive-detail {
   top: 150px;
   transition: top 1s;
 }
+
 .active-detail {
   top: 280px;
   transition: top 1s;

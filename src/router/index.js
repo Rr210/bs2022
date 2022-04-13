@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:16:20
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 13:44:10
+ * @LastEditTime: 2022-04-13 13:03:19
  * @FilePath: \vant-u\src\router\index.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -45,6 +45,11 @@ const routes = [
     path: '/detail/:pestname',
     name: 'detail',
     component: () => import('@/views/detail/DetailPest.vue')
+  },
+  {
+    path: '/hisdetail/:pestname',
+    name: 'hisdetail',
+    component: () => import('@/views/history/components/HisDetail.vue')
   },
   {
     path: '/auth',

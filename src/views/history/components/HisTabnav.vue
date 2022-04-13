@@ -3,73 +3,42 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-29 13:25:22
+ * @LastEditTime: 2022-04-13 14:22:56
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
   <van-dropdown-menu>
-    <van-dropdown-item
-      v-model="value1"
-      :options="option1"
-      @change="getHistoryO1"
-    />
-    <van-dropdown-item
-      v-model="value2"
-      :options="option2"
-      @change="getHistoryO1"
-    />
+    <van-dropdown-item v-model="value1" :options="option1" @change="getHistoryO1" />
+    <van-dropdown-item v-model="value2" :options="option2" @change="getHistoryO1" />
   </van-dropdown-menu>
   <div class="item-history-nav" v-if="ItemLists.length > 0">
-    <!-- 历史记录列表 -->
-    <HisItem
-      v-for="(item, index) in ItemLists"
-      :key="index"
-      :hisbeforepic="handleItemLists(item.dis_before)"
-      :hisafterpic="handleItemLists(item.dis_after)"
-      :hisitempest="handleJsonString(item.result).res"
-      :histime="item.create_time"
-      :histotal="handleJsonString(item.result).res_total"
-      :hiscount="handleJsonString(item.result).time_count"
-      :hisindex="index"
-      :hispid="item.pid"
-      @prew="prewOne"
-      @deletepid="deleteHisRecord"
-      @detailpid="detailHisRecord"
-    ></HisItem>
+    <van-collapse v-model="activeNames" accordion @change="taggleM">
+      <van-collapse-item :name="index" v-for="(item, index) in ItemLists" :key="index">
+        <template #title>
+          <!-- 历史记录列表 -->
+          <HisItem :hisbeforepic="handleItemLists(item.dis_before)" :hisafterpic="handleItemLists(item.dis_after)"
+            :hisitempest="handleJsonString(item.result).res" :histime="item.create_time"
+            :histotal="handleJsonString(item.result).res_total" :hiscount="handleJsonString(item.result).time_count"
+            :hisindex="index" :hispid="item.pid" @prew="prewOne" @deletepid="deleteHisRecord"
+            @detailpid="detailHisRecord"></HisItem>
+        </template>
+        <div v-for="item1 in handleJsonString(item.result).res" :key="item1.max_rate">
+          <hisitem-cate :pestname="item1['cate-cz']['zh-name']" :pestrate="item1['max_rate']" />
+        </div>
+        <!-- {{ item.result }} -->
+      </van-collapse-item>
+    </van-collapse>
   </div>
   <div class="his_empty" v-else>
     <img src="/css/svg/his_empty.svg" alt="" />
     <div class="span_s">您还未识别，暂无记录</div>
   </div>
-  <!-- 展示详情数据 -->
-  <van-popup v-model:show="isshowpest" class="vanpopCard">
-    <detail-pest
-      :resPic="picindex"
-      @prew="prewOne"
-      :apic="disAfterpic"
-      @detailmain="getResultPest"
-    >
-    </detail-pest>
-  </van-popup>
-  <!-- 展示结果数据 -->
-  <van-popup v-model:show="pestkey" class="vanpopCard">
-    <show-pest
-      :picurlbg="'images/' + pici.pest_name + '.jpg'"
-      :pestname="pici.pest_name"
-      :catesk="pici.cate_sk"
-      :basecate="pici.base_cate"
-      :harmhost="pici.harm_host"
-      :harmfeat="pici.harm_feat"
-      :controlmeasures="pici.control_measures"
-    ></show-pest>
-  </van-popup>
 </template>
 
 <script>
 import {
   computed,
   onMounted,
-  provide,
   reactive,
   ref,
   toRefs,
@@ -82,46 +51,31 @@ import { PEST_LIST_CATE } from '@/utils/content/cate'
 import { ImagePreview, Dialog, Toast } from 'vant'
 import { searchPest, deleteHistory, historyGet } from '@/utils/service/history'
 import { useStore } from 'vuex'
-const DetailPest = defineAsyncComponent(() => import('./DetailPest.vue'))
 const HisItem = defineAsyncComponent(() => import('./HisItem.vue'))
-const ShowPest = defineAsyncComponent(() =>
-  import('@/components/ShowPest.vue')
-)
+const HisitemCate = defineAsyncComponent(() => import('./HisitemCate.vue'))
 
 export default {
   name: 'HisTabnav',
-  components: { HisItem, DetailPest, ShowPest },
+  components: { HisItem, HisitemCate },
   setup() {
     const store = useStore()
     const stateTemp = reactive({
       value1: 'all',
       value2: 'b',
-      picindex: {},
-      pici: {},
-      pestkey: false,
-      isshowpest: false,
-      disAfterpic: '',
+      activeNames: '1',
       option1: PEST_LIST_CATE,
       option2: [
         { text: '时间降序', value: 'b' },
         { text: '时间升序', value: 'a' }
       ]
     })
-    const handleMark = (data) => {
-      if (data === 11) {
-        stateTemp.pestkey = false
-      }
-    }
-    provide('awaitSon', handleMark)
     // 处理json字符串
     const handleJsonString = computed(() => {
       return function (item) {
         const jsonC = JSON.parse(item)
-        // console.log(jsonC)
         return jsonC
       }
     })
-    // const picList = ref([])
     // 图片预览问题
     const prewOne = function (e) {
       if (e) {
@@ -131,18 +85,11 @@ export default {
       }
     }
     // 处理识别详情的结果
-    const getResultPest = async function (e) {
-      console.log(e)
+    const getResultPest = async function (key) {
       const { data: res } = await searchPest(SEARCH_PEST_URL, {
-        params: {
-          key: e
-        }
+        params: { key }
       })
-      console.log(res)
-      if (res.status_code === 1 && res.data.length > 0) {
-        stateTemp.pici = res.data[0]
-        stateTemp.pestkey = true
-      } else {
+      if (res.status_code !== 1 && res.data.length === 0) {
         Toast({
           message: '未找到害虫数据'
         })
@@ -157,10 +104,6 @@ export default {
         .then(() => {
           console.log(temp)
           httpDeleteHistory(temp)
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
         })
     }
     // 请求删除的方法
@@ -175,6 +118,9 @@ export default {
         })
         if (res.status_code === 1) {
           getHistoryO1()
+          Toast({
+            message: res.msg
+          })
         }
         console.log(res)
       }
@@ -182,15 +128,15 @@ export default {
     // 详情查看记录
     const ItemLists = ref([])
     const detailHisRecord = function (index) {
-      stateTemp.isshowpest = !stateTemp.isshowpest
-      stateTemp.picindex = JSON.parse(ItemLists.value[index].result)
-      stateTemp.disAfterpic =
-        process.env.VUE_APP_URL + '/' + ItemLists.value[index].dis_after
+      stateTemp.activeNames = index
+    }
+    // 面板的切换
+    const taggleM = function (e) {
+      console.log(e)
     }
     watch(ItemLists, (newValue, old) => {
       store.dispatch('history/DotNumber', newValue.length)
     })
-    // 图片的预览问题
     // 处理图片的问题
     const handleItemLists = function (item) {
       return process.env.VUE_APP_URL + '/' + item
@@ -214,9 +160,8 @@ export default {
     return {
       ItemLists,
       handleJsonString,
-      // countDot,
       getResultPest,
-      // showItemPest,
+      taggleM,
       detailHisRecord,
       getHistoryO1,
       prewOne,
@@ -236,14 +181,17 @@ export default {
 .his_empty {
   padding-top: 50px;
   text-align: center;
+
   img {
     width: 70%;
   }
+
   .span_s {
     color: var(--LightThemeColor);
     font-size: 12px;
   }
 }
+
 .van-overlay {
   z-index: 2;
 }

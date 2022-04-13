@@ -108,3 +108,6 @@ div {
   z-index: 20;
   left: calc(50% - 30px);
 }
+.van-badge__wrapper.van-icon.van-icon-arrow.van-cell__right-icon {
+  display: none !important;
+}
