@@ -3,7 +3,7 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-04-13 14:22:56
+ * @LastEditTime: 2022-04-13 14:54:10
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
@@ -12,7 +12,7 @@
     <van-dropdown-item v-model="value2" :options="option2" @change="getHistoryO1" />
   </van-dropdown-menu>
   <div class="item-history-nav" v-if="ItemLists.length > 0">
-    <van-collapse v-model="activeNames" accordion @change="taggleM">
+    <van-collapse v-model="activeNames" accordion>
       <van-collapse-item :name="index" v-for="(item, index) in ItemLists" :key="index">
         <template #title>
           <!-- 历史记录列表 -->
@@ -130,10 +130,6 @@ export default {
     const detailHisRecord = function (index) {
       stateTemp.activeNames = index
     }
-    // 面板的切换
-    const taggleM = function (e) {
-      console.log(e)
-    }
     watch(ItemLists, (newValue, old) => {
       store.dispatch('history/DotNumber', newValue.length)
     })
@@ -161,7 +157,6 @@ export default {
       ItemLists,
       handleJsonString,
       getResultPest,
-      taggleM,
       detailHisRecord,
       getHistoryO1,
       prewOne,

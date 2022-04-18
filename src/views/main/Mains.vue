@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-13 10:13:01
+ * @LastEditTime: 2022-04-18 22:43:41
  * @LastEditors: harry
 -->
 <template>
@@ -33,7 +33,7 @@
       <div class="pre_res" v-if="imgres">
         <!-- <van-image :src="imgpre"></van-image> -->
         <div class="pre_res_1">
-          <van-image :src="imgres"></van-image>
+          <van-image :src="imgres" @click="prewOne(imgres)"></van-image>
         </div>
         <div class="pre_res_2">
           <div class="r_pre">Category</div>
@@ -66,7 +66,7 @@
   <!-- 弹窗提醒 -->
   <van-popup class="re_btn" v-model:show="isshow" round position="bottom" :style="{ height: '20%' }">
     <van-button type="primary" @click="signin">您还未登录，点击登录</van-button>
-    </van-popup>
+  </van-popup>
 </template>
 
 <script>
@@ -81,7 +81,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // 进行图片的压缩 压缩的等级为0.6
 import Compressor from 'compressorjs'
-import { Toast } from 'vant'
+import { ImagePreview, Toast } from 'vant'
 const SlideLr = defineAsyncComponent(() => import('./components/SlideLr.vue'))
 const IconMain = defineAsyncComponent(() =>
   import('./components/IconMain.vue')
@@ -120,6 +120,14 @@ export default {
           console.log('object')
           stateTemp.isactive = true
         }
+      }
+    }
+    // 进行图片的预览
+    const prewOne = function (e) {
+      if (e) {
+        ImagePreview({
+          images: [e]
+        })
       }
     }
     // 上传图片文件
@@ -193,6 +201,7 @@ export default {
       driverStyle,
       driverStyle2,
       signin,
+      prewOne,
       beforeRead,
       getPicture,
       changeContop,
