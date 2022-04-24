@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:55:14
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-18 22:43:41
+ * @LastEditTime: 2022-04-18 22:49:14
  * @LastEditors: harry
 -->
 <template>
@@ -321,7 +321,7 @@ export default {
   width: 100%;
   // background-color: rgba(255,255,255,.9);
   background-color: var(--btnFunctionBg);
-  z-index: 9999;
+  z-index: 2002;
 
   .condel {
     flex: 1;

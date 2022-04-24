@@ -3,15 +3,16 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-04-13 14:54:10
+ * @LastEditTime: 2022-04-24 20:44:30
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
   <van-dropdown-menu>
-    <van-dropdown-item v-model="value1" :options="option1" @change="getHistoryO1" />
-    <van-dropdown-item v-model="value2" :options="option2" @change="getHistoryO1" />
+    <van-dropdown-item v-model="value1" :options="option1" @change="getHistoryO1(value1)" />
+    <van-dropdown-item v-model="value2" :options="option2" @change="getHistoryO1(value2)" />
   </van-dropdown-menu>
   <div class="item-history-nav" v-if="ItemLists.length > 0">
+    <!-- <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"> -->
     <van-collapse v-model="activeNames" accordion>
       <van-collapse-item :name="index" v-for="(item, index) in ItemLists" :key="index">
         <template #title>
@@ -28,6 +29,7 @@
         <!-- {{ item.result }} -->
       </van-collapse-item>
     </van-collapse>
+    <!-- </van-list> -->
   </div>
   <div class="his_empty" v-else>
     <img src="/css/svg/his_empty.svg" alt="" />
@@ -63,11 +65,16 @@ export default {
       value1: 'all',
       value2: 'b',
       activeNames: '1',
+      // pagesize: 10,
+      // pagenum: 1,
+      // total: 1,
       option1: PEST_LIST_CATE,
       option2: [
         { text: '时间降序', value: 'b' },
         { text: '时间升序', value: 'a' }
       ]
+      // loading: false,
+      // finished: false
     })
     // 处理json字符串
     const handleJsonString = computed(() => {
@@ -95,6 +102,7 @@ export default {
         })
       }
     }
+    // 分页加载数据
     // 删除某项历史记录
     const deleteHisRecord = function (temp) {
       Dialog.confirm({
@@ -131,25 +139,49 @@ export default {
       stateTemp.activeNames = index
     }
     watch(ItemLists, (newValue, old) => {
-      store.dispatch('history/DotNumber', newValue.length)
+      store.dispatch('history/DotNumber', newValue.total)
     })
     // 处理图片的问题
     const handleItemLists = function (item) {
       return process.env.VUE_APP_URL + '/' + item
     }
-    const getHistoryO1 = async function () {
+    // 加载
+    // const onLoad = function () {
+    //   if (ItemLists.value.length >= stateTemp.total) {
+    //     stateTemp.finished = true
+    //   } else {
+    //     getHistoryO1(0)
+    //     stateTemp.pagenum = stateTemp.pagenum + 1
+    //   }
+    // }
+    const getHistoryO1 = async function (e) {
       const data1 = JSON.parse(localStorage.getItem('userinfo'))
+      stateTemp.loading = false
       if (data1) {
         const { data: res } = await historyGet(HISTORY_GET_URL, {
           data: data1.openid,
           key: stateTemp.value1,
           option2: stateTemp.value2
+          // pagenum: e ? 0 : stateTemp.pagenum,
+          // pagesize: stateTemp.pagesize
         })
         // console.log(res)
-        ItemLists.value = res.data
+        if (res.status_code === 1) {
+          // if (e) {
+          //   ItemLists.value = res.data
+          // } else {
+          //   ItemLists.value = [...ItemLists.value, ...res.data]
+          // }
+          // console.log(e)
+          // console.log(...ItemLists.value, ...res.data)
+          ItemLists.value = res.data
+
+          stateTemp.total = res.total
+        }
       }
     }
     onMounted(() => {
+      // onLoad()
       getHistoryO1()
     })
 
@@ -159,6 +191,7 @@ export default {
       getResultPest,
       detailHisRecord,
       getHistoryO1,
+      // onLoad,
       prewOne,
       deleteHisRecord,
       handleItemLists,

@@ -4,44 +4,30 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-07 12:17:19
+ * @LastEditTime: 2022-04-18 22:57:20
  * @LastEditors: harry
 -->
 <template>
   <div class="main_w">
     <van-popup v-model:show="isshow">
       <About v-if="selectShowIndex === 1"></About>
-      <hai-bao
-        v-if="selectShowIndex === 2"
-        :hbbg="'images/' + randomPest[1] + '.jpg'"
-        :userpic="
-          !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
-        "
-        :username="hasUserInfo.nickname"
-        :pestname="randomPest.length > 0 ? randomPest[1] : ''"
-        :preconmea="randomPest.length > 0 ? randomPest[6] : ''"
-        @changeH="handleChangeEvent"
-      ></hai-bao>
-      <Contact
-        v-if="selectShowIndex === 3"
-        :userpic="
-          !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
-        "
-        :username="hasUserInfo.nickname"
-        :zzpic="'css/img/main/zuozhe.png'"
-      ></Contact>
+      <hai-bao v-if="selectShowIndex === 2" :hbbg="'images/' + randomPest[1] + '.jpg'" :userpic="
+        !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
+      " :username="hasUserInfo.nickname" :pestname="randomPest.length > 0 ? randomPest[1] : ''"
+        :preconmea="randomPest.length > 0 ? randomPest[6] : ''" @changeH="handleChangeEvent"></hai-bao>
+      <Contact v-if="selectShowIndex === 3" :userpic="
+        !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
+      " :username="hasUserInfo.nickname" :zzpic="'css/img/main/zuozhe.png'"></Contact>
     </van-popup>
 
     <div class="hd_w">
       <div class="img_w">
         <div class="img_w_1">
-          <img
-            :src="
-              !isloginstate
-                ? 'css/img/main/gravatar.png'
-                : hasUserInfo.headimgurl
-            "
-          />
+          <img :src="
+            !isloginstate
+              ? 'css/img/main/gravatar.png'
+              : hasUserInfo.headimgurl
+          " />
         </div>
         <div class="Nickname">
           <div>{{ isloginstate && hasUserInfo.nickname }}</div>
@@ -70,7 +56,7 @@
         <div class="icon_i">
           <img src="css/img/main/sc.png" />
         </div>
-        <div class="title_w">模型训练</div>
+        <div class="title_w">训练结果</div>
       </div>
       <div class="item_f">
         <div class="icon_i">
@@ -84,7 +70,7 @@
         </div>
         <div class="title_w" @click="clickAbout(1)">关于程序</div>
       </div>
-      <div class="item_f" bindtap="closeF">
+      <div class="item_f">
         <div class="icon_i">
           <img src="css/img/main/gb.png" />
         </div>
@@ -368,6 +354,7 @@ button {
       font-weight: unset;
     }
   }
+
   // 更新按钮设计
   .btn_u {
     flex: 2;
@@ -397,6 +384,7 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     img {
       width: 55%;
     }
@@ -417,8 +405,10 @@ button {
   background-color: var(--pageBg);
   border-radius: 5px;
   padding: 5px;
+
   .item_f {
     position: relative;
+
     &::after {
       position: absolute;
       content: "";
@@ -430,17 +420,21 @@ button {
       border-right: 1px solid #ccc;
       transform: rotateZ(45deg);
     }
+
     display: flex;
+
     .icon_i {
       flex: 1;
       height: 66px;
       display: flex;
       justify-content: center;
       align-items: center;
+
       img {
         width: 50%;
       }
     }
+
     .title_w {
       flex: 5;
       font-size: 15px;
@@ -452,6 +446,7 @@ button {
 // 意见反馈按钮
 .item_f {
   position: relative;
+
   .feed {
     position: absolute;
     width: 100%;
@@ -464,6 +459,7 @@ button {
 // 联系我按钮
 .mid_item {
   position: relative;
+
   .contact {
     position: absolute;
     top: 0;
