@@ -3,7 +3,7 @@
  * @Date: 2022-04-13 13:29:59
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-05-01 21:55:40
+ * @LastEditTime: 2022-05-02 00:32:13
  * @FilePath: \vant-u\src\views\history\components\HisitemCate.vue
 -->
 <template>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getanalysis } from '@/utils/service/history'
 import { ANALYSIS } from '@/utils/api/urlapi'
@@ -53,7 +53,6 @@ export default {
     }
     // onMounted(() => {
     const ctext = computed(() => {
-      cirSizeChange()
       return crate.value.toFixed(2) + '%'
     })
     const handleRate = function () {
@@ -63,6 +62,9 @@ export default {
       const { pestname } = props
       router.push({ name: 'hisdetail', params: { pestname } })
     }
+    onMounted(() => {
+      cirSizeChange()
+    })
     return {
       introducePest,
       cirSizeChange,
