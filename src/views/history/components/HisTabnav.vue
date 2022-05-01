@@ -3,13 +3,13 @@
  * @Date: 2022-02-07 17:20:40
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-04-24 20:44:30
+ * @LastEditTime: 2022-05-02 00:08:08
  * @FilePath: \vant-u\src\views\history\components\HisTabnav.vue
 -->
 <template>
   <van-dropdown-menu>
-    <van-dropdown-item v-model="value1" :options="option1" @change="getHistoryO1(value1)" />
-    <van-dropdown-item v-model="value2" :options="option2" @change="getHistoryO1(value2)" />
+    <van-dropdown-item v-model="value1" :options="option1" @change="getHistoryO1()" />
+    <van-dropdown-item v-model="value2" :options="option2" @change="getHistoryO1()" />
   </van-dropdown-menu>
   <div class="item-history-nav" v-if="ItemLists.length > 0">
     <!-- <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"> -->
@@ -24,7 +24,7 @@
             @detailpid="detailHisRecord"></HisItem>
         </template>
         <div v-for="item1 in handleJsonString(item.result).res" :key="item1.max_rate">
-          <hisitem-cate :pestname="item1['cate-cz']['zh-name']" :pestrate="item1['max_rate']" />
+          <hisitem-cate @HisitemCate="handleC" :pestname="item1['cate-cz']['zh-name']" :pestrate="item1['max_rate']" />
         </div>
         <!-- {{ item.result }} -->
       </van-collapse-item>
@@ -35,6 +35,17 @@
     <img src="/css/svg/his_empty.svg" alt="" />
     <div class="span_s">您还未识别，暂无记录</div>
   </div>
+  <van-overlay :show="showRateDetail" @click="showRateDetail = false">
+    <div class="wrapper-s">
+      <div class="block-s">
+        <h5>关于均值</h5>
+        <div>
+          为每一个类别所有历史识别后概率的平均值，<span style="color:var(--van-primary-color)">主题色</span>为该类别模型较好概率大于70%，<span
+            style="color:green">绿色</span>表示符合识别标准概率在50%-70%，<span style="color:red">红色</span>表示需要对该类别模型进行优化，低于50%。
+        </div>
+      </div>
+    </div>
+  </van-overlay>
 </template>
 
 <script>
@@ -72,10 +83,16 @@ export default {
       option2: [
         { text: '时间降序', value: 'b' },
         { text: '时间升序', value: 'a' }
-      ]
+      ],
+      crate: 0,
+      showRateDetail: false
       // loading: false,
       // finished: false
     })
+    const handleC = function () {
+      console.log(1)
+      stateTemp.showRateDetail = true
+    }
     // 处理json字符串
     const handleJsonString = computed(() => {
       return function (item) {
@@ -139,7 +156,7 @@ export default {
       stateTemp.activeNames = index
     }
     watch(ItemLists, (newValue, old) => {
-      store.dispatch('history/DotNumber', newValue.total)
+      store.dispatch('history/DotNumber', newValue.length)
     })
     // 处理图片的问题
     const handleItemLists = function (item) {
@@ -175,8 +192,6 @@ export default {
           // console.log(e)
           // console.log(...ItemLists.value, ...res.data)
           ItemLists.value = res.data
-
-          stateTemp.total = res.total
         }
       }
     }
@@ -191,6 +206,7 @@ export default {
       getResultPest,
       detailHisRecord,
       getHistoryO1,
+      handleC,
       // onLoad,
       prewOne,
       deleteHisRecord,
@@ -221,6 +237,32 @@ export default {
 }
 
 .van-overlay {
-  z-index: 2;
+  z-index: 10;
+}
+
+.wrapper-s {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.block-s {
+  font-size: 18px;
+
+  h5 {
+    text-align: center;
+    padding: 0;
+    margin: 10px 0;
+  }
+
+  width: 80%;
+  // height: 120px;
+  background-color: #fff;
+
+  div {
+    padding: 20px 10px;
+    text-indent: 32px;
+  }
 }
 </style>

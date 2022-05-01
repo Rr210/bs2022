@@ -3,7 +3,7 @@
  * @Date: 2022-03-18 15:12:35
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-18 15:34:33
+ * @LastEditTime: 2022-05-01 19:38:53
  * @FilePath: \vant-u\src\utils\service\history.js
  */
 import axios from '@/utils/http.js'
@@ -18,4 +18,9 @@ export function deleteHistory(requestAPI, data) {
 // 历史记录的获取
 export function historyGet(requestAPI, params) {
   return axios.post(requestAPI, params)
+}
+
+// 获取结果分析记录
+export function getanalysis(requestAPI, params) {
+  return axios.get(requestAPI, params)
 }

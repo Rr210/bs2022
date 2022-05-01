@@ -4,11 +4,11 @@
  * @Date: 2021-12-26 18:14:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-24 16:20:02
+ * @LastEditTime: 2022-05-01 19:13:10
  * @LastEditors: harry
  */
 import {
-  Sidebar, Popup, SwipeCell, List, DropdownMenu, DropdownItem, Divider, PullRefresh, Overlay, Icon, Pagination, Button, Collapse, CollapseItem, Tag, NoticeBar, Swipe, Popover, Tabs, Tab, SwipeItem, Image, Skeleton, Uploader, SidebarItem, Tabbar, TabbarItem, NavBar
+  Sidebar, Popup, SwipeCell, List, Circle, DropdownMenu, DropdownItem, Divider, PullRefresh, Overlay, Icon, Pagination, Button, Collapse, CollapseItem, Tag, NoticeBar, Swipe, Popover, Tabs, Tab, SwipeItem, Image, Skeleton, Uploader, SidebarItem, Tabbar, TabbarItem, NavBar
 } from 'vant'
 const vant = function (app) {
   app.use(Sidebar)
@@ -18,6 +18,7 @@ const vant = function (app) {
   app.use(NavBar)
   app.use(SwipeCell)
   app.use(List)
+  app.use(Circle)
   app.use(DropdownMenu)
   app.use(DropdownItem)
   app.use(Uploader)
