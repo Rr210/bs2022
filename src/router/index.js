@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:16:20
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-04-13 13:03:19
+ * @LastEditTime: 2022-05-03 16:40:46
  * @FilePath: \vant-u\src\router\index.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -17,11 +17,17 @@ const routes = [
       {
         path: '/',
         name: 'home',
+        meta: {
+          keepAlive: true
+        },
         component: () => import('@/views/home/Home.vue')
       },
       {
         path: '/main',
         name: 'main',
+        meta: {
+          keepAlive: true
+        },
         component: () => import('@/views/main/Mains.vue')
       },
       {
