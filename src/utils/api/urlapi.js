@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 21:20:54
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-05-01 19:42:46
+ * @LastEditTime: 2022-05-11 19:05:46
  * @FilePath: \vant-u\src\utils\api\urlapi.js
  */
 const INIT_CONFIG_URL = '/v5/api'
@@ -17,6 +17,7 @@ const SEARCH_PEST_URL = '/v5/search'
 const RANDOM_PEST = '/v5/random'
 const CATE_URL = '/v5/cate'
 const ANALYSIS = '/v5/analysis'
+const MPSEARCH = '/v5/mpsearch'
 const CONGIG_DETAILS = {
   appId: 'wx125fa03aabf95990'
 }
@@ -32,5 +33,6 @@ export {
   SEARCH_PEST_URL,
   RANDOM_PEST,
   CATE_URL,
-  ANALYSIS
+  ANALYSIS,
+  MPSEARCH
 }

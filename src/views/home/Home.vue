@@ -4,18 +4,20 @@
  * @Date: 2021-12-26 16:03:19
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-13 11:07:05
+ * @LastEditTime: 2022-05-11 20:48:23
  * @LastEditors: harry
 -->
 <template>
+  <mp-search />
   <!-- 轮播图位置 -->
-  <transition name="van-fade">
-    <van-swipe :autoplay="3000" v-if="imagesBanner.length > 0" lazy-render>
-      <van-swipe-item class="van-item-pest-swiper" v-for="image in imagesBanner" :key="image.bid">
+  <van-swipe :autoplay="3000" v-if="imagesBanner.length > 0" lazy-render>
+    <van-swipe-item class="van-item-pest-swiper" v-for="image in imagesBanner" :key="image.bid">
+      <a :href="image.link" target="_blank">
         <img :src="bannerPic + image.pic" class="banner_img" />
-      </van-swipe-item>
-    </van-swipe>
-  </transition>
+      </a>
+    </van-swipe-item>
+  </van-swipe>
+  <!-- <van-search v-model="searchvalue" placeholder="请输入搜索关键词(中草药名或害虫名称)" @update:model-value="inputSearchChange" /> -->
   <van-tabs class="van-tabs-custom" v-model:active="activeIndex" @click-tab="leftChangeNav">
     <van-tab v-for="item in items" :key="item.pid" :title="item.text">
       <van-pull-refresh v-model="isLoading" :head-height="80" @refresh="onRefresh">
@@ -50,7 +52,7 @@
         </van-pagination>
       </van-pull-refresh>
     </van-tab>
-    </van-tabs>
+  </van-tabs>
 </template>
 
 <script>
@@ -66,9 +68,12 @@ import { useStore } from 'vuex'
 const ItemPest = defineAsyncComponent(() =>
   import('@/views/home/components/ItemPest.vue')
 )
+const MpSearch = defineAsyncComponent(() =>
+  import('@/views/home/components/MpSearch.vue')
+)
 
 export default {
-  components: { ItemPest },
+  components: { ItemPest, MpSearch },
   setup() {
     const router = useRouter()
     const store = useStore()
@@ -226,6 +231,7 @@ export default {
   border: 20px solid var(--pageBg);
   border-left-width: 25px;
   border-right-width: 25px;
+  border-top-width: 10px;
   box-sizing: border-box;
 
   .banner_img {
