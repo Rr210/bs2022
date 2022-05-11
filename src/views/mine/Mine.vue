@@ -4,7 +4,7 @@
  * @Date: 2021-12-26 19:59:49
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-04-18 22:57:20
+ * @LastEditTime: 2022-05-11 21:20:24
  * @LastEditors: harry
 -->
 <template>
@@ -18,6 +18,7 @@
       <Contact v-if="selectShowIndex === 3" :userpic="
         !isloginstate ? 'css/img/main/gravatar.png' : hasUserInfo.headimgurl
       " :username="hasUserInfo.nickname" :zzpic="'css/img/main/zuozhe.png'"></Contact>
+      <EchartView v-if="selectShowIndex === 4" />
     </van-popup>
 
     <div class="hd_w">
@@ -56,7 +57,7 @@
         <div class="icon_i">
           <img src="css/img/main/sc.png" />
         </div>
-        <div class="title_w">训练结果</div>
+        <div class="title_w" @click="clickAbout(4)">训练结果</div>
       </div>
       <div class="item_f">
         <div class="icon_i">
@@ -108,11 +109,12 @@ import { getRandom } from '@/utils/service/mine'
 import { RANDOM_PEST } from '@/utils/api/urlapi'
 import debounceMerge from '@/utils/tool/debounce'
 import { Toast } from 'vant'
+import EchartView from '../../components/EchartView.vue'
 const About = defineAsyncComponent(() => import('@/components/About.vue'))
 const HaiBao = defineAsyncComponent(() => import('@/components/HaiBao.vue'))
 const Contact = defineAsyncComponent(() => import('@/components/Contact.vue'))
 export default {
-  components: { About, HaiBao, Contact },
+  components: { About, HaiBao, Contact, EchartView },
   setup() {
     const router = useRouter()
     const Store = useStore()
