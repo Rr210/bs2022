@@ -6,23 +6,23 @@
     "serve": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build --mode pro --no-clean",
     "lint": "vue-cli-service lint",
-    "deploy": "gh-pages -d medicine/static"
+    "deploy": "gh-pages -d medicine/static",
+    "analyz": "NODE_ENV=production npm_config_report=true npm run build"
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "better-scroll": "^2.4.2",
     "compression-webpack-plugin": "^6.1.1",
     "compressorjs": "^1.1.1",
     "core-js": "^3.6.5",
     "echarts": "^5.2.2",
     "html2canvas": "^1.4.1",
     "nprogress": "^0.2.0",
+    "save-dev": "0.0.1-security",
     "vant": "^3.3.7",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0",
-    "weixin-js-sdk": "^1.6.0"
+    "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -1,10 +1,20 @@
+<!--
+ * @Author: Harry
+ * @Date: 2022-05-11 21:18:01
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-05-14 23:04:30
+ * @FilePath: \vant-u\src\components\EchartView.vue
+-->
 <template>
   <div id="customerChart" :style="{ width: '90vw', height: '300px' }"></div>
 </template>
 
 <script>
+// import { echarts } from '@/utils/echarts'
+// import echarts from 'echarts'
 import * as echarts from 'echarts'
-import { markRaw, onMounted, onUnmounted } from 'vue'
+import { markRaw, onMounted, onUnmounted } from '@vue/runtime-core'
 import options from '@/utils/content/options'
 import { CATE_URL } from '@/utils/api/urlapi'
 import { getCate } from '@/utils/service/mine'
@@ -68,7 +78,7 @@ export default {
     })
 
     onUnmounted(() => {
-      window.removeEventListener('resize', state.screenAdapter)
+      window.removeEventListener('resize', screenAdapter)
       clearInterval(state.timerId)
     })
     return {

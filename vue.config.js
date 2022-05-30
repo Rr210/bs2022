@@ -3,7 +3,7 @@
  * @Date: 2021-12-26 15:38:35
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-03-30 13:13:26
+ * @LastEditTime: 2022-05-15 00:00:13
  * @FilePath: \vant-u\vue.config.js
  */
 // vue.config.js
@@ -13,6 +13,20 @@ const webpack = require('webpack')
 const themePath = path.join(__dirname, './src/assets/css/themevars.less')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
+// 引入分析包文件
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// new BundleAnalyzerPlugin({
+//   analyzerMode: 'server',
+//   analyzerHost: '127.0.0.1',
+//   analyzerPort: 8888,
+//   reportFilename: 'report.html',
+//   defaultSizes: 'parsed',
+//   openAnalyzer: true,
+//   generateStatsFile: false,
+//   statsFilename: 'stats.json',
+//   statsOptions: null,
+//   logLevel: 'info'
+// })
 module.exports = {
   publicPath: './', // 文件加载设置为相对路径
   outputDir: './medicine/static/',
@@ -41,16 +55,53 @@ module.exports = {
     ]
   },
   chainWebpack: config => {
+    if (process.env.NODE_ENV === 'pro') {
+      config.plugins.delete('preload')
+      config.plugins.delete('prefetch')
+      const externals = {
+        // vue: 'Vue',
+        // 'vue-router': 'VueRouter',
+        // vuex: 'Vuex',
+        axios: 'axios',
+        echarts: 'echarts',
+        html2canvas: 'html2canvas'
+      }
+      config.externals(externals)
+
+      // 在html文件中引入相关CDN
+      const cdn = {
+        css: [
+          // vant css
+          // 'https://cdn.jsdelivr.net/npm/vant@3/lib/index.css'
+        ],
+        js: [
+          // vue
+          // 'https://cdn.bootcdn.net/ajax/libs/vue/3.0.0/vue.global.prod.js',
+          // vue-router
+          // 'https://cdn.staticfile.org/vue-router/4.0.0/vue-router.global.min.js',
+          // vuex
+          // 'https://cdn.staticfile.org/vuex/4.0.0/vuex.global.min.js',
+          // // vant
+          // 'https://cdn.jsdelivr.net/npm/vant@3/lib/vant.min.js',
+          // axios
+          'https://cdn.staticfile.org/axios/0.24.0/axios.min.js',
+          // echarts
+          'https://cdn.staticfile.org/echarts/5.2.2/echarts.min.js',
+          'https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+        ]
+      }
+      config.plugin('html')
+        .tap(args => {
+          args[0].cdn = cdn
+          return args
+        })
+    }
     config
       .plugin('html')
       .tap(args => {
         args[0].title = '中草药害虫识别'
         return args
       })
-    if (process.env.NODE_ENV === 'pro') {
-      config.plugins.delete('preload')
-      config.plugins.delete('prefetch')
-    }
   },
   devServer: {
     open: false, // 项目启动时是否自动打开浏览器，我这里设置为false,不打开，true表示打开
